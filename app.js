@@ -10,13 +10,15 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 
 
+// app.get('/', (req, res) => {
+//     res.render('login')
+// })
+// app.get('/login', (req, res) => {
+//     res.render('login')
+// })
 app.get('/', (req, res) => {
-    res.render('login')
+        res.render('')
 })
-app.get('/login', (req, res) => {
-    res.render('login')
-})
-
 
 
 app.use(express.urlencoded({ extended: true }))
