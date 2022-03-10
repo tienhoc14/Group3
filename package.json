@@ -1,29 +1,4 @@
 {
-<<<<<<< HEAD
-    "name": "group3",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node app.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Cuong23122001/Group3.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/Cuong23122001/Group3/issues"
-    },
-    "homepage": "https://github.com/Cuong23122001/Group3#readme",
-    "dependencies": {
-        "express": "^4.17.3",
-        "hbs": "^4.2.0",
-        "mongodb": "^4.4.1"
-    }
-=======
   "dependencies": {
     "express": "^4.17.3",
     "hbs": "^4.2.0",
@@ -47,5 +22,4 @@
   },
   "homepage": "https://github.com/Cuong23122001/Group3#readme",
   "description": ""
->>>>>>> 57d6176b394089d572cbec183b033d3d692bf8a9
 }
