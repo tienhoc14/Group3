@@ -1,7 +1,7 @@
 const express = require('express')
 const session = require('express-session')
-const { checkUserRole } = require('./databaseHandler')
-const { requiresLogin } = require('./projectLibrary')
+// const { checkUserRole } = require('./databaseHandler')
+// const { requiresLogin } = require('./projectLibrary')
 
 const app = express()
 
@@ -60,17 +60,17 @@ app.get('/logout', (req, res) => {
     res.redirect('login')
 })
 
-const adminController = require('./controllers/admin')
-app.use('/admin', adminController)
+// const adminController = require('./controllers/admin')
+// app.use('/admin', adminController)
 
-const staffController = require('./controllers/staff')
-app.use('/staff', staffController)
+// const staffController = require('./controllers/staff')
+// app.use('/staff', staffController)
 
-const managerController = require('./controllers/manager')
-app.use('/trainer', managerController)
+// const managerController = require('./controllers/manager')
+// app.use('/trainer', managerController)
 
-const coordinatorController = require('./controllers/coordinator')
-app.use('/trainee', coordinatorController)
+// const coordinatorController = require('./controllers/coordinator')
+// app.use('/trainee', coordinatorController)
 
 
 const PORT = process.env.PORT || 5123
