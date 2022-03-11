@@ -12,9 +12,23 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
 
-// app.get('/', (req, res) => {
-//     res.render('login')
-// })
+app.get('/manager', (req, res) => {
+    res.render('manager')
+})
+
+app.get('/', (req, res) => {
+    res.render('login')
+})
+
+app.post('/login', async(req, res) => {
+    const user = req.body.Username
+    const pass = req.body.Password
+    if (user == 'admin' && pass == '123') {
+        res.render('index')
+    } else {
+        res.redirect('/')
+    }
+})
 
 // app.post('/login', async(req, res) => {
 //     const name = req.body.txtName
@@ -61,6 +75,7 @@ app.get('/logout', (req, res) => {
 })
 
 const adminController = require('./controllers/admin')
+const async = require('hbs/lib/async')
 app.use('/admin', adminController)
 
 // const staffController = require('./controllers/staff')
