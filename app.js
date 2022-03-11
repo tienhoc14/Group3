@@ -12,9 +12,9 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
 
-app.get('/', (req, res) => {
-    res.render('login')
-})
+// app.get('/', (req, res) => {
+//     res.render('login')
+// })
 
 app.post('/login', async(req, res) => {
     const user = req.body.Username

@@ -8,6 +8,29 @@ async function getDB() {
     const dbo = client.db(DATABASE_NAME);
     return dbo;
 }
+
+async function insertObject(collectionName, objectToInsert) {
+    const dbo = await getDB();
+    const newObject = await dbo.collection(collectionName).insertOne(objectToInsert);
+}
+async function deleteManager(id) {
+    const dbo = await getDB();
+    await dbo.collection("Manager").deleteOne({ "_id": ObjectId(id) });
+}
+async function deleteCoordinator(id) {
+    const dbo = await getDB();
+    await dbo.collection("Coordinator").deleteOne({ "_id": ObjectId(id) });
+}
+async function deleteStaff(id) {
+    const dbo = await getDB();
+    await dbo.collection("Staff").deleteOne({ "_id": ObjectId(id) });
+}
+
 module.exports = {
-    getDB, ObjectId,
+    getDB,
+    ObjectId,
+    insertObject,
+    deleteCoordinator,
+    deleteManager,
+    deleteStaff
 }
