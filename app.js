@@ -16,8 +16,8 @@ app.get('/manager', (req, res) => {
     res.render('manager')
 })
 
-app.get('/index', (req, res) => {
-    res.render('index')
+app.get('/', (req, res) => {
+    res.render('login')
 })
 
 app.post('/login', async(req, res) => {
