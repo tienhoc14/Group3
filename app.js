@@ -12,6 +12,14 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
 
+app.get('/index', (req, res) => {
+    res.render('index')
+})
+
+app.get('/manager', (req, res) => {
+    res.render('manager')
+})
+
 app.get('/', (req, res) => {
     res.render('login')
 })
