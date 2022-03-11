@@ -16,6 +16,10 @@ app.get('/manager', (req, res) => {
     res.render('manager')
 })
 
+app.get('/addCategory', (req, res) => {
+    res.render('addCategory')
+})
+
 app.get('/', (req, res) => {
     res.render('login')
 })
