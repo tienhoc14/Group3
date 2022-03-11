@@ -1,7 +1,7 @@
 const express = require('express')
 const session = require('express-session')
-// const { checkUserRole } = require('./databaseHandler')
-// const { requiresLogin } = require('./projectLibrary')
+const { checkUserRole } = require('./databaseHandler')
+const { requiresLogin } = require('./projectLibrary')
 
 const app = express()
 
@@ -12,16 +12,18 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
 
-app.get('/index', (req, res) => {
-    res.render('index')
-})
-
-app.get('/manager', (req, res) => {
-    res.render('manager')
-})
-
 app.get('/', (req, res) => {
     res.render('login')
+})
+
+app.post('/login', async(req, res) => {
+    const user = req.body.Username
+    const pass = req.body.Password
+    if (user == 'admin' && pass == '123') {
+        res.render('index')
+    } else {
+        res.redirect('/')
+    }
 })
 
 // app.post('/login', async(req, res) => {
@@ -68,17 +70,18 @@ app.get('/logout', (req, res) => {
     res.redirect('login')
 })
 
-// const adminController = require('./controllers/admin')
-// app.use('/admin', adminController)
+const adminController = require('./controllers/admin')
+const async = require('hbs/lib/async')
+app.use('/admin', adminController)
 
 // const staffController = require('./controllers/staff')
 // app.use('/staff', staffController)
 
 // const managerController = require('./controllers/manager')
-// app.use('/trainer', managerController)
+// app.use('/manager', managerController)
 
 // const coordinatorController = require('./controllers/coordinator')
-// app.use('/trainee', coordinatorController)
+// app.use('/coordinator', coordinatorController)
 
 
 const PORT = process.env.PORT || 5123
