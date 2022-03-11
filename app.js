@@ -16,40 +16,40 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async(req, res) => {
-    const name = req.body.txtName
-    const pass = req.body.txtPass
-    const role = await checkUserRole(name, pass)
-    if (role == -1) {
-        res.render('login')
-    } else if (role == "Admin") {
-        req.session["Admin"] = {
-            name: name,
-            role: role
-        }
-        res.redirect('/admin')
+// app.post('/login', async(req, res) => {
+//     const name = req.body.txtName
+//     const pass = req.body.txtPass
+//     const role = await checkUserRole(name, pass)
+//     if (role == -1) {
+//         res.render('login')
+//     } else if (role == "Admin") {
+//         req.session["Admin"] = {
+//             name: name,
+//             role: role
+//         }
+//         res.redirect('/admin')
 
-    } else if (role == "Staff") {
-        req.session["Staff"] = {
-            name: name,
-            role: role
-        }
-        res.redirect('/staff')
+//     } else if (role == "Staff") {
+//         req.session["Staff"] = {
+//             name: name,
+//             role: role
+//         }
+//         res.redirect('/staff')
 
-    } else if (role == "Trainee") {
-        req.session["Trainee"] = {
-            name: name,
-            role: role
-        }
-        res.redirect('/trainee')
-    } else if (role == "Trainer") {
-        req.session["Trainer"] = {
-            name: name,
-            role: role
-        }
-        res.redirect('/trainer')
-    }
-})
+//     } else if (role == "Trainee") {
+//         req.session["Trainee"] = {
+//             name: name,
+//             role: role
+//         }
+//         res.redirect('/trainee')
+//     } else if (role == "Trainer") {
+//         req.session["Trainer"] = {
+//             name: name,
+//             role: role
+//         }
+//         res.redirect('/trainer')
+//     }
+// })
 
 app.get('/login', (req, res) => {
     res.render('login')
