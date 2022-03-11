@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <table bolder = 3>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Avatar</th>
+                <th>CCCD</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+            {{#each base}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{age}}</td>
+                <td>{{email}}</td>
+                <td>{{phoneNumber}}</td>
+                <td>{{avatar}}</td>
+                <td>{{cccd}}</td>
+                <td>{{address}}</td>
+                <td><a href="">Edit</a></td>
+                <td><a href="/admin/delete?id={{_id}}">Delete</a> </td>
+            </tr>
+            {{/each}}
+        </table>
+</body>
+</html>
