@@ -16,6 +16,16 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
+app.post('/login', async(req, res) => {
+    const user = req.body.Username
+    const pass = req.body.Password
+    if (user == 'admin' && pass == '123') {
+        res.render('index')
+    } else {
+        res.redirect('/')
+    }
+})
+
 // app.post('/login', async(req, res) => {
 //     const name = req.body.txtName
 //     const pass = req.body.txtPass
@@ -61,6 +71,7 @@ app.get('/logout', (req, res) => {
 })
 
 const adminController = require('./controllers/admin')
+const async = require('hbs/lib/async')
 app.use('/admin', adminController)
 
 // const staffController = require('./controllers/staff')
