@@ -60,7 +60,7 @@ app.get('/logout', (req, res) => {
     res.redirect('login')
 })
 
-const adminController = require('./controller/admin')
+const adminController = require('./controllers/admin')
 app.use('/admin', adminController)
 
 // const staffController = require('./controllers/staff')
