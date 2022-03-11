@@ -12,12 +12,20 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
 
-app.get('/manager', (req, res) => {
-    res.render('manager')
+app.get('/category', (req, res) => {
+    res.render('category')
 })
 
 app.get('/addCategory', (req, res) => {
     res.render('addCategory')
+})
+
+app.get('/editCategory', (req, res) => {
+    res.render('editCategory')
+})
+
+app.get('/index', (req, res) => {
+    res.render('index')
 })
 
 app.get('/', (req, res) => {
