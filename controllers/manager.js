@@ -2,14 +2,10 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const { insertObject} = require('../databaseHandler')
 
-
 const router = express.Router()
 
-app.get('/', (req, res) => {
-    res.render('manager')
-})
 
-app.get('/category', (req, res) => {
+router.get('/', (req, res) => {
     res.render('category')
 })
 
@@ -44,3 +40,5 @@ router.post('/editCategory', async(req, res)=>{
     insertObject("Category", objectToManager)
     res.render("manager")
 })
+
+module.exports = router;
