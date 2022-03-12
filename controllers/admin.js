@@ -1,8 +1,7 @@
 const express = require('express')
 const async = require('hbs/lib/async')
 const { ObjectId } = require('mongodb')
-const { getDB, insertObject, deleteCoordinator, deleteStaff, deleteManager} = require('../databaseHandler')
-
+const { getDB, insertObject, deleteCoordinator, deleteStaff, deleteManager } = require('../databaseHandler')
 
 const router = express.Router()
 
@@ -14,7 +13,7 @@ router.get('/adduser', (req, res) =>{
     res.render("admin/addUser")
 })
 
-router.post('/addUser', async(req, res)=>{
+router.post('/addUser', async(req, res) => {
     const userName = req.body.txtUser;
     const role = req.body.Role;
     const pass = req.body.txtPass;
@@ -31,7 +30,7 @@ router.post('/addUser', async(req, res)=>{
         role: role,
         password: pass
     }
-    const objectToObject ={
+    const objectToObject = {
         name: name,
         age: age,
         email: email,
@@ -40,24 +39,24 @@ router.post('/addUser', async(req, res)=>{
         avatar: avatar,
         address: address
     }
-    if(role == "Manager"){
+    if (role == "Manager") {
         insertObject("User", objectToUser)
         insertObject("Manager", objectToObject)
-    }else if(role == "Coordinator"){
+    } else if (role == "Coordinator") {
         insertObject("User", objectToUser)
         insertObject("Coordinator", objectToObject)
-    }else{
+    } else {
         insertObject("User", objectToUser)
         insertObject("Staff", objectToObject)
     }
-    
+
 
     res.render("admin/adminIndex")
 })
 
-router.get('/manager', async(req, res) =>{
+router.get('/manager', async(req, res) => {
     const dbo = await getDB();
-    
+
     const allManager = await dbo.collection("Manager").find({}).toArray();
     res.render("admin/mManager", {data: allManager})
 })
@@ -87,7 +86,7 @@ router.post('/update_manager', async (req, res)=>{
     const avatar = req.body.txtAva;
     const address = req.body.txtAddress;
 
-    const objectToObject ={
+    const objectToObject = {
         $set: {
             name: name,
             age: age,
@@ -97,7 +96,7 @@ router.post('/update_manager', async (req, res)=>{
             address: address
         }
     }
-    const filter = { _id: ObjectId(id)}
+    const filter = { _id: ObjectId(id) }
     const dbo = await getDB()
     await dbo.collection("Manager").updateOne(filter, objectToObject)
     const allManager = await dbo.collection("Manager").find({}).toArray()
@@ -110,7 +109,7 @@ router.get('/delete_manager', async(req, res)=>{
     res.render("admin/mManager")
 })
 
-router.get('/coordinator', async (req, res) =>{
+router.get('/coordinator', async(req, res) => {
     const dbo = await getDB();
     const allCoordinator = await dbo.collection("Coordinator").find({}).toArray();
     res.render("admin/mCoordinator", {c: allCoordinator})
@@ -164,7 +163,7 @@ router.get('/delete_coordinator', async(req, res)=>{
     res.render("admin/mCoordinator")
 })
 
-router.get('/staff',async (req, res) =>{
+router.get('/staff', async(req, res) => {
 
     const dbo = await getDB();
     const allStaff = await dbo.collection("Staff").find({}).toArray();
