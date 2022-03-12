@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="manager">Home</a>
         <table bolder = 3>
             <tr>
                 <th>Email</th>
@@ -16,19 +17,19 @@
                 <th>Address</th>
                 <th>Action</th>
             </tr>
-            {{#each data}}
+            {{#if data}}
             <tr>
-                <td>{{email}}</td>
-                <td>{{phoneNumber}}</td>
-                <td><img src="{{avatar}}"  width="150" height="100"></td>
-                <td>{{cccd}}</td>
-                <td>{{address}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.phoneNumber}}</td>
+                <td><img src="{{data.avatar}}"  width="150" height="100"></td>
+                <td>{{data.cccd}}</td>
+                <td>{{data.address}}</td>
                 <td>
-                    <a href="/admin/eidtManager?id={{_id}}">Edit</a>
-                    <a href="/admin/deleteManager?id={{_id}}">Delete</a>
+                    <a href="/admin/edit_manager?id={{data._id}}">Edit</a>
+                    <a href="/admin/delete_manager?id={{data._id}}">Delete</a>
                 </td>
             </tr>
-            {{/each}}
+            {{/if}}
         </table>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="update_staff" method = "POST">
+        <input type="hidden" name="txtId" value="{{s._id}}">
+
+        Name: <input type="text" name="txtName" value="{{s.name}}" />
+        Age: <input type="text" name="txtAge" value="{{s.age}}" />
+        <br>
+        Email: <input type="email" name="txtEmail" value="{{s.email}}">
+        PhoneNumber: <input type="text" name="txtPhone" value = "{{s.phoneNumber}}">
+        <br>
+        Address: <input type="text" name="txtAddress" value = "{{s.address}}">
+        <br>
+        Avatar: <input type="text" name="txtAva" value="{{s.avatar}}">
+        <br>
+        CCCD: <input type="text" name="txtCm" value="{{s.cccd}}">
+        <input type="submit" value="Update">
+
+        <a href="/admin/staff" style="text-decoration: none">Cancel</a>
+
+    </form>
+</body>
+</html>
