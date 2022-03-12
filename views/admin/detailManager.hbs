@@ -9,8 +9,6 @@
 <body>
         <table bolder = 3>
             <tr>
-                <th>Name</th>
-                <th>Age</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Avatar</th>
@@ -20,15 +18,15 @@
             </tr>
             {{#each data}}
             <tr>
-                <td>{{name}}</td>
-                <td>{{age}}</td>
                 <td>{{email}}</td>
                 <td>{{phoneNumber}}</td>
                 <td><img src="{{avatar}}"  width="150" height="100"></td>
                 <td>{{cccd}}</td>
                 <td>{{address}}</td>
-                <td><a href="">Edit</a></td>
-                <td><a href="/admin/delete?id={{_id}}">Delete</a> </td>
+                <td>
+                    <a href="/admin/eidtManager?id={{_id}}">Edit</a>
+                    <a href="/admin/deleteManager?id={{_id}}">Delete</a>
+                </td>
             </tr>
             {{/each}}
         </table>
