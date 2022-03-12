@@ -1,5 +1,6 @@
 const express = require('express')
 const session = require('express-session')
+const async = require('hbs/lib/async')
 const { checkUserRole } = require('./databaseHandler')
 const { requiresLogin } = require('./projectLibrary')
 
@@ -75,7 +76,6 @@ app.get('/logout', (req, res) => {
 })
 
 const adminController = require('./controllers/admin')
-const async = require('hbs/lib/async')
 app.use('/admin', adminController)
 
 // const staffController = require('./controllers/staff')
