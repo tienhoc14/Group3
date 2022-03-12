@@ -7,7 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/admin/addManager">AddManager</a>
-    <a href="/admin/detail">Detail</a>
+        <table bolder = 3>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Action</th>
+            </tr>
+            {{#each data}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{age}}</td>
+                <td>
+                    <a href="/admin/editManager?id={{_id}}">Edit</a>
+                    <a href="/admin//deleteManager?id={{_id}}">Delete</a>
+                    <a href="/admin/detailManager?id={{_id}}">Detail</a>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
 </body>
 </html>

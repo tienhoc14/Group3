@@ -1,4 +1,5 @@
 const express = require('express')
+const async = require('hbs/lib/async')
 const { ObjectId } = require('mongodb')
 const { getDB, insertObject, deleteCoordinator, deleteStaff, deleteManager} = require('../databaseHandler')
 
@@ -55,20 +56,52 @@ router.post('/addUser', async(req, res)=>{
 })
 
 router.get('/manager', async(req, res) =>{
-
-    res.render("mManager")
+    const dbo = await getDB();
+    
+    const allManager = await dbo.collection("Manager").find({}).toArray();
+    res.render("mManager", {data: allManager})
 })
 
-router.get('/addManager', async(req, res)=>{
-
-    res.render("addManager")
-})
-
-router.get('/detail', async(req, res)=>{
+router.get('/detailManager', async(req, res)=>{
+    const id = req.query.id
 
     const dbo = await getDB();
-    const allManager = await dbo.collection("Manager").find({}).toArray();
+    const allManager = await dbo.collection("Manager").findOne({ "_id": ObjectId(id) })
     res.render("detailManager", {data: allManager})
+})
+
+router.get('/editManager',async (req, res)=>{
+    const id = req.query.id
+
+    const dbo = await getDB();
+    const allManager = await dbo.collection("Manager").findOne({ _id: ObjectId(id) })
+    res.render("editManager", {data: allManager})
+})
+
+router.post('/update', async (req, res)=>{
+    const id = req.body.Id
+    const cccd = req.body.txtCm;
+    const name = req.body.txtName;
+    const age = req.body.txtAge;
+    const phoneNumber = req.body.txtPhone;
+    const avatar = req.body.txtAva;
+    const address = req.body.txtAddress;
+
+    const objectToObject ={
+        $set: {
+            name: name,
+            age: age,
+            cccd: cccd,
+            phoneNumber: phoneNumber,
+            avatar: avatar,
+            address: address
+        }
+    }
+    const filter = { _id: ObjectId(id)}
+    const dbo = await getDB()
+    await dbo.collection("Manager").updateOne(filter, objectToObject)
+    const allManager = await dbo.collection("Manager").findOne({ _id: ObjectId(id) })
+    res.render('mManager', { data: allManager })
 })
 
 router.get('/deleteManager', async(req, res)=>{
