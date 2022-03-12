@@ -42,4 +42,10 @@ router.post('/editCategory', async (req, res) => {
     res.render("manager")
 })
 
+router.get('/deleteCategory', async(req, res)=>{
+    const id = req.query.id;
+    await deleteManager(id);
+    res.render("category")
+})
+
 module.exports = router;
