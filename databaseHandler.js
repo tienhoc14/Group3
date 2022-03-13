@@ -25,6 +25,10 @@ async function deleteStaff(id) {
     const dbo = await getDB();
     await dbo.collection("Staff").deleteOne({ "_id": ObjectId(id) });
 }
+async function deleteCategory(id) {
+    const dbo = await getDB();
+    await dbo.collection("Category").deleteOne({ "_id": ObjectId(id) });
+}
 
 module.exports = {
     getDB,
@@ -32,5 +36,6 @@ module.exports = {
     insertObject,
     deleteCoordinator,
     deleteManager,
-    deleteStaff
+    deleteStaff,
+    deleteCategory
 }
