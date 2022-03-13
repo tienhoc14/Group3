@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="manager">Home</a>
         <table bolder = 3>
             <tr>
                 <th>Name</th>
@@ -19,9 +18,9 @@
                 <td>{{name}}</td>
                 <td>{{age}}</td>
                 <td>
-                    <a href="/admin/edit_manager?id={{_id}}">Edit</a>
-                    <a href="/admin//delete_manager?id={{_id}}">Delete</a>
-                    <a href="/admin/detail_manager?id={{_id}}">Detail</a>
+                    <a href="/admin/editManager?id={{_id}}">Edit</a>
+                    <a href="/admin//deleteManager?id={{_id}}">Delete</a>
+                    <a href="/admin/detail?id={{_id}}">Detail</a>
                 </td>
             </tr>
             {{/each}}

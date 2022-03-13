@@ -7,6 +7,35 @@
     <title>Document</title>
 </head>
 <body>
-    say Hi
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="staff">Home</a>
+        <table bolder = 3>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Action</th>
+            </tr>
+            {{#each s}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{age}}</td>
+                <td>
+                    <a href="/admin/edit_Staff?id={{_id}}">Edit</a>
+                    <a href="/admin//delete_staff?id={{_id}}">Delete</a>
+                    <a href="/admin/detail_staff?id={{_id}}">Detail</a>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+</body>
+</html>
 </body>
 </html>
