@@ -6,13 +6,17 @@ const router = express.Router()
 
 router.use(express.static('public'))
 
+router.get('/', (req, res) => {
+    res.render('manager/indexManager')
+})
+
 router.get('/category', (req, res) => {
-    res.render('category')
+    res.render('manager/category')
 })
 
 router.get('/addCategory', async (req, res) => {
 
-    res.render("addCategory")
+    res.render("manager/addCategory")
 })
 
 router.post('/addCategory', async (req, res) => {
@@ -23,29 +27,21 @@ router.post('/addCategory', async (req, res) => {
         catgory: catgory
     }
     insertObject("Category", objectToManager)
-    res.render("manager")
+    res.render("manager/category")
 })
 
-router.get('/editCategory', async (req, res) => {
+router.get('/editCategory',async (req, res)=>{
+    const id = req.query.id
 
-    res.render("editCategory")
-})
-
-router.post('/editCategory', async (req, res) => {
-    const name = req.body.txtName;
-    const catgory = req.body.txtCategory;
-    const objectToManager = {
-        name: name,
-        catgory: catgory
-    }
-    insertObject("Category", objectToManager)
-    res.render("manager")
+    const dbo = await getDB();
+    const allManager = await dbo.collection("Category").findOne({ _id: ObjectId(id) })
+    res.render("editCategory", {data: allCategory})
 })
 
 router.get('/deleteCategory', async(req, res)=>{
     const id = req.query.id;
-    await deleteManager(id);
-    res.render("category")
+    await deleteCategory(id);
+    res.render("manager/category")
 })
 
 module.exports = router;

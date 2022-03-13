@@ -49,14 +49,17 @@
 					<th>Description</th>
 					<th>Action</th>
 				</tr>
+				{{#each data}}
 				<tr>
-					<td>???</td>
-					<td>???</td>
+					<td>{{name}}</td>
+					<td>{{category}}</td>
 					<td>
-						<a id="pass" href="/manager/editCategory" >Edit</a>
-						<a id="delete" href="" onclick="return confirm('Delete this ?');">Delete</a>
+						<a id="pass" href="/manager/editCategory?id={{_id}}">Edit</a>
+						<a id="delete" href="/manager/deleteCategory?id={{_id}}"
+							onclick="return confirm('Delete this ?');">Delete</a>
 					</td>
 				</tr>
+				{{/each}}
 			</table>
 		</div>
 	</div>
