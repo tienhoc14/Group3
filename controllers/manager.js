@@ -59,8 +59,8 @@ router.post('/editCategory', async (req, res)=>{
 })
 
 router.get('/deleteCategory', async(req, res)=>{
-    const id = req.query.id;
-    await deleteCategory(id);
+    const name = req.query.name;
+    await deleteCategory(name);
     res.render("manager/category")
 })
 

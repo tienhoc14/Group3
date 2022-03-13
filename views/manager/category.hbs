@@ -33,7 +33,7 @@
 				{{user.name}}
 				<div class="dropdown">
 					<a href="/admin/detail"> Profile </a>
-					<a href="/logout"> Logout </a>
+					<a href="/"> Logout </a>
 				</div>
 			</div>
 		</div>
@@ -55,8 +55,7 @@
 					<td>{{description}}</td>
 					<td>
 						<a id="pass" href="/manager/editCategory?id={{_id}}">Edit</a>
-						<a id="delete" href="/manager/deleteCategory?id={{_id}}"
-							onclick="return confirm('Delete this ?');">Delete</a>
+						<a id="delete" href="/manager/deleteCategory?id={{_id}}">Delete</a>
 					</td>
 				</tr>
 				{{/each}}
