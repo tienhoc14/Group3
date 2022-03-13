@@ -50,7 +50,6 @@ router.post('/addUser', async(req, res) => {
         insertObject("Staff", objectToObject)
     }
 
-
     res.render("admin/adminIndex")
 })
 

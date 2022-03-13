@@ -1,4 +1,5 @@
 const express = require('express')
+const async = require('hbs/lib/async')
 const { ObjectId } = require('mongodb')
 const { getDB, insertObject, deleteCategory } = require('../databaseHandler')
 
@@ -10,14 +11,15 @@ router.get('/', (req, res) => {
     res.render('manager/indexManager')
 })
 
-router.get('/category', (req, res) => {
-    res.render('manager/category')
+router.get('/category',async (req, res) => {
+
+    const dbo = await getDB();
+    const allCategory = await dbo.collection("Category").find({}).toArray();
+    res.render('manager/category', {data: allCategory})
 })
 
 router.get('/addCategory', async (req, res) => {
-    const dbo = await getDB();
-    const allCategory = await dbo.collection("Category").find({}).toArray();
-    res.render("manager/addCategory", {data: allCategory})
+    res.render("manager/addCategory")
 })
 
 router.post('/addCategory', async (req, res) => {
