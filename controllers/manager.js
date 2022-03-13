@@ -35,8 +35,25 @@ router.get('/editCategory',async (req, res)=>{
     const id = req.query.id
 
     const dbo = await getDB();
-    const allCategory= await dbo.collection("Category").findOne({ _id: ObjectId(id) })
-    res.render("editCategory", {data: allCategory})
+    const allCategory = await dbo.collection("Category").findOne({_id: ObjectId(id)})
+    res.render("manager/editCategory", {data: allCategory})
+})
+
+router.post('/editCategory', async (req, res)=>{
+    const name = req.body.txtName;
+    const description = req.body.txtDescription;
+
+    const objectToObject = {
+        $set: {
+            name: name,
+            description: description
+        }
+    }
+    const filter = { _id: ObjectId(id) }
+    const dbo = await getDB()
+    await dbo.collection("Category").updateOne(filter, objectToObject)
+    const allCategory = await dbo.collection("Category").find({}).toArray()
+    res.render('manager/category', { data: allCategory })
 })
 
 router.get('/deleteCategory', async(req, res)=>{
