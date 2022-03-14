@@ -30,7 +30,7 @@ router.post('/addCategory', async (req, res) => {
         description: description
     }
     insertObject("Category", objectToCategory)
-    res.render("manager/category")
+    res.redirect("category")
 })
 
 router.get('/editCategory',async (req, res)=>{
@@ -41,9 +41,10 @@ router.get('/editCategory',async (req, res)=>{
     res.render("manager/editCategory", {data: allCategory})
 })
 
-router.post('/editCategory', async (req, res)=>{
+router.post('/updateCategory', async (req, res)=>{
     const name = req.body.txtName;
     const description = req.body.txtDescription;
+    const id = req.body.ID;
 
     const objectToObject = {
         $set: {
@@ -51,17 +52,18 @@ router.post('/editCategory', async (req, res)=>{
             description: description
         }
     }
+
     const filter = { _id: ObjectId(id) }
     const dbo = await getDB()
     await dbo.collection("Category").updateOne(filter, objectToObject)
-    const allCategory = await dbo.collection("Category").find({}).toArray()
-    res.render('manager/category', { data: allCategory })
+
+    res.redirect('category')
 })
 
 router.get('/deleteCategory', async(req, res)=>{
-    const name = req.query.name;
-    await deleteCategory(name);
-    res.render("manager/category")
+    const id = req.query.id;
+    await deleteCategory(id);
+    res.redirect("category")
 })
 
 module.exports = router;

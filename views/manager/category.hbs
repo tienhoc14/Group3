@@ -55,7 +55,8 @@
 					<td>{{description}}</td>
 					<td>
 						<a id="pass" href="/manager/editCategory?id={{_id}}">Edit</a>
-						<a id="delete" href="/manager/deleteCategory?id={{_id}}">Delete</a>
+						<a id="delete" href="/manager/deleteCategory?id={{_id}}" 
+						onclick="return confirm('Delete this category?');">Delete</a>
 					</td>
 				</tr>
 				{{/each}}

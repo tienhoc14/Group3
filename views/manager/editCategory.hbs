@@ -11,12 +11,13 @@
 </head>
 
 <body>
-	<form action="editCategory" method="POST">
+	<form action="updateCategory" method="POST">
 		<h3>Edit Category</h3>
         Name: <input type="text" name="txtName" value="{{data.name}}" />
 		<br>
         Age: <input type="text" name="txtDescription" value="{{data.description}}" />
 		<br>
+		<input type="hidden" name="ID" value="{{data._id}}">
 		<input type="submit" value="Update">
 	</form>
 	<br> <a id="cancel" href="category">Cancel</a>
