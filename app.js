@@ -9,7 +9,6 @@ const app = express()
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
-
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
 
@@ -74,8 +73,8 @@ app.get('/logout', (req, res) => {
 const adminController = require('./controllers/admin')
 app.use('/admin', adminController)
 
-// const staffController = require('./controllers/staff')
-// app.use('/staff', staffController)
+const staffController = require('./controllers/staff')
+app.use('/staff', staffController)
 
 const managerController = require('./controllers/manager')
 app.use('/manager', managerController)

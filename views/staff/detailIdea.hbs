@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {{i.title}}<br>
+    {{i.text}}<br>
+    <form action="status" method="post">
+        Like: <input type="radio" name="status" value="like">
+        Dislike: <input type="radio" name="status" value="dislike">
+        Anything: <input type="radio" name="status" value="anything">
+    </form><br>
+    <form action="comment" method="post">
+        Comment: <input type="text" name="txtComment">
+    </form>
+</body>
+</html>
