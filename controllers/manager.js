@@ -66,4 +66,12 @@ router.get('/deleteCategory', async(req, res)=>{
     res.redirect("category")
 })
 
+
+//Terms and Conditions:
+
+router.get('/TaC', async (req, res) => {
+    res.render("manager/TaC")
+})
+
+
 module.exports = router;
