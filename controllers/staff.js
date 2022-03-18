@@ -62,19 +62,28 @@ router.get('/upIdea',(req,res)=>{
 router.post('/uploadIdea',(req,res)=>{
     const title = req.body.txtTitle;
     const text = req.body.txtText;
+    const like = [];
+    const dislike = [];
+    const view = 0;
+    const comment = [];
     const uploadIdea = {
         title: title,
-        text : text
+        text : text,
+        view: view,
+        like:like,
+        dislike: dislike,
+        view: view,
+        comment:comment
     }
     insertObject('Ideas', uploadIdea)
-    res.render('staff/staffIndex')
+    res.redirect('staffIndex')
 })
 
 router.get('/detailIdea', async(req, res)=>{
     const id = req.query.id;
-
-    const dbo = await getDB();
-    const idea = await dbo.collection("Ideas").findOne({ _id: ObjectId(id) })
+    const db = await getDB();
+    await db.collection("Ideas").updateOne({_id: ObjectId(id)},{$inc:{"view":1}})
+    const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
     res.render("staff/detailIdea", {i: idea})
 })
 
