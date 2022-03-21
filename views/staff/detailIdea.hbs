@@ -4,18 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
 </head>
-<body>
-    {{i.title}}<br>
-    {{i.text}}<br>
-    <form action="status" method="post">
-        Like: <input type="radio" name="status" value="like">
-        Dislike: <input type="radio" name="status" value="dislike">
-        Anything: <input type="radio" name="status" value="anything">
-    </form><br>
-    <form action="comment" method="post">
-        Comment: <input type="text" name="txtComment">
-    </form>
-</body>
+<center>
+    <body>
+        Title: {{i.title}}<br>
+        Text: {{i.text}}<br>
+
+        <i class="fa fa-eye" style="font-size:24px"></i> {{i.view}} views <br><br>
+
+        <button type="button" onclick="doLike()">
+        <i class="fa fa-thumbs-up" style="font-size:24px"></i>
+        {{i.like.length}}
+        </button>
+
+        <button type="button" onclick="doDislike()">
+        <i class="fa fa-thumbs-down" style="font-size:24px"></i>
+        {{i.dislike.length}}
+        </button>
+        
+    </body>
+</center>
 </html>

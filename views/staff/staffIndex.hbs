@@ -9,14 +9,13 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/">Home</a>
         <table bolder = 3>
             <tr>
                 <th>Title</th>
             </tr>
             {{#each data}}
             <tr>
-                <td>{{title}}</td>
+                <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td>
             </tr>
             {{/each}}
         </table>
