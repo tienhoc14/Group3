@@ -49,37 +49,33 @@ router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
     res.send('success')
 })
 
-router.get('/staffIndex',async(req,res)=>{
+router.get('/staffIndex', async(req, res) => {
     const db = await getDB();
     const viewIdea = await db.collection("Ideas").find({}).toArray();
     console.log(viewIdea)
     res.render('staff/staffIndex', { data: viewIdea });
 })
 
-router.get('/upIdea',(req,res)=>{
+router.get('/upIdea', (req, res) => {
     res.render('staff/upIdea')
 })
-router.post('/uploadIdea',(req,res)=>{
+router.post('/uploadIdea', (req, res) => {
     const title = req.body.txtTitle;
     const text = req.body.txtText;
     const uploadIdea = {
         title: title,
-        text : text
+        text: text
     }
     insertObject('Ideas', uploadIdea)
     res.render('staff/staffIndex')
 })
 
-router.get('/detailIdea', async(req, res)=>{
+router.get('/detailIdea', async(req, res) => {
     const id = req.query.id;
 
     const dbo = await getDB();
     const idea = await dbo.collection("Ideas").findOne({ _id: ObjectId(id) })
-    res.render("staff/detailIdea", {i: idea})
+    res.render("staff/detailIdea", { i: idea })
 })
-
-
-
-
 
 module.exports = router
