@@ -1,3 +1,4 @@
+const async = require('hbs/lib/async');
 const { MongoClient, ObjectId } = require('mongodb');
 
 const URL = 'mongodb://0.0.0.0:27017';
@@ -30,6 +31,18 @@ async function deleteCategory(id) {
     await dbo.collection("Category").deleteOne({ "_id": ObjectId(id) });
 }
 
+//check role to login
+async function getRole(nameI, passI) {
+    const db = await getDB()
+    const user = await db.collection("User").findOne({ userName: nameI, password: passI });
+    if (user == null) {
+        return "-1"
+    } else {
+        console.log(user);
+        return user.role
+    }
+}
+
 module.exports = {
     getDB,
     ObjectId,
@@ -37,5 +50,6 @@ module.exports = {
     deleteCoordinator,
     deleteManager,
     deleteStaff,
-    deleteCategory
+    deleteCategory,
+    getRole
 }
