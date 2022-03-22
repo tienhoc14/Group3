@@ -49,17 +49,17 @@ router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
     res.send('success')
 })
 
-router.get('/staffIndex',async(req,res)=>{
+router.get('/staffIndex', async(req, res) => {
     const db = await getDB();
     const viewIdea = await db.collection("Ideas").find({}).toArray();
     console.log(viewIdea)
     res.render('staff/staffIndex', { data: viewIdea });
 })
 
-router.get('/upIdea',(req,res)=>{
+router.get('/upIdea', (req, res) => {
     res.render('staff/upIdea')
 })
-router.post('/uploadIdea',(req,res)=>{
+router.post('/uploadIdea', (req, res) => {
     const title = req.body.txtTitle;
     const text = req.body.txtText;
     const like = [];
@@ -68,27 +68,23 @@ router.post('/uploadIdea',(req,res)=>{
     const comment = [];
     const uploadIdea = {
         title: title,
-        text : text,
+        text: text,
         view: view,
-        like:like,
+        like: like,
         dislike: dislike,
         view: view,
-        comment:comment
+        comment: comment
     }
     insertObject('Ideas', uploadIdea)
     res.redirect('staffIndex')
 })
 
-router.get('/detailIdea', async(req, res)=>{
+router.get('/detailIdea', async(req, res) => {
     const id = req.query.id;
     const db = await getDB();
-    await db.collection("Ideas").updateOne({_id: ObjectId(id)},{$inc:{"view":1}})
+    await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, { $inc: { "view": 1 } })
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
-    res.render("staff/detailIdea", {i: idea})
+    res.render("staff/detailIdea", { i: idea })
 })
-
-
-
-
 
 module.exports = router
