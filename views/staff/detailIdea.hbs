@@ -14,25 +14,29 @@
 
     <body>
         <input type="hidden" name="txtId" value="{{user._id}}">
+
         <input type="hidden" id="ideaID" value="{{i._id}}">
+        Poster: {{i.user.name}}<br>
         Title: {{i.title}}<br>
         Text: {{i.text}}<br>
 
         <i class="fa fa-eye" style="font-size:24px"></i> {{i.view}} views <br><br>
 
-        <button type="button" onclick="doLike()">
-        <i class="fa fa-thumbs-up" style="font-size:24px"></i>
-        <p id="likeIdea">{{i.like.length}}</p>
+        <button type="button" class="btn btn-default" onclick="doLike();">
+            <i class="fa fa-thumbs-up" style="font-size:24px"></i>
+            <p id="likeIdea">{{i.like.length}}</p>
         </button>
 
-        <button type="button" onclick="doDislike()">
-        <i class="fa fa-thumbs-down" style="font-size:24px"></i>
-        <p id="dislikeIdea">{{i.dislike.length}}</p>
+        <button type="button" class="btn btn-default" onclick="doDislike();">
+            <i class="fa fa-thumbs-down" style="font-size:24px"></i>
+            <p id="dislikeIdea">{{i.dislike.length}}</p>
         </button>
+
         <div class="card my-4">
             <div class="card-header">
                 Leave a comment:
             </div>
+            <div>{{i.comment}}</div>
             <div class="card-body">
                 <form action="">
                     <div class="form-group">
@@ -43,30 +47,57 @@
             </div>
         </div>
 
-        <script>
-            function doLike() { 
-            var like = document.getElementById("likeIdea").innerHTML;
-            like = parseInt(like);
-            like++;
-            document.getElementById("likeIdea").innerHTML = like;
+
+    </body>
+        <script type="text/javascript">
+            function doLike() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "/staff/doLikeJS",true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhttp.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+		                var response = JSON.parse(this.responseText);
+                        if(response.status=="success"){
+                            //update likes
+                            var like = document.getElementById("likeIdea").innerHTML;
+                            like = parseInt(like);
+                            like++;
+                            document.getElementById("likeIdea").innerHTML = like;
+                        }else{
+                            alert(response.message);
+                        }
+                    }
+                }
+                
+                var ideaId =  document.getElementById("ideaID").value;
+                xhttp.send("ideaId="+ideaId);
             }
 
             function doDislike() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "/doDislikeJS", false);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "/staff/doDislikeJS",true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-            var dislike = document.getElementById("dislikeIdea").innerHTML;
-            dislike = parseInt(dislike);
-            dislike++;
-            document.getElementById("dislikeIdea").innerHTML = dislike;
-
-
-            var ideaId =  document.getElementById("ideaID").value;
-            xhttp.send("zzzzz = "+ideaId);
-            
+                xhttp.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        var response=JSON.parse(this.responseText);
+                        if(response.status=="success"){
+                            //update dislikes
+                            var dislike = document.getElementById("dislikeIdea").innerHTML;
+                            dislike = parseInt(dislike);
+                            dislike++;
+                            document.getElementById("dislikeIdea").innerHTML = dislike;
+                        }else{
+                            alert(response.message);
+                        }
+                    }
+                }
+                
+                var ideaId =  document.getElementById("ideaID").value;
+                xhttp.send("ideaId = "+ideaId);
             }
-        </script>
-    </body>
 
+
+        </script>
 </html>

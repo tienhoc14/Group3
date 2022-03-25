@@ -1,41 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap Table with Add and Delete Row Feature</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="mystyle.css">
 </head>
 <body>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <a href="coordinator">Home</a>
-        <table bolder = 3>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Action</th>
-            </tr>
-            {{#each c}}
-            <tr>
-                <td>{{name}}</td>
-                <td>{{age}}</td>
-                <td>
-                    <a href="/admin/edit_coordinator?id={{_id}}">Edit</a>
-                    <a href="/admin//delete_coordinator?id={{_id}}">Delete</a>
-                    <a href="/admin/detail_coordinator?id={{_id}}">Detail</a>
-                </td>
-            </tr>
-            {{/each}}
-        </table>
-</body>
-</html>
+    <div class="container">
+        <div class="table-wrapper">
+                <a href="/admin" class="btn btn-info add-new">Home</a>
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2><b>Coordinator Information</b> List</h2></div>
+                    <div class="col-sm-4">
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>CCCD</th>
+                        <th>Phone</th>
+                        <th>Avatar</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{age}}</td>
+                        <td>{{email}}</td>
+                        <td>{{cccd}}</td>
+                        <td>{{phone}}</td>
+                        <td>{{avatar}}</td>
+                        <td>{{address}}</td>
+                        <td>
+                            <a href="/admin/edit_coordinator?id={{_id}}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a href="/admin//delete_coordinator?id={{_id}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr> 
+                    {{/each}}     
+                </tbody>
+            </table>
+        </div>
+    </div>     
 </body>
 </html>
