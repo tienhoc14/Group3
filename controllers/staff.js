@@ -3,6 +3,7 @@ const { append } = require('express/lib/response')
 const async = require('hbs/lib/async')
 const multer = require('multer')
 const path = require('path')
+const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser')
 const { ObjectId, getDB, insertObject } = require('../databaseHandler')
 const { rmSync } = require('fs')
@@ -86,5 +87,34 @@ router.get('/detailIdea', async(req, res) => {
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
     res.render("staff/detailIdea", { i: idea })
 })
+
+
+// notification to email:
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'minhhqgch190485@fpt.edu.vn',
+    pass: 'minh212212'
+  },
+  tls: {
+      rejectUnauthorized: false,
+  }
+});
+
+var mailOptions = {
+  from: 'minhhqgch190485@fpt.edu.vn',
+  to: 'hmminh212@gmail.com',
+  subject: 'Hello',
+  text: 'Hello Minh'
+};
+
+// transporter.sendMail(mailOptions, function(error, info){
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log('Email sent: ' + info.response);
+//   }
+// });
 
 module.exports = router
