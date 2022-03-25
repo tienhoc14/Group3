@@ -230,8 +230,12 @@ router.get('/ideas', async (req, res)=>{
     res.render("admin/viewIdeas", {i: allIdeas})
 })
 
-router.get('/mostView', (req, res)=>{
-    res.render("admin/viewIdeas")
+router.get('/mostView', async (req, res)=>{
+
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({view:-1}).toArray()
+    console.log(allIdeas)
+    res.render("admin/mostView", {i: allIdeas})
 })
 
 module.exports = router;

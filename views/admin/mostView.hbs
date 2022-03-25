@@ -7,6 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    {{view}}
+    <table>
+        <tr>
+            <th>Ideas</th>
+        </tr> 
+        {{#each i}}
+        <tr>
+            <td>{{view}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </body>
 </html>
