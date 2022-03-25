@@ -85,8 +85,6 @@ var mailOptions = {
     text: 'Just uploaded an idea'
 };
 
-router.get('/upIdea', (req, res) => {
-    res.render('staff/upIdea')
 router.get('/upIdea',requireStaff,async (req, res) => {
     const user = req.session["Staff"]
     const db = await getDB();
@@ -94,7 +92,6 @@ router.get('/upIdea',requireStaff,async (req, res) => {
     console.log(info)
     res.render('staff/upIdea',{staff:info})
 })
-
 router.post('/uploadIdea', (req, res) => {
     const user = req.session["Staff"]
     const title = req.body.txtTitle;
@@ -180,6 +177,8 @@ router.post('/doLikeJS',requireStaff, async(req,res)=>{
             "message":"Please login"
         })
     }
+
+    
 })
 
 
