@@ -92,21 +92,21 @@ router.get('/detailIdea', async(req, res) => {
 // notification to email:
 
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
+    service: 'gmail',
+    auth: {
     user: 'minhhqgch190485@fpt.edu.vn',
     pass: 'minh212212'
-  },
-  tls: {
-      rejectUnauthorized: false,
-  }
+},
+tls: {
+    rejectUnauthorized: false,
+}
 });
 
 var mailOptions = {
-  from: 'minhhqgch190485@fpt.edu.vn',
-  to: 'hmminh212@gmail.com',
-  subject: 'Hello',
-  text: 'Hello Minh'
+    from: 'minhhqgch190485@fpt.edu.vn',
+    to: 'hmminh212@gmail.com',
+    subject: 'Hello',
+    text: 'Hello Minh'
 };
 
 // transporter.sendMail(mailOptions, function(error, info){

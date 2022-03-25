@@ -1,6 +1,7 @@
 const express = require('express')
+const { render } = require('express/lib/response')
 const async = require('hbs/lib/async')
-const { ObjectId } = require('mongodb')
+const { ObjectId, MaxKey } = require('mongodb')
 const { getDB, insertObject, deleteCoordinator, deleteStaff, deleteManager } = require('../databaseHandler')
 const { requireAdmin } = require('../projectLibrary')
 
@@ -46,9 +47,13 @@ router.post('/addUser', requireAdmin, async(req, res) => {
     } else if (role == "Coordinator") {
         insertObject("User", objectToUser)
         insertObject("Coordinator", objectToObject)
-    } else {
+    } else if (role == "Staff") {
         insertObject("User", objectToUser)
         insertObject("Staff", objectToObject)
+    }
+    else{
+        insertObject("User", objectToUser)
+        insertObject("Admin", objectToObject)
     }
 
     res.render("admin/adminIndex")
@@ -218,8 +223,14 @@ router.get('/delete_staff', requireAdmin, async(req, res) => {
     res.redirect("/admin/staff")
 })
 
-router.get('/ideas', (req, res)=>{
-    res.render("admin/ideas")
+router.get('/ideas', async (req, res)=>{
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find({}).toArray()
+    res.render("admin/viewIdeas", {i: allIdeas})
+})
+
+router.get('/mostView', (req, res)=>{
+    res.render("admin/viewIdeas")
 })
 
 module.exports = router;
