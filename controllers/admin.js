@@ -105,7 +105,7 @@ router.post('/update_manager', async (req, res)=>{
 router.get('/delete_manager', async(req, res)=>{
     const id = req.query.id;
     await deleteManager(id);
-    res.render("admin/mManager")
+    res.redirect("/admin/manager")
 })
 
 router.get('/coordinator', async(req, res) => {
@@ -159,7 +159,7 @@ router.post('/update_coordinator', async (req, res)=>{
 router.get('/delete_coordinator', async(req, res)=>{
     const id = req.query.id;
     await deleteCoordinator(id);
-    res.render("admin/mCoordinator")
+    res.redirect("/admin/coordinator")
 })
 
 router.get('/staff', async(req, res) => {
@@ -214,7 +214,11 @@ router.get('/edit_staff', async(req, res)=>{
 router.get('/delete_staff', async(req, res)=>{
     const id = req.query.id;
     await deleteStaff(id);
-    res.render("admin/mStaff")
+    res.redirect("/admin/staff")
+})
+
+router.get('/ideas', (req, res)=>{
+    res.render("admin/ideas")
 })
 
 module.exports = router;
