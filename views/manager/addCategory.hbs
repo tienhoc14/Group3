@@ -7,19 +7,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Add Category</title>
 
-	<link rel="stylesheet" href="mystyle.css">
+	<link rel="stylesheet" href="css/manager.css">
 </head>
 
 <body>
-	<form action="addCategory" method="POST">
-		<h3>Add Category</h3>
-		Name: <input type="text" name="txtName">
-		<br>
-		Description: <input type="text" name="txtDescription">
-		<br>
-		<input type="submit" value="Add">
-	</form>
-	<br> <a id="cancel" href="category">Cancel</a>
+	<div class="table-wrapper">
+		<form action="addCategory" method="POST">
+
+			<div class="table-title">
+				<div class="row">
+					<a href="category"><img
+							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv9JgHaFXgRxsnUpl6ijUrsb0lGfwcjqGQwQ&usqp=CAU"
+							width="5%" height="5%"></a>
+					<div class="col-sm-8">
+						<h2>Add Category</h2>
+					</div>
+				</div>
+			</div>
+			Name: <input type="text" name="txtName">
+			<br><br>
+			Description: <input type="text" name="txtDescription">
+			<br><br>
+			<input type="submit" value="Add">
+		</form>
+	</div>
 </body>
 
 </html>

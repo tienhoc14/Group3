@@ -7,20 +7,31 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Edit Category</title>
 
-	<link rel="stylesheet" href="mystyle.css">
+	<link rel="stylesheet" href="css/manager.css">
 </head>
 
 <body>
-	<form action="updateCategory" method="POST">
-		<h3>Edit Category</h3>
-        Name: <input type="text" name="txtName" value="{{data.name}}" />
-		<br>
-        Age: <input type="text" name="txtDescription" value="{{data.description}}" />
-		<br>
-		<input type="hidden" name="ID" value="{{data._id}}">
-		<input type="submit" value="Update">
-	</form>
-	<br> <a id="cancel" href="category">Cancel</a>
+	<div class="table-wrapper">
+		<form action="updateCategory" method="POST">
+
+			<div class="table-title">
+				<div class="row">
+					<a href="category"><img
+							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv9JgHaFXgRxsnUpl6ijUrsb0lGfwcjqGQwQ&usqp=CAU"
+							width="5%" height="5%"></a>
+					<div class="col-sm-8">
+						<h2>Edit Category</h2>
+					</div>
+				</div>
+			</div>
+			Name: <input type="text" name="txtName" value="{{data.name}}" />
+			<br><br>
+			Description: <input type="text" name="txtDescription" value="{{data.description}}" />
+			<br><br>
+			<input type="hidden" name="ID" value="{{data._id}}">
+			<input type="submit" value="Update">
+		</form>
+	</div>
 </body>
 
 </html>
