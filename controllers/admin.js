@@ -32,6 +32,7 @@ router.post('/addUser', requireAdmin, async(req, res) => {
         password: pass
     }
     const objectToObject = {
+        userName: userName,
         name: name,
         age: age,
         email: email,

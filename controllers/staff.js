@@ -7,13 +7,22 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser')
 const { ObjectId, getDB, insertObject } = require('../databaseHandler')
 const { rmSync } = require('fs')
-
+const { requireStaff} = require('../projectLibrary');
 const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/', (req, res) => {
-    res.render('staff/index')
+router.get('/',async(req, res) => {
+    const db = await getDB();
+    const viewIdea = await db.collection("Ideas").find({}).toArray();
+    console.log(viewIdea)
+    res.render('staff/staffIndex', { data: viewIdea });
+})
+router.get('/staffIndex',async(req, res) => {
+    const db = await getDB();
+    const viewIdea = await db.collection("Ideas").find({}).toArray();
+    console.log(viewIdea)
+    res.render('staff/staffIndex', { data: viewIdea });
 })
 
 router.get('/uploadfile', (req, res) => {
@@ -50,17 +59,15 @@ router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
     res.send('success')
 })
 
-router.get('/staffIndex', async(req, res) => {
+router.get('/upIdea',requireStaff,async (req, res) => {
+    const user = req.session["Staff"]
     const db = await getDB();
-    const viewIdea = await db.collection("Ideas").find({}).toArray();
-    console.log(viewIdea)
-    res.render('staff/staffIndex', { data: viewIdea });
-})
-
-router.get('/upIdea', (req, res) => {
-    res.render('staff/upIdea')
+    const info = await db.collection("Staff").findOne({ "userName": user.name });
+    console.log(info)
+    res.render('staff/upIdea',{staff:info})
 })
 router.post('/uploadIdea', (req, res) => {
+    const user = req.session["Staff"]
     const title = req.body.txtTitle;
     const text = req.body.txtText;
     const like = [];
@@ -68,12 +75,12 @@ router.post('/uploadIdea', (req, res) => {
     const view = 0;
     const comment = [];
     const uploadIdea = {
+        user:user,
         title: title,
         text: text,
         view: view,
         like: like,
         dislike: dislike,
-        view: view,
         comment: comment
     }
     insertObject('Ideas', uploadIdea)
@@ -82,10 +89,61 @@ router.post('/uploadIdea', (req, res) => {
 
 router.get('/detailIdea', async(req, res) => {
     const id = req.query.id;
+    const cm = req.body.txtComment;
     const db = await getDB();
+    
+    const updateToComment = {
+        $set: {
+            comment:cm
+        }
+    }
+
     await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, { $inc: { "view": 1 } })
+    await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, updateToComment)
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
     res.render("staff/detailIdea", { i: idea })
+})
+
+router.post('/doLikeJS',requireStaff, async(req,res)=>{
+    const id = req.query.id;
+    const user = req.session["Staff"];
+    const db = await getDB();
+    if(user._id){
+        await db.collection("Ideas").findOne({
+            "_id":ObjectId(id),
+            "like._id":user._id
+        },function(error,idea){
+            if(idea==null){
+                //push in like array
+                await.collection("Ideas").updateOne({
+                    "_id":ObjectId(id)
+                },{
+                    $push:{
+                        "like":{
+                            "_id":user_id
+                        }
+                    }
+                },function(error,data){
+                    res.json({
+                        "status":"success",
+                        "message":"Idea has been liked"
+                    })
+                })
+            }else{
+                res.json({
+                    "status":"error",
+                    "message":"Alredy liked this idea"
+                })
+            }
+        })
+    }else{
+        res.json({
+            "status":"error",
+            "message":"Please login"
+        })
+    }
+
+    
 })
 
 
