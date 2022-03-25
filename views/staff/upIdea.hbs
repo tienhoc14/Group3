@@ -9,6 +9,7 @@
 <body>
     <h2>Create Your Idea</h2>
     <form action="uploadIdea" method="POST">
+        <input type="hidden" name="txtID" value="{{staff._id}}">
         Title: <input type="text" name="txtTitle"><br>
         Idea: <input type="text" name="txtText"><br>
         <input type="submit" value="POST">
