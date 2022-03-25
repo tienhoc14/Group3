@@ -13,53 +13,161 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="mystyle.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		body {
+			color: #404E67;
+			background: #F5F7FA;
+			font-family: 'Open Sans', sans-serif;
+		}
+
+		.table-wrapper {
+			width: 700px;
+			margin: 30px auto;
+			background: #fff;
+			padding: 20px;
+			box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+		}
+
+		.table-title {
+			padding-bottom: 10px;
+			margin: 0 0 10px;
+		}
+
+		.table-title h2 {
+			margin: 6px 0 0;
+			font-size: 22px;
+		}
+
+		.table-title .add-new {
+			float: right;
+			height: 30px;
+			font-weight: bold;
+			font-size: 12px;
+			text-shadow: none;
+			min-width: 100px;
+			border-radius: 50px;
+			line-height: 13px;
+		}
+
+		.table-title .add-new i {
+			margin-right: 4px;
+		}
+
+		table.table {
+			table-layout: fixed;
+		}
+
+		table.table tr th,
+		table.table tr td {
+			border-color: #e9e9e9;
+		}
+
+		table.table th i {
+			font-size: 13px;
+			margin: 0 5px;
+			cursor: pointer;
+		}
+
+		table.table th:last-child {
+			width: 100px;
+		}
+
+		table.table td a {
+			cursor: pointer;
+			display: inline-block;
+			margin: 0 5px;
+			min-width: 24px;
+		}
+
+		table.table td a.add {
+			color: #27C46B;
+		}
+
+		table.table td a.edit {
+			color: #FFC107;
+		}
+
+		table.table td a.delete {
+			color: #E34724;
+		}
+
+		table.table td i {
+			font-size: 19px;
+		}
+
+		table.table td a.add i {
+			font-size: 24px;
+			margin-right: -1px;
+			position: relative;
+			top: 3px;
+		}
+
+		table.table .form-control {
+			height: 32px;
+			line-height: 32px;
+			box-shadow: none;
+			border-radius: 2px;
+		}
+
+		table.table .form-control.error {
+			border-color: #f50000;
+		}
+
+		table.table td .add {
+			display: none;
+		}
+	</style>
 </head>
 
 <body>
 	<div class="container">
-		<div class="c-item nav">
-			<div class="logo-uni">
-				<img>
-			</div>
-			<a href="/index">
-				<li>Home</li>
-			</a>
+
+		<div>
+			<a href="/index">Home</a>
+			<a href="/admin/detail"> Profile </a>
+			<a href="/"> Logout </a>
 		</div>
 
-		<div class="c-item profile">
-			<div class="user">
-				<img src="/images/logo-admin.png" height="50" alt="">
-				{{user.name}}
-				<div class="dropdown">
-					<a href="/admin/detail"> Profile </a>
-					<a href="/"> Logout </a>
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-8">
+						<h2>Categorys</h2>
+					</div>
+					<div class="col-sm-4">
+						<a href="/manager/addCategory" type="button" class="btn btn-info add-new"><i
+								class="fa fa-plus"></i> Add New</a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="c-item controller">
-			<div>
-				<a href="/manager/addCategory">Add</a>
-			</div>
-		</div>
-		<div class="c-item body">
-			<table>
-				<tr>
-					<th>Name</th>
-					<th>Description</th>
-					<th>Action</th>
-				</tr>
-				{{#each data}}
-				<tr>
-					<td>{{name}}</td>
-					<td>{{description}}</td>
-					<td>
-						<a id="pass" href="/manager/editCategory?id={{_id}}">Edit</a>
-						<a id="delete" href="/manager/deleteCategory?id={{_id}}" 
-						onclick="return confirm('Delete this category?');">Delete</a>
-					</td>
-				</tr>
-				{{/each}}
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each data}}
+					<tr>
+						<td>{{name}}</td>
+						<td>{{description}}</td>
+						<td>
+							<a class="edit" title="Edit" data-toggle="tooltip"
+								href="/manager/editCategory?id={{_id}}"><i class="material-icons">&#xE254;</i></a>
+							<a class="delete" title="Delete" data-toggle="tooltip"
+								href="/manager/deleteCategory?id={{_id}}"
+								onclick="return confirm('Delete this category?');"><i
+									class="material-icons">&#xE872;</i></a>
+						</td>
+					</tr>
+					{{/each}}
+				</tbody>
 			</table>
 		</div>
 	</div>
