@@ -3,18 +3,30 @@ const session = require('express-session')
 const async = require('hbs/lib/async')
 const { getRole } = require('./databaseHandler')
 
-const app = express()
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
-app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 900000 }, saveUninitialized: false, resave: false }))
+app.use(session({
+    key: 'user_id' ,
+    secret: '124447yd@@$%%#', 
+    cookie: { maxAge: 900000 }, 
+    saveUninitialized: false, 
+    resave: false }))
 
 app.get('/index', (req, res) => {
     res.render('index')
 })
-
+io.on('connection', (socket) => {
+    console.log('user connected')
+    socket.on('client-chat', data=>{
+        io.emit('user-chat',data)
+    })
+});
 app.get('/login', (req, res) => {
     res.render('login')
 })
@@ -74,6 +86,12 @@ app.use('/manager', managerController)
 
 const coordinatorController = require('./controllers/coordinator')
 app.use('/coordinator', coordinatorController)
+
+app.get('/staff/detailidea', (req, res) => {
+    res.render('staff/detailIdea');
+});
+
+
 
 
 const PORT = process.env.PORT || 5123

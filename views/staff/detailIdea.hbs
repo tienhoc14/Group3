@@ -34,70 +34,40 @@
 
         <div class="card my-4">
             <div class="card-header">
-                Leave a comment:
+                    Leave a comment:
             </div>
-            <div>{{i.comment}}</div>
             <div class="card-body">
-                <form action="">
-                    <div class="form-group">
-                        <input type="text" name="txtComment">
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Post comment">
+                <ul id="message"></ul>
+                <form action="" id="chatForm">
+                <input type="text" id="chat">
+                <button id="sendChat">Send</button>
                 </form>
             </div>
         </div>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        console.log(socket)
+        {{!-- const name =prompt("what's your name?") --}}
+        const chatForm = document.querySelector('#chatForm');
+        const chat = document.querySelector('#chat');
+        chatForm.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            const msg = chat.value;
+            socket.emit('client-chat',{
+            msg
+            });
+            chat.value = ''
+        })
+        const messages = document.querySelector('#message')
+        socket.on('user-chat',(message)=>{
+            const chatItem = document.createElement('li');
+            chatItem.textContent = message.msg;
+            {{!-- chatItem.textContent = `${message.name}:${message.msg}`; --}}
+            messages.appendChild(chatItem)
+        })
 
+    </script>
     </body>
-        <script type="text/javascript">
-            function doLike() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "/staff/doLikeJS",true);
-                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-                xhttp.onreadystatechange = function(){
-                    if (this.readyState == 4 && this.status == 200) {
-		                var response = JSON.parse(this.responseText);
-                        if(response.status=="success"){
-                            //update likes
-                            var like = document.getElementById("likeIdea").innerHTML;
-                            like = parseInt(like);
-                            like++;
-                            document.getElementById("likeIdea").innerHTML = like;
-                        }else{
-                            alert(response.message);
-                        }
-                    }
-                }
-                
-                var ideaId =  document.getElementById("ideaID").value;
-                xhttp.send("ideaId="+ideaId);
-            }
-
-            function doDislike() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "/staff/doDislikeJS",true);
-                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-                xhttp.onreadystatechange = function(){
-                    if(this.readyState == 4 && this.status == 200){
-                        var response=JSON.parse(this.responseText);
-                        if(response.status=="success"){
-                            //update dislikes
-                            var dislike = document.getElementById("dislikeIdea").innerHTML;
-                            dislike = parseInt(dislike);
-                            dislike++;
-                            document.getElementById("dislikeIdea").innerHTML = dislike;
-                        }else{
-                            alert(response.message);
-                        }
-                    }
-                }
-                
-                var ideaId =  document.getElementById("ideaID").value;
-                xhttp.send("ideaId = "+ideaId);
-            }
-
-
-        </script>
 </html>
