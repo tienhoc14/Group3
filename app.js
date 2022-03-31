@@ -1,13 +1,39 @@
 const express = require('express')
 const session = require('express-session')
 const async = require('hbs/lib/async')
-const { getRole } = require('./databaseHandler')
+const { getRole,getDB } = require('./databaseHandler')
+const { ObjectId} = require('mongodb')
 
-const app = require('express')();
+
+const app = express()
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-
 app.set('view engine', 'hbs')
+
+io.on('connection', (socket) => {
+    console.log('user connected')
+    socket.on('user-comment',async data=>{
+        const db = await getDB();
+    
+        const a = await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+            $push:{
+                'comment':data.msg
+            }
+        })
+        console.log(a)
+        
+        console.log(data.msg)
+        console.log(data.id)
+        io.emit('server-response',data)
+    })
+});
+// io.on('connection', (socket) => {
+//     console.log('user connected')
+//     socket.on('user-comment',data=>{
+//         io.emit('server-response',data)
+//     })
+// });
+
 
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
@@ -21,12 +47,7 @@ app.use(session({
 app.get('/index', (req, res) => {
     res.render('index')
 })
-io.on('connection', (socket) => {
-    console.log('user connected')
-    socket.on('client-chat', data=>{
-        io.emit('user-chat',data)
-    })
-});
+
 app.get('/login', (req, res) => {
     res.render('login')
 })
@@ -53,7 +74,7 @@ app.post('/login', async(req, res) => {
             name: name,
             role: role
         }
-        res.redirect('/staff')
+        res.redirect('/staff/staffIndex')
 
     } else if (role == "Coordinator") {
         req.session["Coordinator"] = {
@@ -87,13 +108,7 @@ app.use('/manager', managerController)
 const coordinatorController = require('./controllers/coordinator')
 app.use('/coordinator', coordinatorController)
 
-app.get('/staff/detailidea', (req, res) => {
-    res.render('staff/detailIdea');
-});
-
-
-
 
 const PORT = process.env.PORT || 5123
-app.listen(PORT)
+http.listen(PORT)
 console.log("Server is running! " + PORT)

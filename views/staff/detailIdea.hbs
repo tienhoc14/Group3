@@ -37,9 +37,14 @@
                     Leave a comment:
             </div>
             <div class="card-body">
-                <ul id="message"></ul>
+                <ul id="message">
+                    {{#each i.comment}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
                 <form action="" id="chatForm">
-                <input type="text" id="chat">
+                    <input type="hidden" id="ideaID" value="{{i._id}}">
+                    <input type="text" id="chat">
                 <button id="sendChat">Send</button>
                 </form>
             </div>
@@ -48,26 +53,28 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        console.log(socket)
-        {{!-- const name =prompt("what's your name?") --}}
         const chatForm = document.querySelector('#chatForm');
         const chat = document.querySelector('#chat');
+        const ideaID = document.querySelector('#ideaID');
         chatForm.addEventListener('submit',(e)=>{
             e.preventDefault();
             const msg = chat.value;
-            socket.emit('client-chat',{
-            msg
+            const id = ideaID.value;
+            socket.emit('user-comment',{
+                id,msg
             });
             chat.value = ''
         })
         const messages = document.querySelector('#message')
-        socket.on('user-chat',(message)=>{
+        socket.on('server-response',(message)=>{
             const chatItem = document.createElement('li');
             chatItem.textContent = message.msg;
-            {{!-- chatItem.textContent = `${message.name}:${message.msg}`; --}}
             messages.appendChild(chatItem)
         })
 
+        function doLike(){
+            
+        }
     </script>
     </body>
 </html>

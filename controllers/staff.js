@@ -10,20 +10,27 @@ const { rmSync } = require('fs')
 const { requireStaff} = require('../projectLibrary');
 const router = express.Router()
 
-
 router.use(bodyParser.urlencoded({ extended: true }))
 
-// router.get('/',async(req, res) => {
-//     const db = await getDB();
-//     const viewIdea = await db.collection("Ideas").find({}).toArray();
-//     res.render('staff/staffIndex', { data: viewIdea });
-// })
+router.get('/',async(req, res) => {
+    const db = await getDB();
+    const viewIdea = await db.collection("Ideas").find({}).toArray();
+    res.render('staff/staffIndex', { data: viewIdea });
+})
+router.get('/staffIndex',async(req, res) => {
+    const db = await getDB();
+    const viewIdea = await db.collection("Ideas").find({}).toArray();
+    res.render('staff/staffIndex', { data: viewIdea });
+})
 
 router.get('/uploadfile', (req, res) => {
     res.render('staff/uploadfile')
 })
 router.get('/TaC', (req, res) => {
     res.render('staff/TaC')
+})
+router.get('/demo', (req, res) => {
+    res.render('staff/demo')
 })
 
 //set storage
@@ -55,6 +62,13 @@ router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
     insertObject('Files', objectToFile)
     res.send('success')
 })
+
+router.get('/staffIndex', async (req, res) => {
+    const db = await getDB();
+    const viewIdea = await db.collection("Ideas").find({}).toArray();
+    res.render('staff/staffIndex', { data: viewIdea });
+})
+
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -114,26 +128,11 @@ router.post('/uploadIdea', (req, res) => {
 router.get('/detailIdea', async (req, res) => {
     const id = req.query.id;
     const db = await getDB();
-
     await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, { $inc: { "view": 1 } })
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
     res.render("staff/detailIdea", { i: idea })
 })
-//socket.io
-const http = require('http');
-const server = http.createServer(router);
-const { Server } = require("socket.io");
-const io = new Server(server);
-router.get('/', (req, res) => {
-    res.render('staff/demo');
-  });
 
-io.on('connection', (socket) => {
-    console.log('user connected')
-    socket.on('client-chat', data=>{
-        io.emit('user-chat',data)
-    })
-});
 
 
 module.exports = router
