@@ -38,16 +38,16 @@ io.on('connection', (socket) => {
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
-    key: 'user_id' ,
-    secret: '124447yd@@$%%#', 
-    cookie: { maxAge: 900000 }, 
-    saveUninitialized: false, 
-    resave: false }))
+    key: 'user_id',
+    secret: '124447yd@@$%%#',
+    cookie: { maxAge: 900000 },
+    saveUninitialized: false,
+    resave: false
+}))
 
 app.get('/index', (req, res) => {
     res.render('index')
 })
-
 app.get('/login', (req, res) => {
     res.render('login')
 })
@@ -96,6 +96,17 @@ app.get('/logout', (req, res) => {
     res.redirect('login')
 })
 
+app.post('/setDate', (req, res) => {
+    const open = new Date(req.body.openDate)
+    const close = new Date(req.body.closeDate)
+    const now = new Date()
+    if (open <= now && now <= close) {
+        res.send('index')
+    } else {
+        res.send('disable function')
+    }
+})
+
 const adminController = require('./controllers/admin')
 app.use('/admin', adminController)
 
@@ -108,6 +119,9 @@ app.use('/manager', managerController)
 const coordinatorController = require('./controllers/coordinator')
 app.use('/coordinator', coordinatorController)
 
+app.get('/staff/detailidea', (req, res) => {
+    res.render('staff/detailIdea');
+});
 
 const PORT = process.env.PORT || 5123
 http.listen(PORT)

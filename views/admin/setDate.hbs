@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Set closure date</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/sidebar.css">
 </head>
-<body>
 
-        <div class="wrapper d-flex align-items-stretch">
+<body>
+    <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
             <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
                         <p>reenwich</p>
@@ -82,32 +83,19 @@
                 </div>
             </nav>
 
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>File</th>
-            <th>Date</th>
-            <th>Comment</th>
-            <th>text</th>
-            <th>Like</th>
-            <th>Dislike</th>
-            <th>Action</th>
-        </tr>
-        {{#each i}}
-        <tr>
-            <td>{{title}}</td>
-            <td>{{file}}</td>
-            <td>{{date}}</td>
-            <td>{{comment}}</td>
-            <td>{{text}}</td>
-            <td>{{like}}</td>
-            <td>{{dislike}}</td>
-            <td>
-                <a href="/admin/mostView">Most View</a>
-            </td>
-        </tr>
-        {{/each}}
-    </table>
+            <a href="/admin/addUser">Add User</a>
+            <a href="/admin/manager">Manager</a>
+            <a href="/admin/staff">Staff</a>
+            <a href="/admin/coordinator">Coordinator</a>
+            <a href="/admin/ideas">Ideas</a><br>
+            <a href="/admin/setdate">Set closure date</a><br><br>
+
+            {{!-- form set date --}}
+            <form action="/setDate" method="post">
+                Open date: <input type="date" name="openDate"> <br><br>
+                Close date: <input type="date" name="closeDate"> <br><br>
+                <input type="submit" value="Set Date">
+            </form>
         </div>
     </div>
 
@@ -115,6 +103,6 @@
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-
 </body>
+
 </html>
