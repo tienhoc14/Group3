@@ -13,8 +13,8 @@
 </head>
 
     <body>
-        <input type="hidden" name="txtId" value="{{user._id}}">
-
+        <input type="hidden" id="userID" value="{{user._id}}">
+        <input type="hidden" id="userName" value="{{user.name}}">
         <input type="hidden" id="ideaID" value="{{i._id}}">
         Poster: {{i.user.name}}<br>
         Title: {{i.title}}<br>
@@ -56,24 +56,41 @@
         const chatForm = document.querySelector('#chatForm');
         const chat = document.querySelector('#chat');
         const ideaID = document.querySelector('#ideaID');
+        const userName = document.querySelector('#userName');
         chatForm.addEventListener('submit',(e)=>{
             e.preventDefault();
             const msg = chat.value;
             const id = ideaID.value;
+            const name = userName.value;
             socket.emit('user-comment',{
-                id,msg
+                id,name,msg
             });
             chat.value = ''
         })
         const messages = document.querySelector('#message')
         socket.on('server-response',(message)=>{
             const chatItem = document.createElement('li');
-            chatItem.textContent = message.msg;
+            chatItem.textContent =  `${message.name}: ${message.msg}`;
             messages.appendChild(chatItem)
         })
 
         function doLike(){
-            
+            const ideaID = document.querySelector('#ideaID');
+            const userID = document.querySelector('#userID');
+            const id = ideaID.value;
+            const user = userID.value;
+            socket.emit('client-like',{
+                id,user
+            })
+        }
+        function doDislike(){
+            const ideaID = document.querySelector('#ideaID');
+            const userID = document.querySelector('#userID');
+            const id = ideaID.value;
+            const user = userID.value;
+            socket.emit('client-dislike',{
+                id,user
+            })
         }
     </script>
     </body>

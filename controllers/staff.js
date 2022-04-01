@@ -92,7 +92,6 @@ router.get('/upIdea',requireStaff,async (req, res) => {
     const user = req.session["Staff"]
     const db = await getDB();
     const info = await db.collection("Staff").findOne({ "userName": user.name });
-    console.log(info)
     res.render('staff/upIdea',{staff:info})
 })
 router.post('/uploadIdea', (req, res) => {
@@ -125,12 +124,18 @@ router.post('/uploadIdea', (req, res) => {
     res.redirect('staffIndex')
 })
 
-router.get('/detailIdea', async (req, res) => {
+router.get('/detailIdea',requireStaff, async (req, res) => {
     const id = req.query.id;
+    const user = req.session["Staff"]
+    console.log(user)
     const db = await getDB();
     await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, { $inc: { "view": 1 } })
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
-    res.render("staff/detailIdea", { i: idea })
+
+    const p = await db.collection("Staff").findOne({ "userName": user.name })
+    console.log(p.name)
+
+    res.render("staff/detailIdea", { i: idea,user:p })
 })
 
 

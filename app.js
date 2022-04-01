@@ -13,26 +13,42 @@ app.set('view engine', 'hbs')
 io.on('connection', (socket) => {
     console.log('user connected')
     socket.on('user-comment',async data=>{
+        console.log('user-comment connected')
         const db = await getDB();
-    
         const a = await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
             $push:{
-                'comment':data.msg
+                'comment':[data.name,data.msg]
             }
         })
-        console.log(a)
-        
-        console.log(data.msg)
-        console.log(data.id)
         io.emit('server-response',data)
     })
+    socket.on('client-like',async data =>{
+        const db = await getDB();
+        if(await db.collection('Ideas').findOne({'like':data.user})==null){
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                $push:{
+                    'like':data.user
+                }
+            })
+        }
+        else{
+            console.log('Error')
+        }
+    })
+    socket.on('client-dislike',async data =>{
+        const db = await getDB();
+        if(await db.collection('Ideas').findOne({'dislike':data.user})==null){
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                $push:{
+                    'dislike':data.user
+                }
+            })
+        }
+        else{
+            console.log('Error')
+        }
+    })
 });
-// io.on('connection', (socket) => {
-//     console.log('user connected')
-//     socket.on('user-comment',data=>{
-//         io.emit('server-response',data)
-//     })
-// });
 
 
 app.use(express.static('public'))
