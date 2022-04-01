@@ -83,11 +83,11 @@
                 </div>
             </nav>
 
-            <a href="/staff/upIdea">Upload Idea</a>
+            <button style="border: 2px solid crimson;border-radius: 25px; background-color: crimson;"><a href="/staff/upIdea" style="text-decoration: none;color:aliceblue">Upload Idea</a></button>
             <div>
                 {{#each data}}
                 <tr>
-                    <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td>
+                    <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td><br>
                 </tr>
                 {{/each}}
             </div>
