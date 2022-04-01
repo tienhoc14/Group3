@@ -84,6 +84,13 @@
             </nav>
 
             <a href="/staff/upIdea">Upload Idea</a>
+            <div>
+                {{#each data}}
+                <tr>
+                    <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td>
+                </tr>
+                {{/each}}
+            </div>
         </div>
     </div>
 
