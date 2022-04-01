@@ -1,8 +1,8 @@
 const express = require('express')
 const session = require('express-session')
 const async = require('hbs/lib/async')
-const { getRole,getDB } = require('./databaseHandler')
-const { ObjectId} = require('mongodb')
+const { getRole, getDB } = require('./databaseHandler')
+const { ObjectId } = require('mongodb')
 
 
 const app = express()
@@ -12,39 +12,37 @@ app.set('view engine', 'hbs')
 
 io.on('connection', (socket) => {
     console.log('user connected')
-    socket.on('user-comment',async data=>{
+    socket.on('user-comment', async data => {
         console.log('user-comment connected')
         const db = await getDB();
-        const a = await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-            $push:{
-                'comment':[data.name,data.msg]
+        const a = await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+            $push: {
+                'comment': [data.name, data.msg]
             }
         })
-        io.emit('server-response',data)
+        io.emit('server-response', data)
     })
-    socket.on('client-like',async data =>{
+    socket.on('client-like', async data => {
         const db = await getDB();
-        if(await db.collection('Ideas').findOne({'like':data.user})==null){
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                $push:{
-                    'like':data.user
+        if (await db.collection('Ideas').findOne({ 'like': data.user }) == null) {
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                $push: {
+                    'like': data.user
                 }
             })
-        }
-        else{
+        } else {
             console.log('Error')
         }
     })
-    socket.on('client-dislike',async data =>{
+    socket.on('client-dislike', async data => {
         const db = await getDB();
-        if(await db.collection('Ideas').findOne({'dislike':data.user})==null){
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                $push:{
-                    'dislike':data.user
+        if (await db.collection('Ideas').findOne({ 'dislike': data.user }) == null) {
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                $push: {
+                    'dislike': data.user
                 }
             })
-        }
-        else{
+        } else {
             console.log('Error')
         }
     })
@@ -90,7 +88,7 @@ app.post('/login', async(req, res) => {
             name: name,
             role: role
         }
-        res.redirect('/staff/staffIndex')
+        res.redirect('/staff/')
 
     } else if (role == "Coordinator") {
         req.session["Coordinator"] = {
