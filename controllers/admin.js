@@ -133,7 +133,7 @@ router.get('/edit_coordinator', requireAdmin, async(req, res) => {
 
     const dbo = await getDB();
     const allStaff = await dbo.collection("Coordinator").findOne({ _id: ObjectId(id) })
-    res.render("admin/editCoordinatorf", { c: allStaff })
+    res.render("admin/editCoordinator", { c: allStaff })
 })
 
 router.post('/update_coordinator', requireAdmin, async(req, res) => {
