@@ -78,7 +78,7 @@ router.get('/edit_manager', requireAdmin, async(req, res) => {
     const id = req.query.id
 
     const dbo = await getDB();
-    const allManager = await dbo.collection("Manager").findOne({ _id: ObjectId(id) })
+    const allManager = await dbo.collection("Manager").findOne({_id: ObjectId(id)})
     res.render("admin/editManager", { data: allManager })
 })
 
@@ -233,8 +233,18 @@ router.get('/mostView', async(req, res) => {
 
     const dbo = await getDB();
     const allIdeas = await dbo.collection("Ideas").find().sort({ view: -1 }).toArray()
-    console.log(allIdeas)
-    res.render("admin/mostView", { i: allIdeas })
+    res.render("admin/viewIdeas", { i: allIdeas })
+})
+
+router.get('/mostLike', async(req, res)=>{
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ like: -1 }).toArray()
+    res.render("admin/viewIdeas", { i: allIdeas })
+})
+router.get('/mostDislike', async(req, res)=>{
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ dislike: -1 }).toArray()
+    res.render("admin/viewIdeas", { i: allIdeas })
 })
 
 //set closure date

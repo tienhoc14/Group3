@@ -91,6 +91,7 @@
             <th>Idea</th>
             <th>Like</th>
             <th>Dislike</th>
+            <th>View</th>
             <th>Action</th>
         </tr>
         {{#each i}}
@@ -100,10 +101,13 @@
             <td>{{date}}</td>
             <td>{{comment}}</td>
             <td>{{text}}</td>
-            <td>{{like}}</td>
-            <td>{{dislike}}</td>
+            <td>{{this.like.length}}</td>
+            <td>{{this.dislike.length}}</td>
+            <td>{{view}}</td>
             <td>
                 <a href="/admin/mostView">Most View</a>
+                <a href="/admin/mostLike">Most Like</a>
+                <a href="/admin/mostDislike">Most Dislike</a>
             </td>
         </tr>
         {{/each}}

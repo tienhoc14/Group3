@@ -4,39 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/admin.css">
     <title>Add User</title>
 </head>
 <body>
-    <form action="addUser" method="POST">
-        <h3>Add User</h3>
-        UserName: <input type="text" name="txtUser">
-        <br>
-        Role:
-        <select name="Role">
-            <option value="Admin">Admin</option>
-            <option value="Staff">Staff</option>
-            <option value="Manager">Manager</option>
-            <option value="Coordinator">Coordinator</option>
-        </select>
-        <br>
-        Password:
-        <input type="text" name="txtPass">
-        <br> 
-        Name: <input type="text" name="txtName">
-        <br>
-        Age: <input type="text" name="txtAge">
-        <br>
-        {{!-- Email: <input type="email" name="txtEmail">
-        <br> --}}
-        PhoneNumber: <input type="text" name="txtPhone">
-        <br>
-        Avatar: <input type="text" name="txtAva">
-        <br>
-        CCCD: <input type="text" name="txtCm">
-        <br>
-        Address: <input type="text" name="txtAddress">
-        <br>
-        <input type="submit" value="Add User">
-    </form>
+    <div class="table-wrapper">
+        <form action="addUser" method="POST">
+            <h3>Add User</h3>
+            UserName: <input type="text" name="txtUser">
+            <br>
+            Role:
+            <select name="Role">
+                <option value="Staff">Staff</option>
+                <option value="Manager">Manager</option>
+                <option value="Coordinator">Coordinator</option>
+            </select>
+            <br>
+            Password:
+            <input type="text" name="txtPass">
+            <br> 
+            Name: <input type="text" name="txtName">
+            <br>
+            Age: <input type="text" name="txtAge">
+            <br>
+            {{!-- Email: <input type="email" name="txtEmail">
+            <br> --}}
+            PhoneNumber: <input type="text" name="txtPhone">
+            <br>
+            Avatar: <input type="text" name="txtAva">
+            <br>
+            CCCD: <input type="text" name="txtCm">
+            <br>
+            Address: <input type="text" name="txtAddress">
+            <br>
+            <input type="submit" value="Add User">
+        </form>
+    </div>
 </body>
 </html>

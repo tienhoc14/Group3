@@ -25,19 +25,25 @@
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home"></span> Home</a>
+                    <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-user"></span> About</a>
+                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
+                    <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-cogs"></span> Services</a>
+                    <a href="/admin/staff"><span class="fa fa-user"></span>Staff</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-paper-plane"></span> Contacts</a>
+                    <a href="/admin/coordinator"><span class="fa fa-user"></span>Coordinator</a>
+                </li>
+                <li>
+                    <a href="/admin/ideas"><span class="fa fa-sticky-note"></span>Ideas</a>
+                </li>
+                <li>
+                    <a href="/admin/setdate"><span class="fa fa-cogs"></span>Set closure date</a>
                 </li>
             </ul>
 
@@ -106,7 +112,7 @@
                 <tbody>
                     {{#each c}}
                     <tr>
-                        <td>{{name}}</td>
+                        <td><a href="/admin/detail_coordinator?id={{_id}}">{{name}}</a></td>
                         <td>{{age}}</td>
                         <td>
                             <a href="/admin/edit_coordinator?id={{_id}}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
