@@ -18,11 +18,10 @@ router.get('/adduser', requireAdmin, (req, res) => {
 router.post('/addUser', requireAdmin, async(req, res) => {
     const userName = req.body.txtUser;
     const role = req.body.Role;
-    const pass = req.body.txtPass;
     const cccd = req.body.txtCm;
     const name = req.body.txtName;
     const age = req.body.txtAge;
-    const email = userName + "@fpt.edu.vn"
+    const email = req.body.txtEmail;
     const phoneNumber = req.body.txtPhone;
     const avatar = req.body.txtAva;
     const address = req.body.txtAddress;
@@ -30,7 +29,7 @@ router.post('/addUser', requireAdmin, async(req, res) => {
     const objectToUser = {
         userName: userName,
         role: role,
-        password: pass
+        password: '123'
     }
     const objectToObject = {
         userName: userName,
@@ -78,7 +77,7 @@ router.get('/edit_manager', requireAdmin, async(req, res) => {
     const id = req.query.id
 
     const dbo = await getDB();
-    const allManager = await dbo.collection("Manager").findOne({_id: ObjectId(id)})
+    const allManager = await dbo.collection("Manager").findOne({ _id: ObjectId(id) })
     res.render("admin/editManager", { data: allManager })
 })
 
@@ -236,12 +235,12 @@ router.get('/mostView', async(req, res) => {
     res.render("admin/viewIdeas", { i: allIdeas })
 })
 
-router.get('/mostLike', async(req, res)=>{
+router.get('/mostLike', async(req, res) => {
     const dbo = await getDB();
     const allIdeas = await dbo.collection("Ideas").find().sort({ like: -1 }).toArray()
     res.render("admin/viewIdeas", { i: allIdeas })
 })
-router.get('/mostDislike', async(req, res)=>{
+router.get('/mostDislike', async(req, res) => {
     const dbo = await getDB();
     const allIdeas = await dbo.collection("Ideas").find().sort({ dislike: -1 }).toArray()
     res.render("admin/viewIdeas", { i: allIdeas })
