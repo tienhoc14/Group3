@@ -20,24 +20,30 @@
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
-            <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
+            <h1><a href="/admin/" class="logo">G<div style="margin-top: -60px;" class="footer">
                         <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home"></span> Home</a>
+                    <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-user"></span> About</a>
+                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
+                    <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-cogs"></span> Services</a>
+                    <a href="/admin/staff"><span class="fa fa-user"></span>Staff</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-paper-plane"></span> Contacts</a>
+                    <a href="/admin/coordinator"><span class="fa fa-user"></span>Coordinator</a>
+                </li>
+                <li>
+                    <a href="/admin/ideas"><span class="fa fa-sticky-note"></span>Ideas</a>
+                </li>
+                <li>
+                    <a href="/admin/setdate"><span class="fa fa-cogs"></span>Set closure date</a>
                 </li>
             </ul>
 
@@ -92,7 +98,7 @@
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-8"><h2><b>Subject List</b></h2></div>
+                    <div class="col-sm-8"><h2><b>Staff List</b></h2></div>
                 </div>
             </div>
             <table class="table table-bordered">
@@ -117,6 +123,11 @@
                 </tbody>
             </table>
         </div>
-    </div>     
+    </div>  
+    
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/main.js"></script>   
 </body>
 </html>
