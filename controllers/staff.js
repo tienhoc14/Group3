@@ -133,6 +133,12 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
+// Latest Comment
+router.get('/lastestIdea', async(req, res)=>{
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({title: -1}).toArray()
+    res.render("staff/staffIndex", { data: allIdeas })
+})
 
 
 module.exports = router
