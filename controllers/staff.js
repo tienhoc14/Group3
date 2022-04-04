@@ -130,6 +130,4 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
-
-
 module.exports = router
