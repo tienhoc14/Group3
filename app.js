@@ -25,27 +25,61 @@ io.on('connection', (socket) => {
     socket.on('client-like',async data =>{
         const db = await getDB();
         if(await db.collection('Ideas').findOne({'like':data.user})==null){
+            if(await db.collection('Ideas').findOne({'dislike':data.user})!=null){
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                    $pull:{
+                        'dislike':data.user
+                    }
+                })
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                    $push:{
+                        'like':data.user
+                    }
+                })
+            }else{
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                    $push:{
+                        'like':data.user
+                    }
+                })
+            }
+        }
+        else{
             await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                $push:{
+                $pull:{
                     'like':data.user
                 }
             })
-        }
-        else{
-            console.log('Error')
         }
     })
     socket.on('client-dislike',async data =>{
         const db = await getDB();
         if(await db.collection('Ideas').findOne({'dislike':data.user})==null){
+            if(await db.collection('Ideas').findOne({'like':data.user})!=null){
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                    $pull:{
+                        'like':data.user
+                    }
+                })
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                    $push:{
+                        'dislike':data.user
+                    }
+                })
+            }else{
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+                    $push:{
+                        'dislike':data.user
+                    }
+                })
+            }
+        }
+        else{
             await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                $push:{
+                $pull:{
                     'dislike':data.user
                 }
             })
-        }
-        else{
-            console.log('Error')
         }
     })
 });

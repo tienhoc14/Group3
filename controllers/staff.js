@@ -7,17 +7,12 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser')
 const { ObjectId, getDB, insertObject } = require('../databaseHandler')
 const { rmSync } = require('fs')
-const { requireStaff} = require('../projectLibrary');
+const { requireStaff } = require('../projectLibrary');
 const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/',async(req, res) => {
-    const db = await getDB();
-    const viewIdea = await db.collection("Ideas").find({}).toArray();
-    res.render('staff/staffIndex', { data: viewIdea });
-})
-router.get('/staffIndex',async(req, res) => {
+router.get('/', async(req, res) => {
     const db = await getDB();
     const viewIdea = await db.collection("Ideas").find({}).toArray();
     res.render('staff/staffIndex', { data: viewIdea });
@@ -63,7 +58,7 @@ router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
     res.send('success')
 })
 
-router.get('/staffIndex', async (req, res) => {
+router.get('/staffIndex', async(req, res) => {
     const db = await getDB();
     const viewIdea = await db.collection("Ideas").find({}).toArray();
     res.render('staff/staffIndex', { data: viewIdea });
@@ -88,11 +83,11 @@ var mailOptions = {
     text: 'Just uploaded an idea'
 };
 
-router.get('/upIdea',requireStaff,async (req, res) => {
+router.get('/upIdea', requireStaff, async(req, res) => {
     const user = req.session["Staff"]
     const db = await getDB();
     const info = await db.collection("Staff").findOne({ "userName": user.name });
-    res.render('staff/upIdea',{staff:info})
+    res.render('staff/upIdea', { staff: info })
 })
 router.post('/uploadIdea', (req, res) => {
     const user = req.session["Staff"]
@@ -103,7 +98,7 @@ router.post('/uploadIdea', (req, res) => {
     const view = 0;
     const comment = [];
     const uploadIdea = {
-        user:user,
+        user: user,
         title: title,
         text: text,
         view: view,
@@ -113,7 +108,7 @@ router.post('/uploadIdea', (req, res) => {
     }
     insertObject('Ideas', uploadIdea)
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -124,7 +119,7 @@ router.post('/uploadIdea', (req, res) => {
     res.redirect('staffIndex')
 })
 
-router.get('/detailIdea',requireStaff, async (req, res) => {
+router.get('/detailIdea', requireStaff, async(req, res) => {
     const id = req.query.id;
     const user = req.session["Staff"]
     console.log(user)
@@ -133,11 +128,9 @@ router.get('/detailIdea',requireStaff, async (req, res) => {
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
 
     const p = await db.collection("Staff").findOne({ "userName": user.name })
+        // console.log(p.name)
 
-
-    res.render("staff/detailIdea", { i: idea,user:p })
+    res.render("staff/detailIdea", { i: idea, user: p })
 })
-
-
 
 module.exports = router

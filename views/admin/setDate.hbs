@@ -14,24 +14,30 @@
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
-            <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
+            <h1><a href="/admin/" class="logo">G<div style="margin-top: -60px;" class="footer">
                         <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home"></span> Home</a>
+                    <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-user"></span> About</a>
+                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
+                    <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-cogs"></span> Services</a>
+                    <a href="/admin/staff"><span class="fa fa-user"></span>Staff</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-paper-plane"></span> Contacts</a>
+                    <a href="/admin/coordinator"><span class="fa fa-user"></span>Coordinator</a>
+                </li>
+                <li>
+                    <a href="/admin/ideas"><span class="fa fa-sticky-note"></span>Ideas</a>
+                </li>
+                <li>
+                    <a href="/admin/setdate"><span class="fa fa-cogs"></span>Set closure date</a>
                 </li>
             </ul>
 
@@ -82,27 +88,21 @@
                     </div>
                 </div>
             </nav>
-
-            <a href="/admin/addUser">Add User</a>
-            <a href="/admin/manager">Manager</a>
-            <a href="/admin/staff">Staff</a>
-            <a href="/admin/coordinator">Coordinator</a>
-            <a href="/admin/ideas">Ideas</a><br>
-            <a href="/admin/setdate">Set closure date</a><br><br>
-
+            <div class="table-wrapper">
             {{!-- form set date --}}
-            <form action="/setDate" method="post">
-                Open date: <input type="date" name="openDate"> <br><br>
-                Close date: <input type="date" name="closeDate"> <br><br>
-                <input type="submit" value="Set Date">
-            </form>
+                <form action="/setDate" method="post">
+                    Open date: <input type="date" name="openDate"> <br><br>
+                    Close date: <input type="date" name="closeDate"> <br><br>
+                    <input class="btn btn-outline-success" type="submit" value="Set Date">
+                </form>
+            </div>
         </div>
     </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>
