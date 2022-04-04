@@ -97,6 +97,7 @@ router.post('/uploadIdea', (req, res) => {
     const dislike = [];
     const view = 0;
     const comment = [];
+    const date = new Date()
     const uploadIdea = {
         user: user,
         title: title,
@@ -104,7 +105,8 @@ router.post('/uploadIdea', (req, res) => {
         view: view,
         like: like,
         dislike: dislike,
-        comment: comment
+        comment: comment,
+        date: date
     }
     insertObject('Ideas', uploadIdea)
   
@@ -131,10 +133,10 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
-// Latest Comment
+// Latest Ideas
 router.get('/lastestIdea', async(req, res)=>{
     const dbo = await getDB();
-    const allIdeas = await dbo.collection("Ideas").find().sort({title: -1}).toArray()
+    const allIdeas = await dbo.collection("Ideas").find().sort({date: -1}).toArray()
     res.render("staff/staffIndex", { data: allIdeas })
 })
 

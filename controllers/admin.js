@@ -46,12 +46,15 @@ router.post('/addUser', requireAdmin, async(req, res) => {
     if (role == "Manager") {
         insertObject("User", objectToUser)
         insertObject("Manager", objectToObject)
+        res.redirect("/admin/manager")
     } else if (role == "Coordinator") {
         insertObject("User", objectToUser)
         insertObject("Coordinator", objectToObject)
+        res.redirect("/admin/coordinator")
     } else if (role == "Staff") {
         insertObject("User", objectToUser)
         insertObject("Staff", objectToObject)
+        res.redirect("/admin/staff")
     }
 
     res.render("admin/adminIndex")
