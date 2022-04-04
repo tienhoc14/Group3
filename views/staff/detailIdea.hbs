@@ -69,13 +69,15 @@
         const chat = document.querySelector('#chat');
         const ideaID = document.querySelector('#ideaID');
         const userName = document.querySelector('#userName');
+        const userID = document.querySelector('#userID');
         chatForm.addEventListener('submit',(e)=>{
             e.preventDefault();
             const msg = chat.value;
             const id = ideaID.value;
             const name = userName.value;
+            const user = userID.value;
             socket.emit('user-comment',{
-                id,name,msg
+                id,name,msg,user
             });
             chat.value = ''
         })

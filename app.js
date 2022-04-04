@@ -21,9 +21,7 @@ io.on('connection', (socket) => {
                 'comment':[data.name,data.msg]
             }
         })
-
-        const a = await db.collection('Ideas').findOne({_id:ObjectId(data.id)})
-        const p = await db.collection('Staff').findOne({'userName': a.user.name})
+        const p = await db.collection('Staff').findOne({_id:ObjectId(data.user)})
         console.log(p.email)
         var transporter = nodemailer.createTransport({
             service: 'gmail',

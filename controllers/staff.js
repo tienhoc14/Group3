@@ -127,6 +127,7 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
 
     const p = await db.collection("Staff").findOne({ "userName": user.name })
+    console.log(p)
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
