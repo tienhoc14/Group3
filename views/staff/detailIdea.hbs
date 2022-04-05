@@ -35,8 +35,8 @@
         <i class="fa fa-eye" style="font-size:24px"></i> {{i.view}} views <br><br>
 
         <button type="button" class="btn btn-default" onclick="doLike();">
-            <i class="fa fa-thumbs-up" style="font-size:24px"></i>
-            <input class="thumbs" type="text" id="liked" value="{{i.like.length}}">
+            <i class="fa fa-thumbs-up" style="font-size:24px"></i>  
+            <p id="likeIdea">{{i.like.length}}</p>
         </button>
 
         <button type="button" class="btn btn-default" onclick="doDislike();">
@@ -96,6 +96,8 @@
             })
             const like = document.querySelector('#liked');
             socket.on('server-like',(data)=>{
+                document.getElementById("likeIdea").innerHTML = data.likes;
+                document.getElementById("dislikeIdea").innerHTML = data.dislikes;
             })
         }
 
@@ -106,6 +108,10 @@
             const user = userID.value;
             socket.emit('client-dislike',{
                 id,user
+            })
+            socket.on('server-dislike',(data)=>{
+                document.getElementById("likeIdea").innerHTML = data.likes;
+                document.getElementById("dislikeIdea").innerHTML = data.dislikes;
             })
         }
     </script>

@@ -82,8 +82,9 @@ io.on('connection', (socket) => {
             })
         }
         const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
-        const a = idea.like.length
-        io.emit('server-like',a)
+        const likes = idea.like.length
+        const dislikes = idea.dislike.length
+        io.emit('server-like',{likes,dislikes})
     })
     socket.on('client-dislike',async data =>{
         const db = await getDB();
@@ -114,7 +115,10 @@ io.on('connection', (socket) => {
                 }
             })
         }
-        io.emit('server-dislike',data)
+        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
+        const likes = idea.like.length
+        const dislikes = idea.dislike.length
+        io.emit('server-dislike',{likes,dislikes})
     })
 });
 
