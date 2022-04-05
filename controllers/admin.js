@@ -8,11 +8,13 @@ const { requireAdmin } = require('../projectLibrary')
 const router = express.Router()
 
 router.get('/', requireAdmin, (req, res) => {
-    res.render('admin/adminIndex')
+    const user = req.session["Admin"]
+    res.render('admin/adminIndex', { user: user })
 })
 
 router.get('/adduser', requireAdmin, (req, res) => {
-    res.render("admin/addUser")
+    const user = req.session["Admin"]
+    res.render("admin/addUser", { user: user })
 })
 
 router.post('/addUser', requireAdmin, async(req, res) => {
@@ -44,25 +46,25 @@ router.post('/addUser', requireAdmin, async(req, res) => {
     if (role == "Manager") {
         insertObject("User", objectToUser)
         insertObject("Manager", objectToObject)
+        res.redirect("/admin/manager")
     } else if (role == "Coordinator") {
         insertObject("User", objectToUser)
         insertObject("Coordinator", objectToObject)
+        res.redirect("/admin/coordinator")
     } else if (role == "Staff") {
         insertObject("User", objectToUser)
         insertObject("Staff", objectToObject)
-    } else {
-        insertObject("User", objectToUser)
-        insertObject("Admin", objectToObject)
+        res.redirect("/admin/staff")
     }
 
     res.render("admin/adminIndex")
 })
 
 router.get('/manager', requireAdmin, async(req, res) => {
+    const user = req.session["Admin"]
     const dbo = await getDB();
-
     const allManager = await dbo.collection("Manager").find({}).toArray();
-    res.render("admin/mManager", { data: allManager })
+    res.render("admin/mManager", { data: allManager, user: user })
 })
 
 router.get('/detail_manager', requireAdmin, async(req, res) => {
@@ -75,10 +77,10 @@ router.get('/detail_manager', requireAdmin, async(req, res) => {
 
 router.get('/edit_manager', requireAdmin, async(req, res) => {
     const id = req.query.id
-
+    const user = req.session["Admin"]
     const dbo = await getDB();
     const allManager = await dbo.collection("Manager").findOne({ _id: ObjectId(id) })
-    res.render("admin/editManager", { data: allManager })
+    res.render("admin/editManager", { data: allManager, user: user })
 })
 
 router.post('/update_manager', requireAdmin, async(req, res) => {
@@ -108,8 +110,8 @@ router.post('/update_manager', requireAdmin, async(req, res) => {
 })
 
 router.get('/delete_manager', requireAdmin, async(req, res) => {
-    const id = req.query.id;
-    await deleteManager(id);
+    const user = req.query.userName;
+    await deleteManager(user);
     res.redirect("/admin/manager")
 })
 
@@ -162,8 +164,8 @@ router.post('/update_coordinator', requireAdmin, async(req, res) => {
 })
 
 router.get('/delete_coordinator', requireAdmin, async(req, res) => {
-    const id = req.query.id;
-    await deleteCoordinator(id);
+    const user = req.query.userName;
+    await deleteCoordinator(user);
     res.redirect("/admin/coordinator")
 })
 
@@ -205,7 +207,7 @@ router.post('/update_staff', requireAdmin, async(req, res) => {
     const dbo = await getDB();
     await dbo.collection("Staff").updateOne(filter, objectToObject);
     const allStaff = await dbo.collection("Staff").find({}).toArray()
-    res.render('admin/mStaff', { s: allStaff })
+    res.redirect('/admin/staff')
 })
 
 router.get('/edit_staff', requireAdmin, async(req, res) => {
@@ -217,8 +219,8 @@ router.get('/edit_staff', requireAdmin, async(req, res) => {
 })
 
 router.get('/delete_staff', requireAdmin, async(req, res) => {
-    const id = req.query.id;
-    await deleteStaff(id);
+    const user = req.query.userName;
+    await deleteStaff(user);
     res.redirect("/admin/staff")
 })
 

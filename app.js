@@ -3,6 +3,7 @@ const session = require('express-session')
 const async = require('hbs/lib/async')
 const { getRole,getDB } = require('./databaseHandler')
 const { ObjectId} = require('mongodb')
+const nodemailer = require('nodemailer');
 
 
 const app = express()
@@ -15,12 +16,41 @@ io.on('connection', (socket) => {
     socket.on('user-comment',async data=>{
         console.log('user-comment connected')
         const db = await getDB();
-        const a = await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
+        await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
             $push:{
                 'comment':[data.name,data.msg]
             }
         })
+
+        const a = await db.collection('Ideas').findOne({_id:ObjectId(data.id)})
+        const p = await db.collection('Staff').findOne({'userName': a.user.name})
+        console.log(p.email)
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'cuongnmgch190696@fpt.edu.vn',
+                pass: '23122001c'
+            },
+            tls: {
+                rejectUnauthorized: false,
+            }
+        });
+
+        var mailOptions = {
+            from: 'cuongnmgch190696@fpt.edu.vn',
+            to: p.email,
+            subject: 'Idea',
+            text: 'Have a person comment for idea of you'
+        };
+        transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+        console.log(error);
+        } else {
+        console.log('Email sent: ' + info.response);
+        }
+        });
         io.emit('server-response',data)
+
     })
     socket.on('client-like',async data =>{
         const db = await getDB();
@@ -51,6 +81,10 @@ io.on('connection', (socket) => {
                 }
             })
         }
+        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
+        const likes = idea.like.length
+        const dislikes = idea.dislike.length
+        io.emit('server-like',{likes,dislikes})
     })
     socket.on('client-dislike',async data =>{
         const db = await getDB();
@@ -81,6 +115,10 @@ io.on('connection', (socket) => {
                 }
             })
         }
+        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
+        const likes = idea.like.length
+        const dislikes = idea.dislike.length
+        io.emit('server-dislike',{likes,dislikes})
     })
 });
 

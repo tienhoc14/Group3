@@ -18,44 +18,11 @@ router.get('/', async(req, res) => {
     res.render('staff/staffIndex', { data: viewIdea });
 })
 
-router.get('/uploadfile', (req, res) => {
-    res.render('staff/uploadfile')
-})
 router.get('/TaC', (req, res) => {
     res.render('staff/TaC')
 })
 router.get('/demo', (req, res) => {
     res.render('staff/demo')
-})
-
-//set storage
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        var datetimestamp = Date.now()
-        cb(null, file.fieldname + '_' + datetimestamp + path.extname(file.originalname))
-    }
-})
-
-const fileFilter = (req, file, cb) => {
-    var ext = path.extname(file.originalname)
-    if (ext !== '.doc' && ext !== '.docx') {
-        return cb(new Error('Please upload file doc or docx!'))
-    }
-    cb(null, true)
-}
-
-var upload = multer({ storage: storage, fileFilter: fileFilter })
-
-router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
-    const files = req.files
-    const objectToFile = {
-        files: files
-    }
-    insertObject('Files', objectToFile)
-    res.send('success')
 })
 
 router.get('/staffIndex', async(req, res) => {
@@ -70,7 +37,6 @@ router.get('/staffIndex', async(req, res) => {
     const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
     res.render('staff/staffIndex', { data: viewIdea });
 })
-
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -96,7 +62,30 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const info = await db.collection("Staff").findOne({ "userName": user.name });
     res.render('staff/upIdea', { staff: info })
 })
-router.post('/uploadIdea', (req, res) => {
+
+//set files storage
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        var datetimestamp = Date.now()
+        cb(null, file.fieldname + '_' + datetimestamp + path.extname(file.originalname))
+    }
+})
+
+//filter files type
+const fileFilter = (req, file, cb) => {
+    var ext = path.extname(file.originalname)
+    if (ext !== '.doc' && ext !== '.docx') {
+        return cb(new Error('Please upload file doc or docx!'))
+    }
+    cb(null, true)
+}
+
+var upload = multer({ storage: storage, fileFilter: fileFilter })
+
+router.post('/uploadIdea', upload.array('myFiles'), (req, res) => {
     const user = req.session["Staff"]
     const title = req.body.txtTitle;
     const text = req.body.txtText;
@@ -104,6 +93,8 @@ router.post('/uploadIdea', (req, res) => {
     const dislike = [];
     const view = 0;
     const comment = [];
+    const date = new Date();
+    const files = req.files;
     const uploadIdea = {
         user: user,
         title: title,
@@ -111,7 +102,9 @@ router.post('/uploadIdea', (req, res) => {
         view: view,
         like: like,
         dislike: dislike,
-        comment: comment
+        comment: comment,
+        date: date,
+        files: files
     }
     insertObject('Ideas', uploadIdea)
 
@@ -129,15 +122,20 @@ router.post('/uploadIdea', (req, res) => {
 router.get('/detailIdea', requireStaff, async(req, res) => {
     const id = req.query.id;
     const user = req.session["Staff"]
-    console.log(user)
     const db = await getDB();
     await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, { $inc: { "view": 1 } })
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
 
     const p = await db.collection("Staff").findOne({ "userName": user.name })
-        // console.log(p.name)
-
+    console.log(p)
     res.render("staff/detailIdea", { i: idea, user: p })
+})
+
+// Latest Ideas
+router.get('/lastestIdea', async(req, res) => {
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()
+    res.render("staff/staffIndex", { data: allIdeas })
 })
 
 module.exports = router
