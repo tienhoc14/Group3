@@ -7,11 +7,9 @@ const router = express.Router()
 
 router.use(express.static('public'))
 
-router.get('/', (req, res) => {
-    res.render('manager/indexManager')
-})
 
-router.get('/category', async(req, res) => {
+
+router.get('/', async(req, res) => {
 
     const dbo = await getDB();
     const allCategory = await dbo.collection("Category").find({}).toArray();
