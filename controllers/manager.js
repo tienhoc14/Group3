@@ -11,18 +11,18 @@ router.get('/', (req, res) => {
     res.render('manager/indexManager')
 })
 
-router.get('/category',async (req, res) => {
+router.get('/category', async(req, res) => {
 
     const dbo = await getDB();
     const allCategory = await dbo.collection("Category").find({}).toArray();
-    res.render('manager/category', {data: allCategory})
+    res.render('manager/category', { data: allCategory })
 })
 
-router.get('/addCategory', async (req, res) => {
+router.get('/addCategory', async(req, res) => {
     res.render("manager/addCategory")
 })
 
-router.post('/addCategory', async (req, res) => {
+router.post('/addCategory', async(req, res) => {
     const name = req.body.txtName;
     const description = req.body.txtDescription;
     const objectToCategory = {
@@ -33,15 +33,15 @@ router.post('/addCategory', async (req, res) => {
     res.redirect("category")
 })
 
-router.get('/editCategory',async (req, res)=>{
+router.get('/editCategory', async(req, res) => {
     const id = req.query.id
 
     const dbo = await getDB();
-    const allCategory = await dbo.collection("Category").findOne({_id: ObjectId(id)})
-    res.render("manager/editCategory", {data: allCategory})
+    const allCategory = await dbo.collection("Category").findOne({ _id: ObjectId(id) })
+    res.render("manager/editCategory", { data: allCategory })
 })
 
-router.post('/updateCategory', async (req, res)=>{
+router.post('/updateCategory', async(req, res) => {
     const name = req.body.txtName;
     const description = req.body.txtDescription;
     const id = req.body.ID;
@@ -60,7 +60,7 @@ router.post('/updateCategory', async (req, res)=>{
     res.redirect('category')
 })
 
-router.get('/deleteCategory', async(req, res)=>{
+router.get('/deleteCategory', async(req, res) => {
     const id = req.query.id;
     await deleteCategory(id);
     res.redirect("category")
@@ -69,8 +69,8 @@ router.get('/deleteCategory', async(req, res)=>{
 
 //Terms and Conditions:
 
-router.get('/TaC', async (req, res) => {
-    res.render("manager/TaC")
+router.get('/TaC', async(req, res) => {
+    res.render("staff/TaC")
 })
 
 

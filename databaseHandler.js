@@ -14,17 +14,20 @@ async function insertObject(collectionName, objectToInsert) {
     const dbo = await getDB();
     const newObject = await dbo.collection(collectionName).insertOne(objectToInsert);
 }
-async function deleteManager(id) {
+async function deleteManager(userName) {
     const dbo = await getDB();
-    await dbo.collection("Manager").deleteOne({ "_id": ObjectId(id) });
+    await dbo.collection("Manager").deleteOne({ "userName": userName});
+    await dbo.collection("User").deleteOne({"userName": userName})
 }
-async function deleteCoordinator(id) {
+async function deleteCoordinator(userName) {
     const dbo = await getDB();
-    await dbo.collection("Coordinator").deleteOne({ "_id": ObjectId(id) });
+    await dbo.collection("Coordinator").deleteOne({ "userName": userName});
+    await dbo.collection("User").deleteOne({"userName": userName})
 }
-async function deleteStaff(id) {
+async function deleteStaff(userName) {
     const dbo = await getDB();
-    await dbo.collection("Staff").deleteOne({ "_id": ObjectId(id) });
+    await dbo.collection("Staff").deleteOne({ "userName": userName});
+    await dbo.collection("User").deleteOne({"userName": userName})
 }
 async function deleteCategory(id) {
     const dbo = await getDB();

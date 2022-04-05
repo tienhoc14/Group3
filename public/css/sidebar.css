@@ -5,6 +5,14 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+.fa-sort {
+    cursor: pointer;
+}
+
+.fa-sort:hover {
+    color: #b58906;
+}
+
 .form-search>input {
     border: none;
     border-radius: 5px;
@@ -1764,8 +1772,9 @@ pre code {
 }
 
 .table {
-    width: 100%;
+    width: 95%;
     margin-bottom: 1rem;
+    margin-left: 2%;
     color: #212529;
 }
 
