@@ -35,6 +35,7 @@ router.get('/staffIndex', async(req, res) => {
     const db = await getDB();
     
     const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
+    
     res.render('staff/staffIndex', { data: viewIdea });
 })
 

@@ -15,7 +15,7 @@
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
             <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
-                        <p>Greenwich</p>
+                        <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
@@ -99,15 +99,108 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Name</th>
+
 
                             </tr>
                         </thead>
                         <tbody>
                             {{#each data}}
                             <tr>
-                                <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td>
-                            
+                                <td><input type="hidden" id="userID" value="{{user._id}}">
+                                    <input type="hidden" id="userName" value="{{user.name}}">
+                                    <input type="hidden" id="ideaID" value="{{i._id}}">
+                                    <input type="hidden" id="like" value="{{i.like}}">
+                                    <input type="hidden" id="dislike" value="{{i.dislike}}">
+                                    Poster: {{user}}<br>
+                                    Title: {{title}}<br>
+                                    Text: {{text}}<br>
+
+                                    <i class="fa fa-eye" style="font-size:24px"></i> {{view}} views <br><br>
+
+                                    <button type="button" class="btn btn-default" onclick="doLike();">
+                                        <i class="fa fa-thumbs-up" style="font-size:24px"></i>
+                                        <p id="likeIdea">{{like.length}}</p>
+                                    </button>
+
+                                    <button type="button" class="btn btn-default" onclick="doDislike();">
+                                        <i class="fa fa-thumbs-down" style="font-size:24px"></i>
+                                        <p id="dislikeIdea">{{dislike.length}}</p>
+                                    </button>
+
+                                    <div class="card my-4">
+                                        <div class="card-header">
+                                            Leave a comment:
+                                        </div>
+                                        <div class="card-body">
+                                            <a href="">Latest Comment</a>
+                                            <ul id="message">
+                                                {{#each comment}}
+                                                <li>{{this}}</li>
+                                                {{/each}}
+                                            </ul>
+                                            <form action="" id="chatForm">
+                                                <input type="hidden" id="ideaID" value="{{i._id}}">
+                                                <input type="text" id="chat">
+                                                <button id="sendChat">Send</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <script src="/socket.io/socket.io.js"></script>
+                                    <script>
+                                        const socket = io();
+                                        const chatForm = document.querySelector('#chatForm');
+                                        const chat = document.querySelector('#chat');
+                                        const ideaID = document.querySelector('#ideaID');
+                                        const userName = document.querySelector('#userName');
+                                        chatForm.addEventListener('submit', (e) => {
+                                            e.preventDefault();
+                                            const msg = chat.value;
+                                            const id = ideaID.value;
+                                            const name = userName.value;
+                                            socket.emit('user-comment', {
+                                                id, name, msg
+                                            });
+                                            chat.value = ''
+                                        })
+                                        const messages = document.querySelector('#message')
+                                        socket.on('server-response', (message) => {
+                                            const chatItem = document.createElement('li');
+                                            chatItem.textContent = `${message.name}: ${message.msg}`;
+                                            messages.appendChild(chatItem)
+                                        })
+
+                                        function doLike() {
+                                            const ideaID = document.querySelector('#ideaID');
+                                            const userID = document.querySelector('#userID');
+                                            const id = ideaID.value;
+                                            const user = userID.value;
+                                            socket.emit('client-like', {
+                                                id, user
+                                            })
+                                            const like = document.querySelector('#liked');
+                                            socket.on('server-like', (data) => {
+                                                document.getElementById("likeIdea").innerHTML = data.likes;
+                                                document.getElementById("dislikeIdea").innerHTML = data.dislikes;
+                                            })
+                                        }
+
+                                        function doDislike() {
+                                            const ideaID = document.querySelector('#ideaID');
+                                            const userID = document.querySelector('#userID');
+                                            const id = ideaID.value;
+                                            const user = userID.value;
+                                            socket.emit('client-dislike', {
+                                                id, user
+                                            })
+                                            socket.on('server-dislike', (data) => {
+                                                document.getElementById("likeIdea").innerHTML = data.likes;
+                                                document.getElementById("dislikeIdea").innerHTML = data.dislikes;
+                                            })
+                                        }
+                                    </script>
+                                </td>
+
                             </tr>
                             {{/each}}
                         </tbody>
