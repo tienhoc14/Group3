@@ -83,14 +83,47 @@
                 </div>
             </nav>
 
-            <button style="border: 2px solid crimson;border-radius: 25px; background-color: crimson;"><a href="/staff/upIdea" style="text-decoration: none;color:aliceblue">Upload Idea</a></button>
-            <div>
-                {{#each data}}
-                <tr>
-                    <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td><br>
-                </tr>
-                {{/each}}
+            <div class="container">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>Ideas</h2>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="/staff/upIdea" type="button" class="btn btn-info add-new"><i
+                                        class="fa fa-plus"></i> Upload Idea </a>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each data}}
+                            <tr>
+                                <td><a href="/staff/detailIdea?id={{_id}}">{{title}}</a></td>
+                            
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=1">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=3">3</a></li>
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=3">&raquo;</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 

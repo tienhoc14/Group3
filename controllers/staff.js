@@ -59,8 +59,15 @@ router.post('/uploadfiles', upload.array('myFiles'), (req, res) => {
 })
 
 router.get('/staffIndex', async(req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 5;
+
+    const start = (page - 1) * perPage;
+    const end = page * perPage;
+
     const db = await getDB();
-    const viewIdea = await db.collection("Ideas").find({}).toArray();
+    
+    const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
     res.render('staff/staffIndex', { data: viewIdea });
 })
 
