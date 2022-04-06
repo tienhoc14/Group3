@@ -1,8 +1,8 @@
 const express = require('express')
 const session = require('express-session')
 const async = require('hbs/lib/async')
-const { getRole,getDB } = require('./databaseHandler')
-const { ObjectId} = require('mongodb')
+const { getRole, getDB } = require('./databaseHandler')
+const { ObjectId } = require('mongodb')
 const nodemailer = require('nodemailer');
 
 
@@ -13,17 +13,17 @@ app.set('view engine', 'hbs')
 
 io.on('connection', (socket) => {
     console.log('user connected')
-    socket.on('user-comment',async data=>{
+    socket.on('user-comment', async data => {
         console.log('user-comment connected')
         const db = await getDB();
-        await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-            $push:{
-                'comment':[data.name,data.msg]
+        await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+            $push: {
+                'comment': [data.name, data.msg]
             }
         })
 
-        const a = await db.collection('Ideas').findOne({_id:ObjectId(data.id)})
-        const p = await db.collection('Staff').findOne({'userName': a.user.name})
+        const a = await db.collection('Ideas').findOne({ _id: ObjectId(data.id) })
+        const p = await db.collection('Staff').findOne({ 'userName': a.user.name })
         console.log(p.email)
         var transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -42,39 +42,40 @@ io.on('connection', (socket) => {
             subject: 'Idea',
             text: 'Have a person comment for idea of you'
         };
-        transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-        console.log(error);
-        } else {
-        console.log('Email sent: ' + info.response);
-        }
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
         });
-        io.emit('server-response',data)
+        io.emit('server-response', data)
 
     })
-    socket.on('client-like',async data =>{
+    socket.on('client-like', async data => {
         const db = await getDB();
-        if(await db.collection('Ideas').findOne({'like':data.user})==null){
-            if(await db.collection('Ideas').findOne({'dislike':data.user})!=null){
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                    $pull:{
-                        'dislike':data.user
+        const x = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'like': data.user }] });
+        const y = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'dislike': data.user }] });
+        if (x == null) {
+            if (y != null) {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                    $pull: {
+                        'dislike': data.user
                     }
                 })
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                    $push:{
-                        'like':data.user
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                    $push: {
+                        'like': data.user
                     }
                 })
-            }else{
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                    $push:{
-                        'like':data.user
+            } else {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                    $push: {
+                        'like': data.user
                     }
                 })
             }
-        }
-        else{
+        } else {
             await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
                 $pull:{
                     'like':data.user
@@ -84,31 +85,32 @@ io.on('connection', (socket) => {
         const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
         const likes = idea.like.length
         const dislikes = idea.dislike.length
-        io.emit('server-like',{likes,dislikes})
+        io.emit('server-like', { likes, dislikes })
     })
-    socket.on('client-dislike',async data =>{
+    socket.on('client-dislike', async data => {
         const db = await getDB();
-        if(await db.collection('Ideas').findOne({'dislike':data.user})==null){
-            if(await db.collection('Ideas').findOne({'like':data.user})!=null){
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                    $pull:{
-                        'like':data.user
+        const x = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'dislike': data.user }] });
+        const y = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'like': data.user }] });
+        if (x == null) {
+            if (y != null) {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                    $pull: {
+                        'like': data.user
                     }
                 })
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                    $push:{
-                        'dislike':data.user
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                    $push: {
+                        'dislike': data.user
                     }
                 })
-            }else{
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                    $push:{
-                        'dislike':data.user
+            } else {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                    $push: {
+                        'dislike': data.user
                     }
                 })
             }
-        }
-        else{
+        } else {
             await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
                 $pull:{
                     'dislike':data.user
@@ -118,7 +120,7 @@ io.on('connection', (socket) => {
         const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
         const likes = idea.like.length
         const dislikes = idea.dislike.length
-        io.emit('server-dislike',{likes,dislikes})
+        io.emit('server-dislike', { likes, dislikes })
     })
 });
 
@@ -144,7 +146,7 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async(req, res) => {
+app.post('/login', async (req, res) => {
     const name = req.body.Username
     const pass = req.body.Password
     const role = await getRole(name, pass)
