@@ -84,8 +84,7 @@
             </nav>
 
             <h2>Create Your Idea</h2>
-            <form action="uploadIdea" method="POST" enctype="multipart/form-data" 
-            onsubmit="if(document.getElementById('agree').checked) { return true; } 
+            <form action="uploadIdea" method="POST" enctype="multipart/form-data" onsubmit="if(document.getElementById('agree').checked) { return true; } 
 		else { alert('Please read and agree to the Terms and Conditions'); return false; }">
                 <!-- The Modal -->
                 <div class="modal fade" id="myModal">
@@ -180,10 +179,19 @@
                 <input type="hidden" name="txtID" value="{{staff._id}}">
                 Title: <input type="text" name="txtTitle"><br><br>
                 Idea: <input type="text" name="txtText"><br><br>
+                Category:
+                
+                <select name="Category">
+                    {{#each category}}
+                    <option value={{name}}>{{name}}</option>
+                    {{/each}}
+                </select>
+                
+                <br><br>
                 {{!-- upload files --}}
                 Choose files: <br>
                 <input type="file" name="myFiles" multiple><br><br>
-                
+
                 {{!-- check agree TaC --}}
                 <input type="checkbox" name="checkbox" value="check" id="agree" />
                 I have read and agree to the <a class="trigger_popup_fricc" href="" data-bs-toggle="modal"

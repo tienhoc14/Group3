@@ -60,8 +60,9 @@ var mailOptions = {
 router.get('/upIdea', requireStaff, async(req, res) => {
     const user = req.session["Staff"]
     const db = await getDB();
+    const allCategory = await db.collection("Category").find({}).toArray();
     const info = await db.collection("Staff").findOne({ "userName": user.name });
-    res.render('staff/upIdea', { staff: info })
+    res.render('staff/upIdea', { staff: info, category: allCategory })
 })
 
 //set files storage
@@ -90,6 +91,7 @@ router.post('/uploadIdea', upload.array('myFiles'), (req, res) => {
     const user = req.session["Staff"]
     const title = req.body.txtTitle;
     const text = req.body.txtText;
+    const category = req.body.Category;
     const like = [];
     const dislike = [];
     const view = 0;
@@ -100,6 +102,7 @@ router.post('/uploadIdea', upload.array('myFiles'), (req, res) => {
         user: user,
         title: title,
         text: text,
+        category: category,
         view: view,
         like: like,
         dislike: dislike,
