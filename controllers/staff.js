@@ -33,9 +33,9 @@ router.get('/staffIndex', async(req, res) => {
     const end = page * perPage;
 
     const db = await getDB();
-    
+
     const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
-    
+
     res.render('staff/staffIndex', { data: viewIdea });
 })
 
@@ -125,20 +125,25 @@ router.post('/uploadIdea', upload.array('myFiles'), (req, res) => {
 
 router.get('/detailIdea', requireStaff, async(req, res) => {
     const id = req.query.id;
+    const rv = req.query.reverse;
     const user = req.session["Staff"]
     const db = await getDB();
     await db.collection("Ideas").updateOne({ _id: ObjectId(id) }, { $inc: { "view": 1 } })
     const idea = await db.collection("Ideas").findOne({ _id: ObjectId(id) })
 
     const p = await db.collection("Staff").findOne({ "userName": user.name })
-    console.log(p)
+
+    if (rv == "1") {
+        idea.comment.reverse()
+    }
+
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
 // Latest Ideas
-router.get('/lastestIdea', async(req, res) => {
+router.get('/latestIdea', async(req, res) => {
     const dbo = await getDB();
-    const allIdeas = await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()
+    const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(1, 5)
     res.render("staff/staffIndex", { data: allIdeas })
 })
 
