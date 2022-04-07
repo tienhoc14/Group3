@@ -18,7 +18,10 @@ io.on('connection', (socket) => {
         const db = await getDB();
         await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
             $push: {
-                'comment': [data.name, data.msg]
+                'comment': {
+                    name: data.name,
+                    content: data.msg
+                }
             }
         })
 
@@ -42,7 +45,7 @@ io.on('connection', (socket) => {
             subject: 'Idea',
             text: 'Have a person comment for idea of you'
         };
-        transporter.sendMail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 console.log(error);
             } else {
@@ -76,9 +79,9 @@ io.on('connection', (socket) => {
                 })
             }
         } else {
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                $pull:{
-                    'like':data.user
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                $pull: {
+                    'like': data.user
                 }
             })
         }
@@ -111,9 +114,9 @@ io.on('connection', (socket) => {
                 })
             }
         } else {
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id)},{
-                $pull:{
-                    'dislike':data.user
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                $pull: {
+                    'dislike': data.user
                 }
             })
         }
@@ -146,7 +149,7 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async (req, res) => {
+app.post('/login', async(req, res) => {
     const name = req.body.Username
     const pass = req.body.Password
     const role = await getRole(name, pass)
