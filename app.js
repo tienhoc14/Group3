@@ -4,7 +4,7 @@ const async = require('hbs/lib/async')
 const { getRole, getDB } = require('./databaseHandler')
 const { ObjectId } = require('mongodb')
 const nodemailer = require('nodemailer');
-
+const admz = require('adm-zip')
 
 const app = express()
 const http = require('http').Server(app);
@@ -198,6 +198,22 @@ app.post('/setDate', (req, res) => {
     } else {
         res.send('disable function')
     }
+})
+
+// download zip
+app.get('/downloadzip', (req, res) => {
+    var zp = new admz()
+    const filename = req.query.filename
+
+    zp.addLocalFile(__dirname + '/' + 'uploads' + '/' + filename)
+    const file_downloaded = "" + filename.split('.')[0] + ".zip"
+
+    const data = zp.toBuffer()
+
+    res.set('Content-Type', 'application/octet-stream');
+    res.set('Content-Disposition', `attachment; filename=${file_downloaded}`);
+    res.set('Content-Length', data.length);
+    res.send(data);
 })
 
 const adminController = require('./controllers/admin')

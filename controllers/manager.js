@@ -64,12 +64,10 @@ router.get('/deleteCategory', async(req, res) => {
     res.redirect("/manager/")
 })
 
-
 //Terms and Conditions:
 
 // router.get('/TaC', async(req, res) => {
 //     res.render("staff/TaC")
 // })
-
 
 module.exports = router;
