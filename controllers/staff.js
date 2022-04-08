@@ -28,15 +28,32 @@ router.get('/demo', (req, res) => {
 router.get('/staffIndex', async(req, res) => {
     const page = parseInt(req.query.page) || 1;
     const perPage = 5;
-
     const start = (page - 1) * perPage;
     const end = page * perPage;
 
-    const db = await getDB();
+    const db = await getDB();  
+    const totalItem = await db.collection("Ideas").find({}).toArray();
+    const lastPage = (totalItem.length - totalItem.length%5)/5 + 1;
 
     const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
+    console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    const previousPage = page - 1;
+    const nextPage = page + 1;
+    console.log(page)
+    var check1 = new Boolean(true);
+    var check2 = new Boolean(true);
+    if(page == 1){
+        check1 = Boolean(false)
+    }
+    if(page == lastPage){
+        check2 = Boolean(false)
+    }
+    
 
-    res.render('staff/staffIndex', { data: viewIdea });
+
+
+
+    res.render('staff/staffIndex', {check1:check1,check2:check2, data: viewIdea, lastPage:lastPage, page:page,previousPage:previousPage, nextPage:nextPage});
 })
 
 var transporter = nodemailer.createTransport({

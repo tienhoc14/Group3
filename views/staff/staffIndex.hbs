@@ -130,19 +130,31 @@
                     </table>
                 </div>
             </div>
-
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=1">&laquo;</a></li>
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=1">1</a></li>
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=2">2</a></li>
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=3">3</a></li>
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page=3">&raquo;</a></li>
+                    {{#if check1}}
+                    <li class="page-item">
+                        <a class="page-link" href="/staff/staffIndex?page=1" >&laquo;</a>
+                    </li>
+                    
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page={{previousPage}}">{{previousPage}}</a></li>
+                    {{/if}}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="/staff/staffIndex?page={{page}}">{{page}}</a>
+                        {{!-- <span class="page-link">2</span> --}}
+                    </li>
+                    {{#if check2}}
+                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page={{nextPage}}">{{nextPage}}</a></li>
+                    
+                    
+                    <li class="page-item">
+                        <a class="page-link" href="/staff/staffIndex?page={{lastPage}}">&raquo;</a>
+                    </li>
+                    {{/if}}
                 </ul>
             </nav>
         </div>
     </div>
-
     <script src="../js/jquery.min.js"></script>
     <script src="../js/popper.js"></script>
     <script src="../js/bootstrap.min.js"></script>
