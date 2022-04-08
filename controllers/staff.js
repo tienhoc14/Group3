@@ -31,9 +31,9 @@ router.get('/staffIndex', async(req, res) => {
     const start = (page - 1) * perPage;
     const end = page * perPage;
 
-    const db = await getDB();  
+    const db = await getDB();
     const totalItem = await db.collection("Ideas").find({}).toArray();
-    const lastPage = (totalItem.length - totalItem.length%5)/5 + 1;
+    const lastPage = (totalItem.length - totalItem.length % 5) / 5 + 1;
 
     const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
     console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
@@ -42,18 +42,14 @@ router.get('/staffIndex', async(req, res) => {
     console.log(page)
     var check1 = new Boolean(true);
     var check2 = new Boolean(true);
-    if(page == 1){
+    if (page == 1) {
         check1 = Boolean(false)
     }
-    if(page == lastPage){
+    if (page == lastPage) {
         check2 = Boolean(false)
     }
-    
 
-
-
-
-    res.render('staff/staffIndex', {check1:check1,check2:check2, data: viewIdea, lastPage:lastPage, page:page,previousPage:previousPage, nextPage:nextPage});
+    res.render('staff/staffIndex', { check1: check1, check2: check2, data: viewIdea, lastPage: lastPage, page: page, previousPage: previousPage, nextPage: nextPage });
 })
 
 var transporter = nodemailer.createTransport({
@@ -79,7 +75,19 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const db = await getDB();
     const allCategory = await db.collection("Category").find({}).toArray();
     const info = await db.collection("Staff").findOne({ "userName": user.name });
-    res.render('staff/upIdea', { staff: info, category: allCategory })
+
+    const now = new Date();
+    const dbo = await getDB()
+    const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
+
+    if (now > deadline.open) {
+        if (now < deadline.close) {
+            res.render('staff/upIdea', { staff: info, category: allCategory })
+        }
+    } else {
+        res.render('staff/noPost')
+    }
+
 })
 
 //set files storage

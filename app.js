@@ -189,15 +189,18 @@ app.get('/logout', (req, res) => {
     res.redirect('login')
 })
 
-app.post('/setDate', (req, res) => {
+//set closure date
+app.post('/setDate', async(req, res) => {
     const open = new Date(req.body.openDate)
     const close = new Date(req.body.closeDate)
-    const now = new Date()
-    if (open <= now && now <= close) {
-        res.send('index')
-    } else {
-        res.send('disable function')
-    }
+    const dbo = await getDB()
+    await dbo.collection("SetDate").updateOne({ _id: ObjectId("625025ca78178c311880cba0") }, {
+        $set: {
+            "open": open,
+            "close": close
+        }
+    })
+    res.redirect('/admin/setdate')
 })
 
 // download zip

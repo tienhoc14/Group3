@@ -249,8 +249,10 @@ router.get('/mostDislike', async(req, res) => {
 })
 
 //set closure date
-router.get('/setdate', requireAdmin, (req, res) => {
-    res.render('admin/setDate')
+router.get('/setdate', requireAdmin, async(req, res) => {
+    const dbo = await getDB()
+    const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
+    res.render('admin/setDate', { deadline: deadline })
 })
 
 module.exports = router;
