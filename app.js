@@ -4,7 +4,7 @@ const async = require('hbs/lib/async')
 const { getRole, getDB } = require('./databaseHandler')
 const { ObjectId } = require('mongodb')
 const nodemailer = require('nodemailer');
-
+const admz = require('adm-zip')
 
 const app = express()
 const http = require('http').Server(app);
@@ -189,15 +189,34 @@ app.get('/logout', (req, res) => {
     res.redirect('login')
 })
 
-app.post('/setDate', (req, res) => {
+//set closure date
+app.post('/setDate', async(req, res) => {
     const open = new Date(req.body.openDate)
     const close = new Date(req.body.closeDate)
-    const now = new Date()
-    if (open <= now && now <= close) {
-        res.send('index')
-    } else {
-        res.send('disable function')
-    }
+    const dbo = await getDB()
+    await dbo.collection("SetDate").updateOne({ _id: ObjectId("625025ca78178c311880cba0") }, {
+        $set: {
+            "open": open,
+            "close": close
+        }
+    })
+    res.redirect('/admin/setdate')
+})
+
+// download zip
+app.get('/downloadzip', (req, res) => {
+    var zp = new admz()
+    const filename = req.query.filename
+
+    zp.addLocalFile(__dirname + '/' + 'uploads' + '/' + filename)
+    const file_downloaded = "" + filename.split('.')[0] + ".zip"
+
+    const data = zp.toBuffer()
+
+    res.set('Content-Type', 'application/octet-stream');
+    res.set('Content-Disposition', `attachment; filename=${file_downloaded}`);
+    res.set('Content-Length', data.length);
+    res.send(data);
 })
 
 const adminController = require('./controllers/admin')

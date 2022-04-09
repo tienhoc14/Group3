@@ -123,7 +123,13 @@
                 {{#each i}}
                 <tr class="tr">
                     <td>{{title}}</td>
-                    <td>{{file}}</td>
+                    <td>
+                        {{#each files}}
+                        {{!-- {{this.filename}} <br> --}}
+                        {{!-- {{this.originalname}} <br> --}}
+                        <a href="/downloadzip?filename={{this.filename}}">{{this.filename}}</a> <br>
+                        {{/each}}
+                    </td>
                     <td>{{date}}</td>
                     <td>{{this.comment.length}}</td>
                     <td>{{text}}</td>

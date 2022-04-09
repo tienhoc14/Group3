@@ -105,8 +105,7 @@ router.post('/update_manager', requireAdmin, async(req, res) => {
     const filter = { _id: ObjectId(id) }
     const dbo = await getDB()
     await dbo.collection("Manager").updateOne(filter, objectToObject)
-    const allManager = await dbo.collection("Manager").find({}).toArray()
-    res.render('admin/mManager', { data: allManager })
+    res.redirect("manager")
 })
 
 router.get('/delete_manager', requireAdmin, async(req, res) => {
@@ -159,8 +158,7 @@ router.post('/update_coordinator', requireAdmin, async(req, res) => {
     const filter = { _id: ObjectId(id) }
     const dbo = await getDB();
     await dbo.collection("Coordinator").updateOne(filter, objectToObject);
-    const allStaff = await dbo.collection("Coordinator").find({}).toArray()
-    res.render('admin/mCoordinator', { c: allStaff })
+    res.redirect("coordinator")
 })
 
 router.get('/delete_coordinator', requireAdmin, async(req, res) => {
@@ -206,8 +204,7 @@ router.post('/update_staff', requireAdmin, async(req, res) => {
     const filter = { _id: ObjectId(id) }
     const dbo = await getDB();
     await dbo.collection("Staff").updateOne(filter, objectToObject);
-    const allStaff = await dbo.collection("Staff").find({}).toArray()
-    res.redirect('/admin/staff')
+    res.redirect("staff")
 })
 
 router.get('/edit_staff', requireAdmin, async(req, res) => {
@@ -249,8 +246,10 @@ router.get('/mostDislike', async(req, res) => {
 })
 
 //set closure date
-router.get('/setdate', requireAdmin, (req, res) => {
-    res.render('admin/setDate')
+router.get('/setdate', requireAdmin, async(req, res) => {
+    const dbo = await getDB()
+    const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
+    res.render('admin/setDate', { deadline: deadline })
 })
 
 module.exports = router;

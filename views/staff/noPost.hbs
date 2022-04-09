@@ -1,46 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="../css/admin.css">
+    <title>Upload Ideas</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/sidebar.css">
-    <title>Document</title>
 </head>
+
 <body>
-        <div class="wrapper d-flex align-items-stretch">
+    <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
-            <h1><a href="/admin/" class="logo">G<div style="margin-top: -60px;" class="footer">
+            <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
                         <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="/admin/"><span class="fa fa-home"></span> Home</a>
+                    <a href="#"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
+                    <a href="#"><span class="fa fa-user"></span> About</a>
                 </li>
                 <li>
-                    <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
+                    <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
                 </li>
                 <li>
-                    <a href="/admin/staff"><span class="fa fa-user"></span>Staff</a>
+                    <a href="#"><span class="fa fa-cogs"></span> Services</a>
                 </li>
                 <li>
-                    <a href="/admin/coordinator"><span class="fa fa-user"></span>Coordinator</a>
-                </li>
-                <li>
-                    <a href="/admin/ideas"><span class="fa fa-sticky-note"></span>Ideas</a>
-                </li>
-                <li>
-                    <a href="/admin/setdate"><span class="fa fa-cogs"></span>Set closure date</a>
+                    <a href="#"><span class="fa fa-paper-plane"></span> Contacts</a>
                 </li>
             </ul>
 
@@ -91,30 +82,17 @@
                     </div>
                 </div>
             </nav>
-    <div class="table-wrapper">
-        <form action="update_coordinator" method = "POST">
-            <input type="hidden" name="txtId" value="{{c._id}}">
 
-            Name: <input type="text" name="txtName" value="{{c.name}}" />
-            Age: <input type="text" name="txtAge" value="{{c.age}}" />
-            <br>
-            Email: <input type="email" name="txtEmail" value="{{c.email}}">
-            PhoneNumber: <input type="text" name="txtPhone" value = "{{c.phoneNumber}}">
-            <br>
-            Address: <input type="text" name="txtAddress" value = "{{c.address}}">
-            <br>
-            Avatar: <input type="text" name="txtAva" value="{{c.avatar}}">
-            <br>
-            CCCD: <input type="text" name="txtCm" value="{{c.cccd}}">
-            <input class="btn btn-outline-success" type="submit" value="Update">
+            <h2>Can not post idea now!</h2>
 
-            <a class="btn btn-primary" href="/admin/coordinator" style="text-decoration: none">Cancel</a>
-        </form>
+        </div>
     </div>
 
     <script src="../js/jquery.min.js"></script>
     <script src="../js/popper.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/main.js"></script>     
+    <script src="../js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
