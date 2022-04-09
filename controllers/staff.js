@@ -12,12 +12,6 @@ const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/', async(req, res) => {
-    const db = await getDB();
-    const viewIdea = await db.collection("Ideas").find({}).toArray();
-    res.render('staff/staffIndex', { data: viewIdea });
-})
-
 router.get('/TaC', (req, res) => {
     res.render('staff/TaC')
 })
@@ -166,7 +160,7 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
 // Latest Ideas
 router.get('/latestIdea', async(req, res) => {
     const dbo = await getDB();
-    const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(1, 5)
+    const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(0, 4)
     res.render("staff/staffIndex", { data: allIdeas })
 })
 
