@@ -42,8 +42,8 @@ io.on('connection', (socket) => {
         var mailOptions = {
             from: 'cuongnmgch190696@fpt.edu.vn',
             to: p.email,
-            subject: 'Idea',
-            text: 'Have a person comment for idea of you'
+            subject: 'Comment Idea',
+            text: data.name + ' comment for idea of you'
         };
         transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
