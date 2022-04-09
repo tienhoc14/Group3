@@ -2,6 +2,7 @@ const express = require('express')
 const async = require('hbs/lib/async')
 const { ObjectId } = require('mongodb')
 const { getDB, insertObject, deleteCategory } = require('../databaseHandler')
+const { requireManager } = require('../projectLibrary')
 
 const router = express.Router()
 
@@ -69,5 +70,12 @@ router.get('/deleteCategory', async(req, res) => {
 // router.get('/TaC', async(req, res) => {
 //     res.render("staff/TaC")
 // })
+
+router.get('/ideas', requireManager, async (req, res) =>{
+    const dbo = await getDB()
+    const ideas = await dbo.collection("Ideas").find({}).toArray()
+    console.log("a" + ideas)
+    res.render("manager/ideas", {i : ideas})
+})
 
 module.exports = router;
