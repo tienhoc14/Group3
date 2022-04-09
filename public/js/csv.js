@@ -13,10 +13,11 @@ function tableToCSV() {
         // Stores each csv row data
         var csvrow = [];
         for (var j = 0; j < cols.length; j++) {
-
-            // Get the text data of each cell
-            // of a row and push it to csvrow
-            csvrow.push(cols[j].innerHTML);
+            if (j != 1) {
+                // Get the text data of each cell
+                // of a row and push it to csvrow
+                csvrow.push(cols[j].innerHTML);
+            }
         }
 
         // Combine each column value with comma
@@ -24,7 +25,7 @@ function tableToCSV() {
     }
 
     // Combine each row data with new line character
-    csv_data[0] = "Title, File, Date, Comment, Idea, Like, Dislike, View"
+    csv_data[0] = "Title, Date, Comment, Idea, Like, Dislike, View"
     csv_data = csv_data.join('\n');
 
     // Call this function to download csv file 
