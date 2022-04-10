@@ -164,4 +164,6 @@ router.get('/latestIdea', async(req, res) => {
     res.render("staff/staffIndex", { data: allIdeas })
 })
 
+
+
 module.exports = router

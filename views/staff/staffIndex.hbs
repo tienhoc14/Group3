@@ -112,11 +112,18 @@
                             {{#each data}}
                             <tr>
                                 <td>
-                                    Poster: {{user.name}}<br>
+                                    Poster: <span class="">{{user.name}}</span><br>
+                                    <span class="text-black-50">{{date}}</span> <br>
                                     Title: <a href="/staff/detailIdea?id={{_id}}">{{title}}</a><br>
-                                    Text: {{text}}<br>
+                                    Content: {{text}}<br>
                                     Category: {{category}}<br>
                                     <i class="fa fa-eye" style="font-size:18px"></i> {{view}} views <br>
+                                    {{#if files}}
+                                    {{#each files}}
+                                    <a href="/staff/viewfile?filename={{this.filename}}">{{this.filename}}</a><br>
+                                    {{/each}}
+                                    {{else}}
+                                    {{/if}}
                                     <center>
                                         <i class="fa fa-thumbs-up" style="font-size:18px"></i>
                                         <input type="number" value="{{like.length}}">
@@ -134,19 +141,21 @@
                 <ul class="pagination justify-content-center">
                     {{#if check1}}
                     <li class="page-item">
-                        <a class="page-link" href="/staff/staffIndex?page=1" >&laquo;</a>
+                        <a class="page-link" href="/staff/staffIndex?page=1">&laquo;</a>
                     </li>
-                    
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page={{previousPage}}">{{previousPage}}</a></li>
+
+                    <li class="page-item"><a class="page-link"
+                            href="/staff/staffIndex?page={{previousPage}}">{{previousPage}}</a></li>
                     {{/if}}
                     <li class="page-item active" aria-current="page">
                         <a class="page-link" href="/staff/staffIndex?page={{page}}">{{page}}</a>
                         {{!-- <span class="page-link">2</span> --}}
                     </li>
                     {{#if check2}}
-                    <li class="page-item"><a class="page-link" href="/staff/staffIndex?page={{nextPage}}">{{nextPage}}</a></li>
-                    
-                    
+                    <li class="page-item"><a class="page-link"
+                            href="/staff/staffIndex?page={{nextPage}}">{{nextPage}}</a></li>
+
+
                     <li class="page-item">
                         <a class="page-link" href="/staff/staffIndex?page={{lastPage}}">&raquo;</a>
                     </li>
