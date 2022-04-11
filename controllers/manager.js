@@ -72,10 +72,9 @@ router.get('/deleteCategory', async(req, res) => {
 // })
 
 //Ideas
-router.get('/ideas', requireManager, async (req, res) =>{
+router.get('/allIdeas', requireManager, async (req, res) =>{
     const dbo = await getDB()
     const ideas = await dbo.collection("Ideas").find({}).toArray()
-    console.log("a" + ideas)
     res.render("manager/ideas", {i : ideas})
 })
 
@@ -85,17 +84,17 @@ router.get('/mostView', async(req, res) => {
 
     const dbo = await getDB();
     const allIdeas = await dbo.collection("Ideas").find().sort({ view: -1 }).toArray()
-    res.render("manager/ideas", {i : ideas})
+    res.render("manager/ideas", {i : allIdeas})
 })
 
 router.get('/mostLike', async(req, res) => {
     const dbo = await getDB();
     const allIdeas = await dbo.collection("Ideas").find().sort({ like: -1 }).toArray()
-    res.render("manager/ideas", {i : ideas})
+    res.render("manager/ideas", {i : allIdeas})
 })
 router.get('/mostDislike', async(req, res) => {
     const dbo = await getDB();
     const allIdeas = await dbo.collection("Ideas").find().sort({ dislike: -1 }).toArray()
-    res.render("manager/ideas", {i : ideas})
+    res.render("manager/ideas", {i : allIdeas})
 })
 module.exports = router;
