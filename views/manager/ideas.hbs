@@ -109,11 +109,15 @@
                 <tr class="tr">
                     <td>{{title}}</td>
                     <td>
+                        {{#if files.length}}
                         {{#each files}}
                         {{!-- {{this.filename}} <br> --}}
                         {{!-- {{this.originalname}} <br> --}}
                         <a href="/downloadzip?filename={{this.filename}}">{{this.filename}}</a> <br>
                         {{/each}}
+                        {{else}}
+                        Null
+                        {{/if}}
                     </td>
                     <td>{{date}}</td>
                     <td>{{this.comment.length}}</td>

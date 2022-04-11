@@ -12,12 +12,6 @@ const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/', async(req, res) => {
-    const db = await getDB();
-    const viewIdea = await db.collection("Ideas").find({}).toArray();
-    res.render('staff/staffIndex', { data: viewIdea });
-})
-
 router.get('/TaC', (req, res) => {
     res.render('staff/TaC')
 })
@@ -36,10 +30,8 @@ router.get('/staffIndex', async(req, res) => {
     const lastPage = (totalItem.length - totalItem.length % 5) / 5 + 1;
 
     const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
-    console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     const previousPage = page - 1;
     const nextPage = page + 1;
-    console.log(page)
     var check1 = new Boolean(true);
     var check2 = new Boolean(true);
     if (page == 1) {
@@ -80,14 +72,14 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const dbo = await getDB()
     const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
 
-    if (now > deadline.open) {
-        if (now < deadline.close) {
-            res.render('staff/upIdea', { staff: info, category: allCategory })
-        }
-    } else {
-        res.render('staff/noPost')
-    }
-
+    // if (now > deadline.open) {
+    //     if (now < deadline.close) {
+    //         res.render('staff/upIdea', { staff: info, category: allCategory })
+    //     }
+    // } else {
+    //     res.render('staff/noPost')
+    // }
+    res.render('staff/upIdea', { staff: info, category: allCategory })
 })
 
 //set files storage
@@ -168,8 +160,10 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
 // Latest Ideas
 router.get('/latestIdea', async(req, res) => {
     const dbo = await getDB();
-    const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(1, 5)
+    const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(0, 4)
     res.render("staff/staffIndex", { data: allIdeas })
 })
+
+
 
 module.exports = router
