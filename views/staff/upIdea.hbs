@@ -180,11 +180,16 @@
                 Title: <input type="text" name="txtTitle"><br><br>
                 Idea: <input type="text" name="txtText"><br><br>
                 Category:
-
                 <select name="Category">
                     {{#each category}}
                     <option value={{name}}>{{name}}</option>
                     {{/each}}
+                </select>
+                <br><br>
+                Privacy:
+                <select name="privacy">
+                    <option value="public">Public name</option>
+                    <option value="anonymous">Anonymously</option>
                 </select>
 
                 <br><br>

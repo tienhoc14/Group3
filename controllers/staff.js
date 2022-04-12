@@ -109,17 +109,22 @@ router.post('/uploadIdea', upload.array('myFiles'), (req, res) => {
     const title = req.body.txtTitle;
     const text = req.body.txtText;
     const category = req.body.Category;
+    var privacy = req.body.privacy;
     const like = [];
     const dislike = [];
     const view = 0;
     const comment = [];
     const date = new Date();
     const files = req.files;
+    if (privacy == 'public') {
+        privacy = user.name
+    }
     const uploadIdea = {
         user: user,
         title: title,
         text: text,
         category: category,
+        privacy: privacy,
         view: view,
         like: like,
         dislike: dislike,
