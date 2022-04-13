@@ -17,53 +17,46 @@ io.on('connection', (socket) => {
         console.log('user-comment connected')
         const db = await getDB();
         if (data.x == 'public') {
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
-                $push: {
-                    'comment': {
-                        select: data.x,
-                        name: data.name,
-                        content: data.msg
-                    }
-                }
-            })
-        } else {
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
-                $push: {
-                    'comment': {
-                        select: data.x,
-                        content: data.msg
-                    }
-                }
-            })
+            data.x = data.name;
         }
+        await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+            $push: {
+                'comment': {
+                    select: data.x,
+                    name: data.name,
+                    content: data.msg
+                }
+            }
+        })
+       
 
         const a = await db.collection('Ideas').findOne({ _id: ObjectId(data.id) })
         const p = await db.collection('Staff').findOne({ 'userName': a.user.name })
         console.log(p.email)
-        // var transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         user: 'cuongnmgch190696@fpt.edu.vn',
-        //         pass: '23122001c'
-        //     },
-        //     tls: {
-        //         rejectUnauthorized: false,
-        //     }
-        // });
-
-        // var mailOptions = {
-        //     from: 'cuongnmgch190696@fpt.edu.vn',
-        //     to: p.email,
-        //     subject: 'Comment Idea',
-        //     text: data.name + ' comment for idea of you'
-        // };
-        // transporter.sendMail(mailOptions, function(error, info) {
-        //     if (error) {
-        //         console.log(error);
-        //     } else {
-        //         console.log('Email sent: ' + info.response);
-        //     }
-        // });
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'cuongnmgch190696@fpt.edu.vn',
+                pass: '23122001c'
+            },
+            tls: {
+                rejectUnauthorized: false,
+            }
+        });
+        
+        var mailOptions = {
+            from: 'cuongnmgch190696@fpt.edu.vn',
+            to: p.email,
+            subject: 'New comment',
+            text: data.x + ' commented for your idea: ' + data.msg
+        };
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
         io.emit('server-response', data)
 
     })

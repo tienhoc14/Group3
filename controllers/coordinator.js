@@ -1,5 +1,6 @@
 const express = require('express')
 const { getDB } = require('../databaseHandler')
+const nodemailer = require('nodemailer');
 const { requireCoordinator } = require('../projectLibrary')
 
 const router = express.Router()

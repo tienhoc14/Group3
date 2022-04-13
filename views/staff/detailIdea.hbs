@@ -51,7 +51,7 @@
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
-            <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
+            <h1><a href="/staff/staffIndex" class="logo">G<div style="margin-top: -60px;" class="footer">
                         <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
@@ -150,7 +150,7 @@
                                 placeholder="Write a comment...">
                             <select id="mySelect" class="w-25 d-inline">
                                 <option value="public">Public name</option>
-                                <option value="anonymously">Anonymously</option>
+                                <option value="anonymous">Anonymous</option>
                             </select>
                             <button type="submit" class="btn btn-primary d-inline" id="sendChat">Send</button>
                         </div>
@@ -159,8 +159,7 @@
                     <ul id="message">
                         {{#each i.comment}}
                         <div class="comment">
-                            <input type="hidden" id="selectComment" value="{{select}}">
-                            <li id="nameComment" class="fw-bold" style="list-style-type:none">{{name}}</li>
+                            <li id="nameComment" class="fw-bold" style="list-style-type:none">{{select}}</li>
                             <span>{{content}}</span>
                         </div>
                         {{/each}}
@@ -195,12 +194,7 @@
                 const messages = document.querySelector('#message')
                 socket.on('server-response', (message) => {
                     const chatItem = document.createElement('LI');
-                    
-                    if(message.x == "public"){
-                        chatItem.textContent = `${message.name}: ${message.msg}`;
-                    }else{
-                        chatItem.textContent = `${""}: ${message.msg}`;
-                    }
+                    chatItem.textContent = `${message.x}: ${message.msg}`;
                     messages.appendChild(chatItem)
                 })
 
