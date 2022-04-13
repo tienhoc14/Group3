@@ -71,7 +71,13 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const now = new Date();
     const dbo = await getDB()
     const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
-
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
     // if (now > deadline.open) {
     //     if (now < deadline.close) {
     //         res.render('staff/upIdea', { staff: info, category: allCategory })
@@ -158,7 +164,6 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
     if (rv == "1") {
         idea.comment.reverse()
     }
-
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
@@ -166,6 +171,25 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
 router.get('/latestIdea', async(req, res) => {
     const dbo = await getDB();
     const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(0, 4)
+    res.render("staff/staffIndex", { data: allIdeas })
+})
+// 
+
+router.get('/mostView', async(req, res) => {
+
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ view: -1 }).toArray()
+    res.render("staff/staffIndex", { data: allIdeas })
+})
+
+router.get('/mostLike', async(req, res) => {
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ like: -1 }).toArray()
+    res.render("staff/staffIndex", { data: allIdeas })
+})
+router.get('/mostDislike', async(req, res) => {
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ dislike: -1 }).toArray()
     res.render("staff/staffIndex", { data: allIdeas })
 })
 
