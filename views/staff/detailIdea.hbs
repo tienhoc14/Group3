@@ -211,7 +211,7 @@
                     const id = ideaID.value;
                     const user = userID.value;
                     socket.emit('client-like', {
-                        id, user,x
+                        id, user
                     })
                     socket.on('server-like', (data) => {
                         document.getElementById("likeIdea").innerHTML = data.likes;
