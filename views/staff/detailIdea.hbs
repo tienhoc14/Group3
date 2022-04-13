@@ -148,9 +148,9 @@
                             <input type="hidden" id="ideaID" value="{{i._id}}">
                             <input type="text" id="chat" class="form-control mb-2 w-50 d-inline"
                                 placeholder="Write a comment...">
-                            <select name="privacy" class="w-25 d-inline">
+                            <select id="mySelect" class="w-25 d-inline">
                                 <option value="public">Public name</option>
-                                <option value="anonymous">Anonymously</option>
+                                <option value="anonymously">Anonymously</option>
                             </select>
                             <button type="submit" class="btn btn-primary d-inline" id="sendChat">Send</button>
                         </div>
@@ -159,7 +159,8 @@
                     <ul id="message">
                         {{#each i.comment}}
                         <div class="comment">
-                            <li class="fw-bold" style="list-style-type:none">{{name}}</li>
+                            <input type="hidden" id="selectComment" value="{{select}}">
+                            <li id="nameComment" class="fw-bold" style="list-style-type:none">{{name}}</li>
                             <span>{{content}}</span>
                         </div>
                         {{/each}}
@@ -167,7 +168,7 @@
 
                 </div>
             </div>
-
+            
             <script src="../js/jquery.min.js"></script>
             <script src="../js/popper.js"></script>
             <script src="../js/bootstrap.min.js"></script>
@@ -185,25 +186,32 @@
                     const msg = chat.value;
                     const id = ideaID.value;
                     const name = userName.value;
+                    var x = document.getElementById("mySelect").value;
                     socket.emit('user-comment', {
-                        id, name, msg
+                        id, name, msg, x
                     });
                     chat.value = ''
                 })
                 const messages = document.querySelector('#message')
                 socket.on('server-response', (message) => {
-                    const chatItem = document.createElement('li');
-                    chatItem.textContent = `${message.name}: ${message.msg}`;
+                    const chatItem = document.createElement('LI');
+                    
+                    if(message.x == "public"){
+                        chatItem.textContent = `${message.name}: ${message.msg}`;
+                    }else{
+                        chatItem.textContent = `${""}: ${message.msg}`;
+                    }
                     messages.appendChild(chatItem)
                 })
 
                 function doLike() {
+                    
                     const ideaID = document.querySelector('#ideaID');
                     const userID = document.querySelector('#userID');
                     const id = ideaID.value;
                     const user = userID.value;
                     socket.emit('client-like', {
-                        id, user
+                        id, user,x
                     })
                     socket.on('server-like', (data) => {
                         document.getElementById("likeIdea").innerHTML = data.likes;

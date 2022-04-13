@@ -16,42 +16,54 @@ io.on('connection', (socket) => {
     socket.on('user-comment', async data => {
         console.log('user-comment connected')
         const db = await getDB();
-        await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
-            $push: {
-                'comment': {
-                    name: data.name,
-                    content: data.msg
+        if (data.x == 'public') {
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                $push: {
+                    'comment': {
+                        select: data.x,
+                        name: data.name,
+                        content: data.msg
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                $push: {
+                    'comment': {
+                        select: data.x,
+                        content: data.msg
+                    }
+                }
+            })
+        }
 
         const a = await db.collection('Ideas').findOne({ _id: ObjectId(data.id) })
         const p = await db.collection('Staff').findOne({ 'userName': a.user.name })
         console.log(p.email)
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'cuongnmgch190696@fpt.edu.vn',
-                pass: '23122001c'
-            },
-            tls: {
-                rejectUnauthorized: false,
-            }
-        });
+        // var transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user: 'cuongnmgch190696@fpt.edu.vn',
+        //         pass: '23122001c'
+        //     },
+        //     tls: {
+        //         rejectUnauthorized: false,
+        //     }
+        // });
 
-        var mailOptions = {
-            from: 'cuongnmgch190696@fpt.edu.vn',
-            to: p.email,
-            subject: 'Comment Idea',
-            text: data.name + ' comment for idea of you'
-        };
-        transporter.sendMail(mailOptions, function(error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
+        // var mailOptions = {
+        //     from: 'cuongnmgch190696@fpt.edu.vn',
+        //     to: p.email,
+        //     subject: 'Comment Idea',
+        //     text: data.name + ' comment for idea of you'
+        // };
+        // transporter.sendMail(mailOptions, function(error, info) {
+        //     if (error) {
+        //         console.log(error);
+        //     } else {
+        //         console.log('Email sent: ' + info.response);
+        //     }
+        // });
         io.emit('server-response', data)
 
     })
@@ -146,7 +158,7 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async(req, res) => {
+app.post('/login', async (req, res) => {
     const name = req.body.Username
     const pass = req.body.Password
     const role = await getRole(name, pass)
@@ -187,7 +199,7 @@ app.get('/logout', (req, res) => {
 })
 
 //set closure date
-app.post('/setDate', async(req, res) => {
+app.post('/setDate', async (req, res) => {
     const open = new Date(req.body.openDate)
     const close = new Date(req.body.closeDate)
     const dbo = await getDB()
