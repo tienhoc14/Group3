@@ -72,13 +72,13 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const dbo = await getDB()
     const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
 
-    // if (now > deadline.open) {
-    //     if (now < deadline.close) {
-    //         res.render('staff/upIdea', { staff: info, category: allCategory })
-    //     }
-    // } else {
-    //     res.render('staff/noPost')
-    // }
+    if (now > deadline.open) {
+        if (now < deadline.close) {
+            res.render('staff/upIdea', { staff: info, category: allCategory })
+        }
+    } else {
+        res.render('staff/noPost')
+    }
     res.render('staff/upIdea', { staff: info, category: allCategory })
 })
 
