@@ -109,17 +109,22 @@ router.post('/uploadIdea', upload.array('myFiles'), (req, res) => {
     const title = req.body.txtTitle;
     const text = req.body.txtText;
     const category = req.body.Category;
+    var privacy = req.body.privacy;
     const like = [];
     const dislike = [];
     const view = 0;
     const comment = [];
     const date = new Date();
     const files = req.files;
+    if (privacy == 'public') {
+        privacy = user.name
+    }
     const uploadIdea = {
         user: user,
         title: title,
         text: text,
         category: category,
+        privacy: privacy,
         view: view,
         like: like,
         dislike: dislike,
@@ -153,7 +158,6 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
     if (rv == "1") {
         idea.comment.reverse()
     }
-
     res.render("staff/detailIdea", { i: idea, user: p })
 })
 
@@ -161,6 +165,25 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
 router.get('/latestIdea', async(req, res) => {
     const dbo = await getDB();
     const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(0, 4)
+    res.render("staff/staffIndex", { data: allIdeas })
+})
+// 
+
+router.get('/mostView', async(req, res) => {
+
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ view: -1 }).toArray()
+    res.render("staff/staffIndex", { data: allIdeas })
+})
+
+router.get('/mostLike', async(req, res) => {
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ like: -1 }).toArray()
+    res.render("staff/staffIndex", { data: allIdeas })
+})
+router.get('/mostDislike', async(req, res) => {
+    const dbo = await getDB();
+    const allIdeas = await dbo.collection("Ideas").find().sort({ dislike: -1 }).toArray()
     res.render("staff/staffIndex", { data: allIdeas })
 })
 

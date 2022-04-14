@@ -16,14 +16,19 @@ io.on('connection', (socket) => {
     socket.on('user-comment', async data => {
         console.log('user-comment connected')
         const db = await getDB();
+        if (data.x == 'public') {
+            data.x = data.name;
+        }
         await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
             $push: {
                 'comment': {
+                    select: data.x,
                     name: data.name,
                     content: data.msg
                 }
             }
         })
+       
 
         const a = await db.collection('Ideas').findOne({ _id: ObjectId(data.id) })
         const p = await db.collection('Staff').findOne({ 'userName': a.user.name })
@@ -38,12 +43,12 @@ io.on('connection', (socket) => {
                 rejectUnauthorized: false,
             }
         });
-
+        
         var mailOptions = {
             from: 'cuongnmgch190696@fpt.edu.vn',
             to: p.email,
-            subject: 'Comment Idea',
-            text: data.name + ' comment for idea of you'
+            subject: 'New comment',
+            text: data.x + ' commented for your idea: ' + data.msg
         };
         transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
@@ -146,7 +151,7 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async(req, res) => {
+app.post('/login', async (req, res) => {
     const name = req.body.Username
     const pass = req.body.Password
     const role = await getRole(name, pass)
@@ -187,7 +192,7 @@ app.get('/logout', (req, res) => {
 })
 
 //set closure date
-app.post('/setDate', async(req, res) => {
+app.post('/setDate', async (req, res) => {
     const open = new Date(req.body.openDate)
     const close = new Date(req.body.closeDate)
     const dbo = await getDB()

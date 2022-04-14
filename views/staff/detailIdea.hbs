@@ -27,15 +27,23 @@
             margin: 0 5px;
             pointer-events: none;
         }
-        body{   
+
+        body {
             color: black;
         }
-        .comment{
+
+        .comment {
             background-color: #f0f2f5;
             width: fit-content;
             border-radius: 10px;
-            margin:5px 0 ;
+            margin: 5px 0;
             padding: 5px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
         }
     </style>
 </head>
@@ -43,7 +51,7 @@
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
-            <h1><a href="index.html" class="logo">G<div style="margin-top: -60px;" class="footer">
+            <h1><a href="/staff/staffIndex" class="logo">G<div style="margin-top: -60px;" class="footer">
                         <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
@@ -101,118 +109,125 @@
                     </div>
                 </div>
             </nav>
-    <div class="card my-4 col-6 mx-auto">
-        <div class="card-body">
-            <input type="hidden" id="userID" value="{{user._id}}">
-            <input type="hidden" id="userName" value="{{user.name}}">
-            <input type="hidden" id="ideaID" value="{{i._id}}">
-            Poster: {{i.user.name}}<br>
-            Title: {{i.title}}<br>
-            Text: {{i.text}}<br>
+            <div class="card my-4 col-6 mx-auto">
+                <div class="card-body">
+                    <input type="hidden" id="userID" value="{{user._id}}">
+                    <input type="hidden" id="userName" value="{{user.name}}">
+                    <input type="hidden" id="ideaID" value="{{i._id}}">
+                    Poster: {{i.privacy}}<br>
+                    Title: {{i.title}}<br>
+                    Text: {{i.text}}<br>
 
-            <i class="fa fa-eye" style="font-size:24px"></i> {{i.view}} views <br><br>
+                    <i class="fa fa-eye" style="font-size:24px"></i> {{i.view}} views <br><br>
 
-            <button type="button" class="btn btn-default" onclick="doLike();">
-                <i class="fa fa-thumbs-up" style="font-size:24px"></i>
-                <p id="likeIdea">{{i.like.length}}</p>
-            </button>
+                    <button type="button" class="btn btn-default" onclick="doLike();">
+                        <i class="fa fa-thumbs-up" style="font-size:24px"></i>
+                        <p id="likeIdea">{{i.like.length}}</p>
+                    </button>
 
-            <button type="button" class="btn btn-default" onclick="doDislike();">
-                <i class="fa fa-thumbs-down" style="font-size:24px"></i>
-                <p id="dislikeIdea">{{i.dislike.length}}</p>
-            </button>
-        </div>
-    </div>
-    <div class="card my-4 col-6 mx-auto">
-        <div class="card-body">
-            
-            <div class="dropdown">
-                <label for="exampleInputEmail1" class="form-label">Comment</label>
-                <i class="fa fa-sort ml-2" data-toggle="dropdown"></i>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/staff/detailIdea?id={{i._id}}&reverse=1">Latest Ideas</a>
-                    <a class="dropdown-item" href="/staff/detailIdea?id={{i._id}}">Oldest Ideas</a>
+                    <button type="button" class="btn btn-default" onclick="doDislike();">
+                        <i class="fa fa-thumbs-down" style="font-size:24px"></i>
+                        <p id="dislikeIdea">{{i.dislike.length}}</p>
+                    </button>
+                </div>
+            </div>
+            <div class="card my-4 col-6 mx-auto">
+                <div class="card-body">
+
+                    <div class="dropdown">
+                        <label for="exampleInputEmail1" class="form-label">Comment</label>
+                        <i class="fa fa-sort ml-2" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/staff/detailIdea?id={{i._id}}&reverse=1">Latest Ideas</a>
+                            <a class="dropdown-item" href="/staff/detailIdea?id={{i._id}}">Oldest Ideas</a>
+                        </div>
+                    </div>
+
+                    <form action="" id="chatForm">
+                        <div class="mb-3">
+                            <input type="hidden" id="ideaID" value="{{i._id}}">
+                            <input type="text" id="chat" class="form-control mb-2 w-50 d-inline"
+                                placeholder="Write a comment...">
+                            <select id="mySelect" class="w-25 d-inline">
+                                <option value="public">Public name</option>
+                                <option value="anonymous">Anonymous</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary d-inline" id="sendChat">Send</button>
+                        </div>
+                    </form>
+
+                    <ul id="message">
+                        {{#each i.comment}}
+                        <div class="comment">
+                            <li id="nameComment" class="fw-bold" style="list-style-type:none">{{select}}</li>
+                            <span>{{content}}</span>
+                        </div>
+                        {{/each}}
+                    </ul>
+
                 </div>
             </div>
             
-                <form action="" id="chatForm">
-                    <div class="mb-3">
-                    <input type="hidden" id="ideaID" value="{{i._id}}">
-                    <input type="text" id="chat" class="form-control" placeholder="Write a comment...">
-                    <button type="submit" class="btn btn-primary" id="sendChat">Send</button>
-                    </div>
-                </form>
-            
-            <ul id="message">
-                {{#each i.comment}}
-                <div class="comment">
-                    <li class="fw-bold" style="list-style-type:none">{{name}}</li>
-                    <span>{{content}}</span>
-                </div>
-                {{/each}}
-            </ul>
-            
-        </div>
-    </div>
+            <script src="../js/jquery.min.js"></script>
+            <script src="../js/popper.js"></script>
+            <script src="../js/bootstrap.min.js"></script>
+            <script src="../js/main.js"></script>
+            <script src="../js/csv.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
+            <script>
+                const socket = io();
+                const chatForm = document.querySelector('#chatForm');
+                const chat = document.querySelector('#chat');
+                const ideaID = document.querySelector('#ideaID');
+                const userName = document.querySelector('#userName');
+                chatForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const msg = chat.value;
+                    const id = ideaID.value;
+                    const name = userName.value;
+                    var x = document.getElementById("mySelect").value;
+                    socket.emit('user-comment', {
+                        id, name, msg, x
+                    });
+                    chat.value = ''
+                })
+                const messages = document.querySelector('#message')
+                socket.on('server-response', (message) => {
+                    const chatItem = document.createElement('LI');
+                    chatItem.textContent = `${message.x}: ${message.msg}`;
+                    messages.appendChild(chatItem)
+                })
 
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/popper.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/csv.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        const chatForm = document.querySelector('#chatForm');
-        const chat = document.querySelector('#chat');
-        const ideaID = document.querySelector('#ideaID');
-        const userName = document.querySelector('#userName');
-        chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const msg = chat.value;
-            const id = ideaID.value;
-            const name = userName.value;
-            socket.emit('user-comment', {
-                id, name, msg
-            });
-            chat.value = ''
-        })
-        const messages = document.querySelector('#message')
-        socket.on('server-response', (message) => {
-            const chatItem = document.createElement('li');
-            chatItem.textContent = `${message.name}: ${message.msg}`;
-            messages.appendChild(chatItem)
-        })
+                function doLike() {
+                    
+                    const ideaID = document.querySelector('#ideaID');
+                    const userID = document.querySelector('#userID');
+                    const id = ideaID.value;
+                    const user = userID.value;
+                    socket.emit('client-like', {
+                        id, user
+                    })
+                    socket.on('server-like', (data) => {
+                        document.getElementById("likeIdea").innerHTML = data.likes;
+                        document.getElementById("dislikeIdea").innerHTML = data.dislikes;
+                    })
+                }
 
-        function doLike() {
-            const ideaID = document.querySelector('#ideaID');
-            const userID = document.querySelector('#userID');
-            const id = ideaID.value;
-            const user = userID.value;
-            socket.emit('client-like', {
-                id, user
-            })
-            socket.on('server-like', (data) => {
-                document.getElementById("likeIdea").innerHTML = data.likes;
-                document.getElementById("dislikeIdea").innerHTML = data.dislikes;
-            })
-        }
+                function doDislike() {
+                    const ideaID = document.querySelector('#ideaID');
+                    const userID = document.querySelector('#userID');
+                    const id = ideaID.value;
+                    const user = userID.value;
+                    socket.emit('client-dislike', {
+                        id, user
+                    })
+                    socket.on('server-dislike', (data) => {
+                        document.getElementById("likeIdea").innerHTML = data.likes;
+                        document.getElementById("dislikeIdea").innerHTML = data.dislikes;
+                    })
+                }
 
-        function doDislike() {
-            const ideaID = document.querySelector('#ideaID');
-            const userID = document.querySelector('#userID');
-            const id = ideaID.value;
-            const user = userID.value;
-            socket.emit('client-dislike', {
-                id, user
-            })
-            socket.on('server-dislike', (data) => {
-                document.getElementById("likeIdea").innerHTML = data.likes;
-                document.getElementById("dislikeIdea").innerHTML = data.dislikes;
-            })
-        }
-
-    </script>
+            </script>
 </body>
 
 </html>
