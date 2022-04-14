@@ -71,20 +71,14 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const now = new Date();
     const dbo = await getDB()
     const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
+
+    if (now > deadline.open) {
+        if (now < deadline.close) {
+            res.render('staff/upIdea', { staff: info, category: allCategory })
         }
-    });
-    // if (now > deadline.open) {
-    //     if (now < deadline.close) {
-    //         res.render('staff/upIdea', { staff: info, category: allCategory })
-    //     }
-    // } else {
-    //     res.render('staff/noPost')
-    // }
+    } else {
+        res.render('staff/noPost')
+    }
     res.render('staff/upIdea', { staff: info, category: allCategory })
 })
 
