@@ -33,6 +33,10 @@ async function deleteCategory(id) {
     const dbo = await getDB();
     await dbo.collection("Category").deleteOne({ "_id": ObjectId(id) });
 }
+async function deleteDepartment(id) {
+    const dbo = await getDB();
+    await dbo.collection("Department").deleteOne({ "_id": ObjectId(id) });
+}
 
 //check role to login
 async function getRole(nameI, passI) {
@@ -54,5 +58,6 @@ module.exports = {
     deleteManager,
     deleteStaff,
     deleteCategory,
-    getRole
+    getRole,
+    deleteDepartment
 }
