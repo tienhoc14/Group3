@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
                 }
             }
         })
-       
+
 
         const a = await db.collection('Ideas').findOne({ _id: ObjectId(data.id) })
         const p = await db.collection('Staff').findOne({ 'userName': a.user.name })
@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
                 rejectUnauthorized: false,
             }
         });
-        
+
         var mailOptions = {
             from: 'cuongnmgch190696@fpt.edu.vn',
             to: p.email,
@@ -151,7 +151,7 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async (req, res) => {
+app.post('/login', async(req, res) => {
     const name = req.body.Username
     const pass = req.body.Password
     const role = await getRole(name, pass)
@@ -192,10 +192,11 @@ app.get('/logout', (req, res) => {
 })
 
 //set closure date
-app.post('/setDate', async (req, res) => {
+app.post('/setDate', async(req, res) => {
     const open = new Date(req.body.openDate)
     const close = new Date(req.body.closeDate)
     const dbo = await getDB()
+        // id: local (625025ca78178c311880cba0)
     await dbo.collection("SetDate").updateOne({ _id: ObjectId("625025ca78178c311880cba0") }, {
         $set: {
             "open": open,
