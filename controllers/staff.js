@@ -11,12 +11,8 @@ const { requireStaff } = require('../projectLibrary');
 const router = express.Router()
 
 router.use(bodyParser.urlencoded({ extended: true }))
-
-router.get('/TaC', (req, res) => {
-    res.render('staff/TaC')
-})
-router.get('/demo', (req, res) => {
-    res.render('staff/demo')
+router.get('/noPost', (req, res) => {
+    res.render('staff/noPost')
 })
 
 router.get('/staffIndex', async(req, res) => {
