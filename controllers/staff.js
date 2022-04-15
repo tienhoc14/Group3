@@ -70,7 +70,7 @@ router.get('/upIdea', requireStaff, async(req, res) => {
 
     const now = new Date();
     const dbo = await getDB()
-    const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })
+    const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("6259563b2fc567c306e2608b") })
 
     if (now > deadline.open) {
         if (now < deadline.close) {
@@ -163,11 +163,11 @@ router.get('/detailIdea', requireStaff, async(req, res) => {
 
 // Latest Ideas
 router.get('/latestIdea', async(req, res) => {
-    const dbo = await getDB();
-    const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(0, 4)
-    res.render("staff/staffIndex", { data: allIdeas })
-})
-// 
+        const dbo = await getDB();
+        const allIdeas = await (await dbo.collection("Ideas").find().sort({ date: -1 }).toArray()).slice(0, 4)
+        res.render("staff/staffIndex", { data: allIdeas })
+    })
+    // 
 
 router.get('/mostView', async(req, res) => {
 
