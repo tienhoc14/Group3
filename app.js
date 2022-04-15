@@ -197,7 +197,7 @@ app.post('/setDate', async(req, res) => {
     const close = new Date(req.body.closeDate)
     const dbo = await getDB()
         // id: local (625025ca78178c311880cba0)
-    await dbo.collection("SetDate").updateOne({ _id: ObjectId("625025ca78178c311880cba0") }, {
+    await dbo.collection("SetDate").updateOne({ _id: ObjectId("6259563b2fc567c306e2608b") }, {
         $set: {
             "open": open,
             "close": close
