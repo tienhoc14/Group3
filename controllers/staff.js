@@ -15,29 +15,33 @@ router.get('/noPost', (req, res) => {
     res.render('staff/noPost')
 })
 
-router.get('/staffIndex', async(req, res) => {
+router.get('/staffIndex',requireStaff, async(req, res) => {
     const page = parseInt(req.query.page) || 1;
     const perPage = 5;
     const start = (page - 1) * perPage;
     const end = page * perPage;
-
-    const db = await getDB();
-    const totalItem = await db.collection("Ideas").find({}).toArray();
-    const lastPage = (totalItem.length - totalItem.length % 5) / 5 + 1;
-
-    const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
     const previousPage = page - 1;
     const nextPage = page + 1;
     var check1 = new Boolean(true);
     var check2 = new Boolean(true);
+    
+    // const bt = parseInt(req.query.bt)
+    // console.log(bt)
+    const user = req.session["Staff"]
+    const db = await getDB();
+    const totalItem = await db.collection("Ideas").find({}).toArray();
+    const lastPage = (totalItem.length - totalItem.length % 5) / 5 + 1;
     if (page == 1) {
         check1 = Boolean(false)
     }
     if (page == lastPage) {
         check2 = Boolean(false)
     }
+    const p = await db.collection("Staff").findOne({ "userName": user.name })
+    const viewIdea = await (await db.collection("Ideas").find({}).toArray()).slice(start, end);
+    
 
-    res.render('staff/staffIndex', { check1: check1, check2: check2, data: viewIdea, lastPage: lastPage, page: page, previousPage: previousPage, nextPage: nextPage });
+    res.render('staff/staffIndex', {user:p, check1: check1, check2: check2, data: viewIdea, lastPage: lastPage, page: page, previousPage: previousPage, nextPage: nextPage });
 })
 
 var transporter = nodemailer.createTransport({
@@ -63,7 +67,7 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     const db = await getDB();
     const allCategory = await db.collection("Category").find({}).toArray();
     const info = await db.collection("Staff").findOne({ "userName": user.name });
-
+    console.log(user)
     const now = new Date();
     const dbo = await getDB()
     const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("625025ca78178c311880cba0") })

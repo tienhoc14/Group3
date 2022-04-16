@@ -158,8 +158,10 @@
 
                     <ul id="message">
                         {{#each i.comment}}
+                        <div><div><img class="rounded-circle" src="https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg"  width="32px" height="32px"></div></div>
                         <div class="comment">
-                            <li id="nameComment" class="fw-bold" style="list-style-type:none">{{select}}</li>
+                            
+                            <li id="nameComment" class="fw-bold" style="list-style-type:none"> {{select}}</li>
                             <span>{{content}}</span>
                         </div>
                         {{/each}}
@@ -202,10 +204,11 @@
                     
                     const ideaID = document.querySelector('#ideaID');
                     const userID = document.querySelector('#userID');
-                    const id = ideaID.value;
+                    const idea = ideaID.value;
                     const user = userID.value;
+                    
                     socket.emit('client-like', {
-                        id, user
+                        idea, user
                     })
                     socket.on('server-like', (data) => {
                         document.getElementById("likeIdea").innerHTML = data.likes;
@@ -216,10 +219,10 @@
                 function doDislike() {
                     const ideaID = document.querySelector('#ideaID');
                     const userID = document.querySelector('#userID');
-                    const id = ideaID.value;
+                    const idea = ideaID.value;
                     const user = userID.value;
                     socket.emit('client-dislike', {
-                        id, user
+                        idea, user
                     })
                     socket.on('server-dislike', (data) => {
                         document.getElementById("likeIdea").innerHTML = data.likes;
