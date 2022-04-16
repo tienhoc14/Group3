@@ -61,71 +61,73 @@ io.on('connection', (socket) => {
 
     })
     socket.on('client-like', async data => {
+        console.log(data.idea)
         const db = await getDB();
-        const x = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'like': data.user }] });
-        const y = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'dislike': data.user }] });
+        const x = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.idea) }, { 'like': data.user }] });
+        const y = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.idea) }, { 'dislike': data.user }] });
         if (x == null) {
             if (y != null) {
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                     $pull: {
                         'dislike': data.user
                     }
                 })
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                     $push: {
                         'like': data.user
                     }
                 })
             } else {
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                     $push: {
                         'like': data.user
                     }
                 })
             }
         } else {
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                 $pull: {
                     'like': data.user
                 }
             })
         }
-        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
-        const likes = idea.like.length
-        const dislikes = idea.dislike.length
-        io.emit('server-like', { likes, dislikes })
+        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.idea) })
+        const likes = idea.like.length;
+        const dislikes = idea.dislike.length;
+        const id = idea._id;
+        io.emit('server-like', {id, likes, dislikes })
     })
     socket.on('client-dislike', async data => {
         const db = await getDB();
-        const x = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'dislike': data.user }] });
-        const y = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.id) }, { 'like': data.user }] });
+        const x = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.idea) }, { 'dislike': data.user }] });
+        const y = await db.collection('Ideas').findOne({ $and: [{ _id: ObjectId(data.idea) }, { 'like': data.user }] });
         if (x == null) {
             if (y != null) {
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                     $pull: {
                         'like': data.user
                     }
                 })
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                     $push: {
                         'dislike': data.user
                     }
                 })
             } else {
-                await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+                await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                     $push: {
                         'dislike': data.user
                     }
                 })
             }
         } else {
-            await db.collection('Ideas').updateOne({ _id: ObjectId(data.id) }, {
+            await db.collection('Ideas').updateOne({ _id: ObjectId(data.idea) }, {
                 $pull: {
                     'dislike': data.user
                 }
             })
         }
-        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.id) })
+        const idea = await db.collection("Ideas").findOne({ _id: ObjectId(data.idea) })
         const likes = idea.like.length
         const dislikes = idea.dislike.length
         io.emit('server-dislike', { likes, dislikes })
