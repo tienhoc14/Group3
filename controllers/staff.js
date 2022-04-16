@@ -70,16 +70,14 @@ router.get('/upIdea', requireStaff, async(req, res) => {
     console.log(user)
     const now = new Date();
     const dbo = await getDB()
-    const deadline = await dbo.collection("SetDate").findOne({ _id: ObjectId("6259563b2fc567c306e2608b") })
+    const deadline = await dbo.collection("SetDate").findOne({ code: "cuong" })
 
-    if (now > deadline.open) {
-        if (now < deadline.close) {
-            res.render('staff/upIdea', { staff: info, category: allCategory })
-        }
-    } else {
-        res.render('staff/noPost')
+    var check = Boolean(false)
+    if (deadline.openDate < now && now < deadline.closeDate) {
+        check = Boolean(true)
     }
-    res.render('staff/upIdea', { staff: info, category: allCategory })
+
+    res.render('staff/upIdea', { check: check, staff: info, category: allCategory })
 })
 
 //set files storage

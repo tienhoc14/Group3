@@ -1,7 +1,7 @@
 const express = require('express')
 const session = require('express-session')
 const async = require('hbs/lib/async')
-const { getRole, getDB } = require('./databaseHandler')
+const { insertObject, getRole, getDB } = require('./databaseHandler')
 const { ObjectId } = require('mongodb')
 const nodemailer = require('nodemailer');
 const admz = require('adm-zip')
@@ -197,14 +197,21 @@ app.get('/logout', (req, res) => {
 app.post('/setDate', async(req, res) => {
     const open = new Date(req.body.openDate)
     const close = new Date(req.body.closeDate)
-    const dbo = await getDB()
-        // id: local (625025ca78178c311880cba0)
-    await dbo.collection("SetDate").updateOne({ _id: ObjectId("6259563b2fc567c306e2608b") }, {
-        $set: {
-            "open": open,
-            "close": close
-        }
-    })
+
+    const db = await getDB();
+    const alldate = await db.collection("SetDate").find({}).toArray();
+
+    const objectToInsert = {
+        openDate: open,
+        closeDate: close,
+        code: "cuong"
+    }
+    if (alldate.length == 0) {
+        insertObject("SetDate", objectToInsert)
+    } else {
+        await db.collection("SetDate").updateOne({ code: "cuong" }, { $set: objectToInsert })
+    }
+
     res.redirect('/admin/setdate')
 })
 
@@ -234,6 +241,7 @@ const managerController = require('./controllers/manager')
 app.use('/manager', managerController)
 
 const coordinatorController = require('./controllers/coordinator')
+const { all } = require('./controllers/admin')
 app.use('/coordinator', coordinatorController)
 
 app.get('/staff/detailidea', (req, res) => {
