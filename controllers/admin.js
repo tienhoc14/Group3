@@ -63,7 +63,6 @@ router.post('/addStaff', requireAdmin, async(req, res) => {
 router.get('/adduser', requireAdmin,async (req, res) => {
     const user = req.session["Admin"]
     const role = req.body.Role;
-    console.log(role)
     const dbo = await getDB();
     const allDepartment = await dbo.collection("Department").find({}).toArray();
     res.render("admin/addUser", { user: user , dp:allDepartment})
