@@ -83,6 +83,9 @@
                 </div>
             </nav>
 
+            {{#if check}}
+
+
             <h2>Create Your Idea</h2>
             <form action="uploadIdea" method="POST" enctype="multipart/form-data" onsubmit="if(document.getElementById('agree').checked) { return true; } 
 		else { alert('Please read and agree to the Terms and Conditions'); return false; }">
@@ -206,6 +209,9 @@
                 <br><br>
                 <input type="submit" value="POST">
             </form>
+            {{else}}
+            <h2>Can not post idea now!</h2>
+            {{/if}}
         </div>
     </div>
 
