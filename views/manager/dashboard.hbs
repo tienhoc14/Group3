@@ -13,16 +13,18 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous"></script>
-		
-	{{!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans"> --}}
-	{{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	{{!--
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans"> --}}
+	{{!--
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}}
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/sidebar.css">
-	
+
 	<link rel="stylesheet" href="css/manager.css">
 </head>
 
@@ -39,7 +41,7 @@
 				<li>
 					<a href="/manager/category"><span class="fa fa-sticky-note"></span>Category</a>
 				</li>
-                <li>
+				<li>
 					<a href="/manager/department"><span class="fa fa-sticky-note"></span>Department</a>
 				</li>
 				<li>
@@ -101,9 +103,60 @@
 				</div>
 			</nav>
 
-			
+			<input type="button" class="btn btn-primary" value="Percentage of ideas by each Department"
+				onclick="showDiv()" />
+			<input type="button" class="btn btn-success" value="Number of ideas made by each Department"
+				onclick="showDiv1()" />
+			<input type="button" class="btn btn-secondary" value="Number of contributors within each Department"
+				onclick="showDiv2()" />
+
+			<div id="chart1" style="display:none;">
+				<center>
+					<iframe style="border: none;" width="600" height="600" scrolling="no"
+						src="https://charts.mongodb.com/charts-web-enterprise-fkqdy/embed/charts?id=625ade9e-8858-48b6-8335-eda326983eec&maxDataAge=3600&theme=light&autoRefresh=true">
+					</iframe>
+				</center>
+			</div>
+
+			<div id="chart2" style="display:none;">
+				<center>
+					<iframe style="border: none;" width="600" height="600" scrolling="no"
+						src="https://charts.mongodb.com/charts-web-enterprise-fkqdy/embed/charts?id=625add61-2dd5-4b5e-815b-f856e1fd951d&maxDataAge=3600&theme=light&autoRefresh=true">
+					</iframe>
+				</center>
+			</div>
+
+			<div id="chart3" style="display:none;">
+				<center>
+					<iframe
+						style="border: none;" width="600" height="600" scrolling="no"
+						src="https://charts.mongodb.com/charts-web-enterprise-fkqdy/embed/charts?id=625adf4c-06d6-4220-88de-28ab52bd2a69&maxDataAge=3600&theme=light&autoRefresh=true">
+					</iframe>
+				</center>
+			</div>
+
 		</div>
 	</div>
+
+	<script>
+		function showDiv() {
+			document.getElementById('chart1').style.display = "block";
+			document.getElementById('chart2').style.display = "none";
+			document.getElementById('chart3').style.display = "none";
+		}
+
+		function showDiv1() {
+			document.getElementById('chart2').style.display = "block";
+			document.getElementById('chart1').style.display = "none";
+			document.getElementById('chart3').style.display = "none";
+		}
+
+		function showDiv2() {
+			document.getElementById('chart3').style.display = "block";
+			document.getElementById('chart2').style.display = "none";
+			document.getElementById('chart1').style.display = "none";
+		}
+	</script>
 
 	<script src="js/jquery.min.js"></script>
 	<script src="js/popper.js"></script>
