@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Category</title>
+
+	<link rel="stylesheet" href="css/manager.css">
+</head>
+
+<body>
+	<div class="table-wrapper">
+		<form action="updateDepartment" method="POST">
+
+			<div class="table-title">
+				<div class="row">
+					<a href="/coordinator/"><img
+							src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv9JgHaFXgRxsnUpl6ijUrsb0lGfwcjqGQwQ&usqp=CAU"
+							width="5%" height="5%"></a>
+					<div class="col-sm-8">
+						<h2>Edit Department</h2>
+					</div>
+				</div>
+			</div>
+			Name: <input type="text" name="txtName" value="{{data.name}}" />
+			<br><br>
+
+			<input type="hidden" name="ID" value="{{data._id}}">
+			<input type="submit" value="Update">
+		</form>
+	</div>
+</body>
+
+</html>

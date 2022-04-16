@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-		crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../css/admin.css">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <title>Add User</title>
 </head>
+
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar" class="active">
@@ -30,7 +33,8 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/admin/addStaff" style="color: black;">Add Staff</a></li>
-                            <li><a class="dropdown-item" href="/admin/addUser" style="color: black;">Add Manager or Coordinator</a></li>
+                            <li><a class="dropdown-item" href="/admin/addUser" style="color: black;">Add Manager or
+                                    Coordinator</a></li>
                         </ul>
                     </div>
                 </li>
@@ -98,40 +102,46 @@
                     </div>
                 </div>
             </nav>
-    {{!-- <div class="container"> --}}
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8"><h2><b>Manager List</b></h2></div>
-                </div>
-            </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each data}}
-                    <tr>
-                        <td><a href="/admin/detail_manager?id={{_id}}">{{name}}</a></td>
-                        <td>{{age}}</td>
-                        <td>
-                            <a href="/admin/edit_manager?id={{_id}}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="/admin//delete_manager?userName={{userName}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr> 
-                    {{/each}}     
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/popper.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/main.js"></script>     
+
+            <div class="table-wrapper">
+                <form action="addStaff" method="POST">
+                    <h3>Add Staff</h3>
+                    <input type="hidden" name="Role" value="Staff">
+                    UserName: <input type="text" name="txtUser">
+                    <br>
+                    Department:
+                    <select name="Department">
+                        {{#each dp}}
+                        <option value={{name}}>{{name}}</option>
+                        {{/each}}
+                    </select>
+                    <br>
+                    Email:
+                    <input type="email" name="txtEmail">
+                    <br>
+                    Name: <input type="text" name="txtName">
+                    <br>
+                    Age: <input type="text" name="txtAge">
+                    <br>
+                    {{!-- Email: <input type="email" name="txtEmail">
+                    <br> --}}
+                    PhoneNumber: <input type="text" name="txtPhone">
+                    <br>
+                    Avatar: <input type="text" name="txtAva">
+                    <br>
+                    CCCD: <input type="text" name="txtCm">
+                    <br>
+                    Address: <input type="text" name="txtAddress">
+                    <br>
+                    <input class="btn btn-outline-success" type="submit" value="Add User">
+                </form>
+            </div>
+
+            <script src="../js/jquery.min.js"></script>
+            <script src="../js/popper.js"></script>
+            <script src="../js/bootstrap.min.js"></script>
+            <script src="../js/main.js"></script>
 </body>
+
 </html>

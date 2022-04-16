@@ -28,7 +28,15 @@
                     <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
+                    <div class="dropdown dropend">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="dropdown">
+                            Add User
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/addStaff" style="color: black;">Add Staff</a></li>
+                            <li><a class="dropdown-item" href="/admin/addUser" style="color: black;">Add Manager or Coordinator</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
@@ -106,6 +114,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Age</th>
+                        <th>Department</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -114,6 +123,7 @@
                     <tr>
                         <td><a href="/admin/detail_staff?id={{_id}}">{{name}}</a></td>
                         <td>{{age}}</td>
+                        <td>{{department}}</td>
                         <td>
                             <a href="/admin/edit_staff?id={{_id}}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                             <a href="/admin//delete_staff?userName={{userName}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>

@@ -11,10 +11,61 @@ router.get('/', requireAdmin, (req, res) => {
     const user = req.session["Admin"]
     res.render('admin/adminIndex', { user: user })
 })
-
-router.get('/adduser', requireAdmin, (req, res) => {
+router.get('/addStaff', requireAdmin,async (req, res) => {
     const user = req.session["Admin"]
-    res.render("admin/addUser", { user: user })
+    const dbo = await getDB();
+    const allDepartment = await dbo.collection("Department").find({}).toArray();
+    res.render("admin/addStaff", { user: user , dp:allDepartment})
+})
+router.post('/addStaff', requireAdmin, async(req, res) => {
+    const userName = req.body.txtUser;
+    const role = req.body.Role;
+    const cccd = req.body.txtCm;
+    const name = req.body.txtName;
+    const age = req.body.txtAge;
+    const email = req.body.txtEmail;
+    const phoneNumber = req.body.txtPhone;
+    const avatar = req.body.txtAva;
+    const address = req.body.txtAddress;
+    const department = req.body.Department;
+
+    const objectToUser = {
+        userName: userName,
+        role: role,
+        password: '123'
+    }
+    const objectToObject = {
+        userName: userName,
+        name: name,
+        age: age,
+        email: email,
+        cccd: cccd,
+        phoneNumber: phoneNumber,
+        avatar: avatar,
+        address: address,
+        department:department
+    }
+    const db = await getDB();
+    const a = await db.collection('Department').findOne({ 'name': department });
+    await db.collection('Department').updateOne({ 'name': department }, {
+        $push: {
+            'staff': name
+        }
+    })
+        insertObject("User", objectToUser)
+        insertObject("Staff", objectToObject)
+        res.redirect("/admin/staff")
+})
+
+
+
+
+router.get('/adduser', requireAdmin,async (req, res) => {
+    const user = req.session["Admin"]
+    const role = req.body.Role;
+    const dbo = await getDB();
+    const allDepartment = await dbo.collection("Department").find({}).toArray();
+    res.render("admin/addUser", { user: user , dp:allDepartment})
 })
 
 router.post('/addUser', requireAdmin, async(req, res) => {
@@ -52,6 +103,7 @@ router.post('/addUser', requireAdmin, async(req, res) => {
         insertObject("Coordinator", objectToObject)
         res.redirect("/admin/coordinator")
     } else if (role == "Staff") {
+
         insertObject("User", objectToUser)
         insertObject("Staff", objectToObject)
         res.redirect("/admin/staff")
