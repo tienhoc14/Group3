@@ -29,16 +29,25 @@
                         <p>reenwich</p>
                     </div></a></h1>
             <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="/coordinator/"><span class="fa fa-home"></span> Home</a>
-                </li>
+				<li class="active">
+					<a href="/manager"><span class="fa fa-home"></span> Home</a>
+				</li>
+				<li>
+					<a href="/manager/category"><span class="fa fa-sticky-note"></span>Category</a>
+				</li>
                 <li>
-                    <a href="/coordinator/ideas"><span class="fa fa-sticky-note"></span>Ideas</a>
-                </li>
-                <li>
-                    <a href="/coordinator/department"><span class="fa fa-user"></span>Departments</a>
-                </li>
-            </ul>
+					<a href="/manager/department"><span class="fa fa-sticky-note"></span>Department</a>
+				</li>
+				<li>
+					<a href="/manager/allIdeas"><span class="fa fa-sticky-note"></span> Ideas</a>
+				</li>
+				<li>
+					<a href="/manager/dashboard"><span class="fa fa-tachometer"></span>Dashboard</a>
+				</li>
+				<li>
+					<a href="#"><span class="fa fa-paper-plane"></span> Contacts</a>
+				</li>
+			</ul>
 
             <div class="footer">
                 <p>
@@ -116,10 +125,10 @@
 								<td>{{staff}}</td>
 								<td>
 									<a class="edit" title="Edit" data-toggle="tooltip"
-										href="/coordinator/editDepartment?id={{_id}}"><i
+										href="/manager/editDepartment?id={{_id}}"><i
 											class="material-icons">&#xE254;</i></a>
 									<a class="delete" title="Delete" data-toggle="tooltip"
-										href="/coordinator/deleteDepartment?id={{_id}}"
+										href="/manager/deleteDepartment?id={{_id}}"
 										onclick="return confirm('Delete this department?');"><i
 											class="material-icons">&#xE872;</i></a>
 								</td>

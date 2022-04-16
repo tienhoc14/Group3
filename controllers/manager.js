@@ -9,8 +9,10 @@ const router = express.Router()
 router.use(express.static('public'))
 
 
-
 router.get('/', async(req, res) => {
+    res.render("manager/")
+})
+router.get('/category', async(req, res) => {
 
     const dbo = await getDB();
     const allCategory = await dbo.collection("Category").find({}).toArray();
@@ -63,6 +65,60 @@ router.get('/deleteCategory', async(req, res) => {
     const id = req.query.id;
     await deleteCategory(id);
     res.redirect("/manager/")
+})
+
+//Department
+router.get('/department', async(req, res) => {
+
+    const dbo = await getDB();
+    const allDepartment = await dbo.collection("Department").find({}).toArray();
+    res.render('manager/department', { data: allDepartment })
+})
+
+router.get('/addDepartment', async(req, res) => {
+    res.render("manager/addDepartment")
+})
+
+router.post('/addDepartment', async(req, res) => {
+    const name = req.body.txtName;
+    const staff = [];
+    const objectToDepartment = {
+        name: name,
+        staff:staff
+    }
+    insertObject("Department", objectToDepartment)
+    res.redirect("/manager/department")
+})
+router.get('/editDepartment', async(req, res) => {
+    const id = req.query.id
+
+    const dbo = await getDB();
+    const allDepartment = await dbo.collection("Department").findOne({ _id: ObjectId(id) })
+    res.render("manager/editDepartment", { data: allDepartment })
+})
+
+router.post('/updateDepartment', async(req, res) => {
+    const name = req.body.txtName;
+
+    const id = req.body.ID;
+
+    const objectToObject = {
+        $set: {
+            name: name
+        }
+    }
+
+    const filter = { _id: ObjectId(id) }
+    const dbo = await getDB()
+    await dbo.collection("Department").updateOne(filter, objectToObject)
+
+    res.redirect('/manager/department')
+})
+
+router.get('/deleteDepartment', async(req, res) => {
+    const id = req.query.id;
+    await deleteDepartment(id);
+    res.redirect("/manager/department")
 })
 
 //Terms and Conditions:

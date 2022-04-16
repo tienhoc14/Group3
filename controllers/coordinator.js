@@ -17,20 +17,6 @@ router.get('/department', async(req, res) => {
     res.render('coordinator/department', { data: allDepartment })
 })
 
-router.get('/addDepartment', async(req, res) => {
-    res.render("coordinator/addDepartment")
-})
-
-router.post('/addDepartment', async(req, res) => {
-    const name = req.body.txtName;
-
-    const objectToDepartment = {
-        name: name
-    }
-    insertObject("Department", objectToDepartment)
-    res.redirect("/coordinator/department")
-})
-
 router.get('/editDepartment', async(req, res) => {
     const id = req.query.id
 

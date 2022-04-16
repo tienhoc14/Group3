@@ -25,7 +25,15 @@
                     <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
+                    <div class="dropdown dropend">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="dropdown">
+                            Add User
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/addStaff" style="color: black;">Add Staff</a></li>
+                            <li><a class="dropdown-item" href="/admin/addUser" style="color: black;">Add Manager or Coordinator</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>

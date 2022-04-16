@@ -25,7 +25,15 @@
                     <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
+                    <div class="dropdown dropend">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="dropdown">
+                            Add User
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/addStaff" style="color: black;">Add Staff</a></li>
+                            <li><a class="dropdown-item" href="/admin/addUser" style="color: black;">Add Manager or Coordinator</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
@@ -106,6 +114,9 @@
             Avatar: <input type="text" name="txtAva" value="{{s.avatar}}">
             <br>
             CCCD: <input type="text" name="txtCm" value="{{s.cccd}}">
+            <br>
+            Department: {{s.department}}
+            <br>
             <input class="btn btn-outline-success" type="submit" value="Update">
             <a class="btn btn-primary" href="/admin/staff" style="text-decoration: none">Cancel</a>
         </form>

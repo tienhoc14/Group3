@@ -25,7 +25,15 @@
                     <a href="/admin/"><span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
-                    <a href="/admin/addUser"><span class="fa fa-user"></span>Add User</a>
+                    <div class="dropdown dropend">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="dropdown">
+                            Add User
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/addStaff" style="color: black;">Add Staff</a></li>
+                            <li><a class="dropdown-item" href="/admin/addUser" style="color: black;">Add Manager or Coordinator</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a href="/admin/manager"><span class="fa fa-user"></span>Manager</a>
@@ -99,6 +107,7 @@
                     <th>Avatar</th>
                     <th>CCCD</th>
                     <th>Address</th>
+                    <th>Department</th>
                     <th>Action</th>
                 </tr>
                 <tr>
@@ -107,6 +116,7 @@
                     <td><img src="{{s.avatar}}"  width="120" height="80"></td>
                     <td>{{s.cccd}}</td>
                     <td>{{s.address}}</td>
+                    <td>{{s.department}}</td>
                     <td>
                         <a href="/admin/edit_staff?id={{s._id}}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                         <a href="/admin//delete_staff?userName={{s.userName}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
