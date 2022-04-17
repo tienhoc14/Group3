@@ -196,7 +196,7 @@
             socket.emit('client-like', {
                 idea, user
             })
-            socket.on('server-dislike', (data) => {
+            socket.on('server-like', (data) => {
                 document.getElementById("likeIdea").innerHTML = data.likes;
                 document.getElementById("dislikeIdea").innerHTML = data.dislikes;
             })
