@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'cuongnmgch190696@fpt.edu.vn',
-                pass: '23122001c'
+                user: 'hhoa66008@gmail.com',
+                pass: 'nhung2906'
             },
             tls: {
                 rejectUnauthorized: false,
@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
         });
 
         var mailOptions = {
-            from: 'cuongnmgch190696@fpt.edu.vn',
+            from: 'hhoa66008@gmail.com',
             to: p.email,
             subject: 'New comment',
             text: data.x + ' commented for your idea: ' + data.msg

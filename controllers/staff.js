@@ -47,8 +47,8 @@ router.get('/staffIndex',requireStaff, async(req, res) => {
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'minhhqgch190485@fpt.edu.vn',
-        pass: 'minh212212'
+        user: 'hhoa66008@gmail.com',
+        pass: 'nhung2906'
     },
     tls: {
         rejectUnauthorized: false,
@@ -56,8 +56,8 @@ var transporter = nodemailer.createTransport({
 });
 
 var mailOptions = {
-    from: 'minhhqgch190485@fpt.edu.vn',
-    to: 'hmminh212@gmail.com',
+    from: 'hhoa66008@gmail.com',
+    to: 'hoahpgch190653@fpt.edu.vn',
     subject: 'Idea',
     text: 'Just uploaded an idea'
 };
