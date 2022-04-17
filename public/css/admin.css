@@ -5,13 +5,13 @@ body {
     font-size: 20px;
 }
 .table-wrapper {
-    width: 90%;
+    /* width: 1; */
     margin: 30px auto;
     background: #fff;
     padding: 20px;	
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
-.table-title {
+/* .table-title {
     padding-bottom: 10px;
     margin: 0 0 10px;
 }
@@ -51,7 +51,7 @@ table.table td a {
     display: inline-block;
     margin: 0 5px;
     min-width: 24px;
-}    
+}     */
 table.table td a.add {
     color: #27C46B;
 }
@@ -62,9 +62,9 @@ table.table td a.delete {
     color: #E34724;
 }
 table.table td i {
-    font-size: 19px;
+    font-size: 20px;
 }
-table.table td a.add i {
+/* table.table td a.add i {
     font-size: 24px;
     margin-right: -1px;
     position: relative;
@@ -75,7 +75,7 @@ table.table .form-control {
     line-height: 32px;
     box-shadow: none;
     border-radius: 2px;
-}
+} */
 table.table .form-control.error {
     border-color: #f50000;
 }

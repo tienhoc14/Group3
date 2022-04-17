@@ -1,7 +1,7 @@
 const express = require('express')
 const async = require('hbs/lib/async')
 const { ObjectId } = require('mongodb')
-const { getDB, insertObject, deleteCategory } = require('../databaseHandler')
+const { getDB, insertObject, deleteCategory, deleteDepartment } = require('../databaseHandler')
 const { requireManager } = require('../projectLibrary')
 
 const router = express.Router()
@@ -81,9 +81,11 @@ router.get('/addDepartment', async(req, res) => {
 
 router.post('/addDepartment', async(req, res) => {
     const name = req.body.txtName;
+    const des = req.body.txtDes;
     const staff = [];
     const objectToDepartment = {
         name: name,
+        des: des,
         staff:staff
     }
     insertObject("Department", objectToDepartment)

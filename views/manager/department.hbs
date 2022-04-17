@@ -105,7 +105,7 @@
 								<h2>Departments</h2>
 							</div>
 							<div class="col-sm-4">
-								<a href="/coordinator/addDepartment" type="button" class="btn btn-info add-new"><i
+								<a href="/manager/addDepartment" type="button" class="btn btn-info add-new"><i
 										class="fa fa-plus"></i> Add New</a>
 							</div>
 						</div>
@@ -114,6 +114,7 @@
 						<thead>
 							<tr>
 								<th>Name</th>
+								<th>Description</th>
 								<th>Staff</th>
 								<th>Actions</th>
 							</tr>
@@ -122,7 +123,8 @@
 							{{#each data}}
 							<tr>
 								<td>{{name}}</td>
-								<td>{{staff}}</td>
+								<td>{{des}}</td>
+								<td>{{nameStaff}}</td>
 								<td>
 									<a class="edit" title="Edit" data-toggle="tooltip"
 										href="/manager/editDepartment?id={{_id}}"><i
